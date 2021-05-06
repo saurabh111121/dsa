@@ -175,10 +175,87 @@ import java.util.LinkedList;
          return search_rec(head.next,x);
      }
 
+     // Get Nth Node in a Linked List from  beginning
+     public int getNth(int index){
+         Node current = head;
+         int count = 0; // index of node we are currently at
+
+         while(current != null){
+             if(count == index){
+                 return current.data;
+             }
+             count++;
+             current = current.next;
+         }
+
+         // if we get to this line, the caller was asking for
+         // a non-existent element so we assert to fail
+         assert (false);
+
+         return  0;
+     }
+
+     // Get Nth Node in a Linked List from last
+     void getNth_Last(int n){
+         int len = 0;
+         Node temp = head;
+
+         // count no. of nodes in the Linked List
+         while(temp != null){
+             temp = temp.next;
+             len++;
+         }
+
+         // check if the value of n is not more than the length of the linked list
+         if (len < n){
+             return;
+         }
+         temp = head;
+
+         // get the (len - n+1)th node from the beginning
+         for(int i=1;i<len - n + 1;i++){
+             temp = temp.next;
+         }
+         System.out.println(temp.data);
+     }
+
+
+     // middle of the linked list
+     // for better solution :  https://www.geeksforgeeks.org/write-a-c-function-to-print-the-middle-of-the-linked-list/
+     void printMiddle(){
+         Node slow_ptr = head;
+         Node fast_ptr = head;
+         if(head != null){
+             while(fast_ptr != null && fast_ptr.next != null){
+                 slow_ptr = slow_ptr.next;
+                 fast_ptr = fast_ptr.next.next;
+             }
+         }
+
+         System.out.println("The Middle Element is : " + slow_ptr.data);
+     }
+
+     // count number of times an int is occurred
+     void count(int x){
+         Node temp = head;
+         int count = 0;
+         while(temp != null){
+             if(temp.data == x){
+                 count++;
+             }
+             temp = temp.next;
+         }
+         System.out.println("Number of times " + x + " has occurred is : " + count);
+     }
 
 
 
-}
+
+
+
+
+
+ }
 
 public class SinglyLinkedList {
 
@@ -186,10 +263,12 @@ public class SinglyLinkedList {
         CustomLinkedList llist = new CustomLinkedList();
         // insertion
         llist.push(1);
+        llist.push(1);
         llist.append(2);
         llist.insertAfter(llist.head.next,3);
         llist.append(4);
         llist.insertAfter(llist.head.next.next.next,5);
+        llist.append(1);
         //deletion
         llist.deleteNode_key(2);
         llist.deleteNode_pos(1);
@@ -197,8 +276,10 @@ public class SinglyLinkedList {
         System.out.print("Custom linkedList data : ");
         llist.printList();
         System.out.println();
-
+        System.out.println("Value at this index is : " + llist.getNth(1));
         System.out.println("LinkedList Size : " + llist.getCount_itr());
+        llist.printMiddle();
+        llist.count(1);
 
 
         // From Collections
