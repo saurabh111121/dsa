@@ -5,8 +5,9 @@ import org.w3c.dom.Node;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.LinkedList;
+import java.util.Stack;
 
- class CustomLinkedList{
+class CustomLinkedList{
      Node head;
      class Node{
          int data;
@@ -355,6 +356,72 @@ import java.util.LinkedList;
          }
      }
 
+     // if List is Palindrome using STACK
+     boolean isPalindrome_stack(){
+         Node slow = head;
+         boolean is_palindrome = true;
+         Stack<Integer> stack = new Stack<Integer>();
+         while (slow != null){
+             stack.push(slow.data);
+             slow = slow.next;
+         }
+
+         while (head != null){
+             int i = stack.pop();
+             if (head.data == i){
+                 is_palindrome = true;
+             }else {
+                 is_palindrome = false;
+                 break;
+             }
+             head = head.next;
+         }
+
+         return is_palindrome;
+     }
+
+     // Remove Duplicates in sorted linked list
+    void removeDuplicates_sortedLinkedList_itr(){
+         // pointer to store the pointer of a node to be deleted
+        Node curr = head;
+        // traverse the list till last node
+        while (curr != null){
+            Node temp = curr;
+            // compare and delete
+            while (temp != null && temp.data == curr.data){
+                temp =  temp.next;
+            }
+            // set current node next to the next different element denoted by temp
+            curr.next = temp;
+            curr = curr.next;
+        }
+    }
+
+    // Remove Duplicates from unsorted linked list
+    /*
+    *  1. use 2 loops :  Time : O(n^2)
+    *  2. use sorting like merge sort : Time : O(n log n)
+    *  3. user Hash Map : Time : O(n)
+    * */
+    void removeDuplicate_unsorteLinkedList_hm(){
+        HashSet<Integer> hs = new HashSet<>();
+        Node current = head;
+        Node prev = null;
+        while (current != null){
+            int cur_val = current.data;
+            // if current value is seen before
+            if(hs.contains(cur_val)){
+                prev.next = current.next;
+            }else {
+                hs.add(cur_val);
+                prev = current;
+            }
+            current = current.next;
+        }
+    }
+
+
+
 
  }
 
@@ -399,6 +466,21 @@ public class SinglyLinkedList {
         llist.detectLoop_andRemove();
         System.out.print("List without loop is : ");
         llist.printList();
+        System.out.println();
+        llist.removeDuplicate_unsorteLinkedList_hm();
+        System.out.print("List after Removing Duplicates : ");
+        llist.printList();
+        System.out.println();
+
+
+        CustomLinkedList llist2 = new CustomLinkedList();
+        llist2.push(1);
+        llist2.push(2);
+        llist2.push(2);
+        llist2.push(1);
+        llist2.printList();
+        boolean condition = llist2.isPalindrome_stack();
+        System.out.println(", is Palindrome : " + condition);
 
 
         // From Collections
