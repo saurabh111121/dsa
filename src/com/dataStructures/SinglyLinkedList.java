@@ -2,6 +2,8 @@ package com.dataStructures;
 
 import org.w3c.dom.Node;
 
+import java.util.HashMap;
+import java.util.HashSet;
 import java.util.LinkedList;
 
  class CustomLinkedList{
@@ -248,11 +250,110 @@ import java.util.LinkedList;
          System.out.println("Number of times " + x + " has occurred is : " + count);
      }
 
+     // Detect Loop in a Linked List
+     // for more methods : https://www.geeksforgeeks.org/detect-loop-in-a-linked-list/
+     /* using Hash Map, time & space -> O(n)*/
+     static boolean detectLoop_hm(Node h){
+         HashSet<Node> s = new HashSet<Node>();
+         while (h != null){
+             // if node is already present
+             if(s.contains(h)){
+                 return true;
+             }
+             // if visiting for the first time
+             s.add(h);
+             h = h.next;
+         }
+         return false;
+     }
 
+     /* Fastest Method : Floyd's Cycle- Finding Algorithm
+     *  Time : O(n) , Space : O(1) */
+     void detectLoop_fc(){
+         Node slow_p = head, fast_p = head;
+         int flag = 0;
+         while (slow_p != null && fast_p != null & fast_p.next != null){
+             slow_p = slow_p.next;
+             fast_p = fast_p.next.next;
+             if(slow_p == fast_p){
+                 flag = 1;
+                 break;
+             }
+         }
+         if(flag == 1){
+             System.out.println("Loop Found in the Linked List");
+         }else{
+             System.out.println("No loop in the Linked List");
+         }
+     }
 
+     // Find Length of the Loop in the Linked List
+     int detectLoop_length(){
+         Node slow_p = head, fast_p = head;
+         int flag = 0;
+         while( slow_p != null && fast_p != null && fast_p.next != null){
+             slow_p = slow_p.next;
+             fast_p = fast_p.next.next;
+             if(slow_p == fast_p){
+                     return countNodes_forLoop(slow_p);
+             }
+         }
+         return 0;
+     }
 
+     int countNodes_forLoop(Node n){
+         int count = 1;
+         Node temp = n;
+         while( temp.next != n ){
+             count++;
+             temp = temp.next;
+         }
+         return count;
+     }
 
+     // Find Node where loop is starting
+     int detectLoop_beginning(){
+         Node slow_p = head;
+         Node fast_p = head;
+         while(slow_p != null && fast_p != null && fast_p.next != null){
+             slow_p = slow_p.next;
+             fast_p = fast_p.next.next;
+             if(slow_p == fast_p){
+                 slow_p = head;
+                 while(slow_p != null && fast_p != null && fast_p.next != null){
+                     slow_p = slow_p.next;
+                     fast_p = fast_p.next;
+                     if (slow_p == fast_p){
+                         return slow_p.data;
+                     }
+                 }
+             }
+         }
+         return 0;
+     }
 
+     // detect and remove the loop
+     void detectLoop_andRemove(){
+         Node slow_p = head;
+         Node fast_p = head;
+         while (slow_p != null && fast_p != null && fast_p.next != null){
+             slow_p = slow_p.next;
+             fast_p = fast_p.next.next;
+             if(slow_p == fast_p ){
+                 slow_p = head;
+                 while (slow_p != null && fast_p != null && fast_p !=null){
+                     Node temp = fast_p;
+                     slow_p = slow_p.next;
+                     fast_p = fast_p.next;
+                     if (slow_p == fast_p){
+                         System.out.println("Loop present and removed it.");
+                         temp.next = null;
+                         break;
+                     }
+                 }
+             }
+         }
+     }
 
 
  }
@@ -280,10 +381,28 @@ public class SinglyLinkedList {
         System.out.println("LinkedList Size : " + llist.getCount_itr());
         llist.printMiddle();
         llist.count(1);
+        /*
+          1 ---> 2 ---> 3
+                 |      |
+                 5 <--- 4
+         */
+        llist.head.next.next.next.next.next = llist.head.next;
+        if(llist.detectLoop_hm(llist.head)){
+            System.out.println("Loop Found in the Linked List");
+        }else{
+            System.out.println("No loop in the Linked List");
+        }
+        int loop_length = llist.detectLoop_length();
+        System.out.println("Loop length is : " + loop_length);
+        int loop_start = llist.detectLoop_beginning();
+        System.out.println("Loop is Starting at : " + loop_start);
+        llist.detectLoop_andRemove();
+        System.out.print("List without loop is : ");
+        llist.printList();
 
 
         // From Collections
-        System.out.println();
+        System.out.println("\n\n");
         LinkedList l = new LinkedList();
         l.add(2);
         l.add(3);
@@ -299,3 +418,4 @@ public class SinglyLinkedList {
 
 
 }
+
