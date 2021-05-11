@@ -93,6 +93,54 @@ class CustomDoublyLinkedList{
 
     }
 
+    // Delete head node
+    void deleteNode(Node del){
+        // base case
+        if(head == null || del == null){
+            return;
+        }
+
+        // if node to be deleted is head node
+         if(head == del){
+             head = del.next;
+         }
+
+         // change next only if node to be deleted dis NOT the last node
+        if(del.next != null){
+            del.next.prev = del.prev;
+        }
+
+        // change prev only if node to be deleted is NOT the first node
+        if (del.prev != null){
+            del.prev.next = del.next;
+        }
+
+        // finally, free the memory occupied by del
+        return;
+    }
+
+    // Reverse the Doubly Linked List
+    void reverse(){
+        Node temp = null;
+        Node current = head;
+        // swap next and prev of all nodes of the linked list
+        while (current != null){
+            temp = current.prev;
+            current.prev = current.next;
+            current.next = temp;
+            current = current.prev;
+        }
+
+        // before changing head, check for the cases like empty list and list with only one node
+        if(temp != null){
+            head = temp.prev;
+        }
+    }
+
+
+
+
+
     // display
     public void printList(){
         Node curr = head;
@@ -115,6 +163,9 @@ public class DoublyLinkedList {
         llist.insertAfter(llist.head.next,10 );
         llist.append(20);
         llist.insertBefore(llist.head.next.next.next, 15);
+        llist.deleteNode(llist.head.next); // deleted 2
+        llist.printList();
+        llist.reverse();
         llist.printList();
 
     }
