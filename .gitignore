@@ -4,7 +4,9 @@
 # Java Files
 .idea/
 out/
-src/com/dsa/
+.gitattributes
+DSA.iml
+
 
 # Compiled class file
 *.class
