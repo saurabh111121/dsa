@@ -1,3 +1,24 @@
+/*
+There is one spaceship.
+X and Y co-ordinate of the source of spaceship and destination spaceship is given.
+There is N number of wormholes; each wormhole has 5 values.
+First 2 values are starting co-ordinate of the wormhole and after that value no. 3 and 4 represent ending co-ordinate of the wormhole and last 5th value is represents a cost to pass through this wormhole.
+Now, these warmholes are bi-directional. Now the to go from (x1,y1) to (x2,y2) is abs(x1-x2)+abs(y1-y2).
+The main problem here is to find the minimum distance to reach spaceship from source to destination co-ordinate using any number of warm-hole.
+It is ok if you won't uses any warmhole.
+
+Sample Input -
+0 0
+100 100
+3
+1 2 120 120 2
+4 5 120 100 3
+6 8 150 180 4
+
+ */
+
+
+
 package com.interview.Samsung;
 
 import java.util.*;
@@ -106,14 +127,5 @@ class Wormholes {
         }
 
         System.out.println("Minimum time: " + findMinimumTime(S, D, wormholes));
-
-        /*
-0 0
-100 100
-3
-1 2 120 120 2
-4 5 120 100 3
-6 8 150 180 4
-         */
     }
 }
