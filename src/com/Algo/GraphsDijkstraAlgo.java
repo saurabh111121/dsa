@@ -1,8 +1,5 @@
-package com.dataStructures;
+package com.Algo;
 
-import java.util.Comparator;
-import java.util.List;
-import java.util.PriorityQueue;
 import java.util.Scanner;
 
 

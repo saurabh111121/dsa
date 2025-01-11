@@ -1,4 +1,4 @@
-package com.dataStructures;
+package com.Algo;
 
 import java.util.*;
 
