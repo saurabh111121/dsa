@@ -8,6 +8,7 @@ package DailyChallenge;
 // @lc code=start
 class Solution {
     public char kthCharacter(int k) {
+         /* 
         int ans = 0, t;
         while(k != 1) {
             t = 31 - Integer.numberOfLeadingZeros(k);
@@ -16,6 +17,8 @@ class Solution {
             ans++;
         }
         return (char) ('a' + ans);
+        */
+        return (char)('a' + Integer.bitCount(k - 1));
     }
 }
 // @lc code=end
