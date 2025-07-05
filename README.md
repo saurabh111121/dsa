@@ -4,7 +4,7 @@ This repository contains implementations of various data structures and algorith
 
 ## Automated LeetCode Solutions Sync
 
-This repository includes an automated system that syncs all your LeetCode solutions daily using the `joshcai/leetcode-sync` GitHub Action. It:
+This repository includes an automated system that syncs all your LeetCode solutions daily. It:
 
 - Fetches all accepted solutions from your LeetCode account
 - Organizes solutions by problem number in a structured format

@@ -1,18 +1,18 @@
 # LeetCode Sync Configuration
 
-This directory originally contained custom Python scripts for synchronizing LeetCode solutions, but we have now switched to using the `joshcai/leetcode-sync` GitHub Action for more reliable operation.
+This directory contains the script that enhances LeetCode solutions by adding detailed problem information, official solutions, and links to similar problems.
 
 ## Current Approach
 
-The LeetCode sync process now uses:
+The LeetCode sync process uses:
 
-1. The `joshcai/leetcode-sync` GitHub Action to fetch all your solutions from LeetCode
-2. A Python script embedded in the workflow to enhance solutions with detailed problem information
+1. A GitHub Action workflow to fetch all your solutions from LeetCode
+2. The `leetcode_sync.py` script to enhance solutions with detailed problem information
 
 ## How It Works
 
 ### Main Sync Process
-- The `joshcai/leetcode-sync` action connects to your LeetCode account using CSRF token and session cookie
+- The workflow connects to your LeetCode account using CSRF token and session cookie
 - It fetches all your accepted solutions and organizes them by problem number
 - Solutions are saved directly to the `src/com/leetcode` directory
 
