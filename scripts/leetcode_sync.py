@@ -114,54 +114,93 @@ def enhance_solutions(leetcode_dir, csrf_token, session_token):
                 errors += 1
                 continue
                 
-            # Extract problem details
-            title = problem_data.get('title', 'Unknown Title')
-            problem_id = problem_data.get('questionId', '0')
-            difficulty = problem_data.get('difficulty', 'Unknown')
-            content = BeautifulSoup(problem_data.get('content', ''), 'html.parser').get_text()
+            # Extract problem details with graceful fallbacks
+            try:
+                title = problem_data.get('title', 'Unknown Title')
+                problem_id = problem_data.get('questionId', '0')
+                difficulty = problem_data.get('difficulty', 'Unknown')
+                
+                # Process content if available
+                content = "No problem description available."
+                if problem_data.get('content'):
+                    try:
+                        content = BeautifulSoup(problem_data.get('content', ''), 'html.parser').get_text()
+                    except Exception as e:
+                        logger.warning(f"Could not parse problem description for {problem_slug}: {str(e)}")
+            except Exception as e:
+                logger.warning(f"Error processing basic problem metadata for {problem_slug}: {str(e)}")
+                title = f"Problem {problem_slug}"
+                problem_id = '0'
+                difficulty = 'Unknown'
+                content = "Failed to retrieve problem description."
             
-            # Get tags
-            tags = [tag.get('name', '') for tag in problem_data.get('topicTags', [])]
-            tags_str = '\n'.join([f'- {tag}' for tag in tags if tag])
+            # Get tags with graceful fallbacks
+            tags_str = ""
+            try:
+                tags = [tag.get('name', '') for tag in problem_data.get('topicTags', []) if tag and tag.get('name')]
+                if tags:
+                    tags_str = '\n'.join([f'- {tag}' for tag in tags])
+                else:
+                    tags_str = "No tags available."
+            except Exception as e:
+                logger.warning(f"Error processing tags for {problem_slug}: {str(e)}")
+                tags_str = "Failed to retrieve tags."
             
-            # Parse similar questions
-            similar_questions = []
-            similar_questions_raw = problem_data.get('similarQuestions', '')
-            if similar_questions_raw:
-                try:
-                    similar_questions_data = json.loads(similar_questions_raw)
-                    for question in similar_questions_data:
-                        similar_questions.append({
-                            'title': question.get('title', ''),
-                            'titleSlug': question.get('titleSlug', ''),
-                            'difficulty': question.get('difficulty', '')
-                        })
-                except json.JSONDecodeError:
-                    logger.error(f"Failed to parse similar questions for problem {problem_id}")
-            
-            # Format similar questions section
+            # Parse similar questions with graceful fallbacks
             similar_questions_content = ""
-            if similar_questions:
-                similar_questions_list = []
-                for q in similar_questions:
-                    q_title = q.get('title', '')
-                    q_slug = q.get('titleSlug', '')
-                    q_difficulty = q.get('difficulty', '')
-                    similar_questions_list.append(f"- [{q_title}](https://leetcode.com/problems/{q_slug}/) ({q_difficulty})")
-                similar_questions_content = "\n\n## Similar Questions\n" + "\n".join(similar_questions_list)
+            try:
+                similar_questions = []
+                similar_questions_raw = problem_data.get('similarQuestions', '')
+                if similar_questions_raw:
+                    try:
+                        similar_questions_data = json.loads(similar_questions_raw)
+                        for question in similar_questions_data:
+                            if question:
+                                similar_questions.append({
+                                    'title': question.get('title', 'Unknown'),
+                                    'titleSlug': question.get('titleSlug', ''),
+                                    'difficulty': question.get('difficulty', 'Unknown')
+                                })
+                    except json.JSONDecodeError:
+                        logger.warning(f"Failed to parse similar questions JSON for problem {problem_id}")
+                
+                # Format similar questions section
+                if similar_questions:
+                    similar_questions_list = []
+                    for q in similar_questions:
+                        q_title = q.get('title', 'Unknown')
+                        q_slug = q.get('titleSlug', '')
+                        q_difficulty = q.get('difficulty', 'Unknown')
+                        # Only add if we have a slug to link to
+                        if q_slug:
+                            similar_questions_list.append(f"- [{q_title}](https://leetcode.com/problems/{q_slug}/) ({q_difficulty})")
+                    if similar_questions_list:
+                        similar_questions_content = "\n\n## Similar Questions\n" + "\n".join(similar_questions_list)
+            except Exception as e:
+                logger.warning(f"Error processing similar questions for {problem_slug}: {str(e)}")
             
-            # Process solution content if available
+            # Process solution content if available, with graceful fallbacks
             solution_content = ""
-            solution_data = problem_data.get('solution', {})
-            if solution_data:
-                is_paid_only = solution_data.get('isPaidOnly', True)
-                if not is_paid_only and solution_data.get('content'):
-                    # Parse HTML solution to markdown
-                    solution_html = solution_data.get('content', '')
-                    solution_text = BeautifulSoup(solution_html, 'html.parser').get_text()
-                    solution_content = f"\n\n## Official Solution\n{solution_text}"
-                elif is_paid_only:
-                    solution_content = "\n\n## Official Solution\n*This is a premium-only solution. Subscribe to LeetCode Premium for access.*"
+            try:
+                solution_data = problem_data.get('solution', {})
+                if solution_data:
+                    is_paid_only = solution_data.get('isPaidOnly', True)
+                    if not is_paid_only and solution_data.get('content'):
+                        # Parse HTML solution to markdown
+                        try:
+                            solution_html = solution_data.get('content', '')
+                            solution_text = BeautifulSoup(solution_html, 'html.parser').get_text()
+                            if solution_text.strip():
+                                solution_content = f"\n\n## Official Solution\n{solution_text}"
+                            else:
+                                solution_content = "\n\n## Official Solution\n*No solution content available.*"
+                        except Exception as e:
+                            logger.warning(f"Error parsing solution HTML for {problem_slug}: {str(e)}")
+                            solution_content = "\n\n## Official Solution\n*Error parsing solution content.*"
+                    elif is_paid_only:
+                        solution_content = "\n\n## Official Solution\n*This is a premium-only solution. Subscribe to LeetCode Premium for access.*"
+            except Exception as e:
+                logger.warning(f"Error processing solution data for {problem_slug}: {str(e)}")
             
             # Create README content
             readme_content = f"""# [{problem_id}] {title}
@@ -196,6 +235,7 @@ def enhance_solutions(leetcode_dir, csrf_token, session_token):
             errors += 1
     
     logger.info(f"Enhancement completed. Processed: {solutions_processed}, Enhanced: {solutions_enhanced}, Errors: {errors}")
+    logger.info("Note: Some problems may have partial data if certain fields couldn't be fetched, but the script continued processing.")
     return solutions_enhanced
 
 def main():
