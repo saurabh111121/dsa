@@ -9,10 +9,15 @@ It works with solutions fetched by the joshcai/leetcode-sync GitHub Action.
 import os
 import json
 import requests
-from bs4 import BeautifulSoup
+from bs4 import BeautifulSoup, MarkupResemblesLocatorWarning
 from pathlib import Path
 import argparse
 import logging
+import warnings
+import time
+
+# Suppress specific BeautifulSoup warnings that might cause noise
+warnings.filterwarnings("ignore", category=MarkupResemblesLocatorWarning)
 
 # Set up logging
 logging.basicConfig(
@@ -197,12 +202,27 @@ def enhance_solutions(leetcode_dir, csrf_token, session_token):
         
         # Query LeetCode for problem details
         try:
-            response = requests.post(
-                graphql_url,
-                headers=headers,
-                cookies=cookies,
-                json={'query': query, 'variables': {'titleSlug': problem_slug}}
-            )
+            # Add retries for API requests
+            max_retries = 3
+            retry_delay = 2
+            
+            for retry in range(max_retries):
+                try:
+                    response = requests.post(
+                        graphql_url,
+                        headers=headers,
+                        cookies=cookies,
+                        json={'query': query, 'variables': {'titleSlug': problem_slug}},
+                        timeout=30  # Add timeout to prevent hanging
+                    )
+                    break
+                except requests.exceptions.RequestException as e:
+                    if retry < max_retries - 1:
+                        logger.warning(f"Request failed for {problem_slug}, retrying in {retry_delay}s: {str(e)}")
+                        time.sleep(retry_delay)
+                        retry_delay *= 2  # Exponential backoff
+                    else:
+                        raise
             
             if response.status_code != 200:
                 logger.error(f"Failed to fetch details for {problem_slug}: {response.status_code}")
@@ -228,7 +248,11 @@ def enhance_solutions(leetcode_dir, csrf_token, session_token):
                 content = "No problem description available."
                 if problem_data.get('content'):
                     try:
-                        content = BeautifulSoup(problem_data.get('content', ''), 'html.parser').get_text()
+                        # Use lxml parser if available, fallback to html.parser
+                        try:
+                            content = BeautifulSoup(problem_data.get('content', ''), 'lxml').get_text()
+                        except:
+                            content = BeautifulSoup(problem_data.get('content', ''), 'html.parser').get_text()
                     except Exception as e:
                         logger.warning(f"Could not parse problem description for {problem_slug}: {str(e)}")
                 
@@ -325,7 +349,11 @@ def enhance_solutions(leetcode_dir, csrf_token, session_token):
                         # Parse HTML solution to markdown
                         try:
                             solution_html = solution_data.get('content', '')
-                            solution_text = BeautifulSoup(solution_html, 'html.parser').get_text()
+                            # Use lxml parser if available, fallback to html.parser
+                            try:
+                                solution_text = BeautifulSoup(solution_html, 'lxml').get_text()
+                            except:
+                                solution_text = BeautifulSoup(solution_html, 'html.parser').get_text()
                             if solution_text.strip():
                                 solution_content = f"\n\n## Official Solution\n{solution_text}"
                             else:
@@ -417,10 +445,28 @@ def main():
     parser.add_argument('--dir', default='src/com/leetcode', help='Directory containing LeetCode solutions')
     parser.add_argument('--csrf-token', required=True, help='LeetCode CSRF token')
     parser.add_argument('--session-token', required=True, help='LeetCode session token')
+    parser.add_argument('--verbose', action='store_true', help='Enable verbose logging')
     args = parser.parse_args()
 
+    # Set logging level based on verbosity
+    if args.verbose:
+        logging.getLogger('leetcode_sync').setLevel(logging.DEBUG)
+    
+    # Ensure the directory exists
+    leetcode_dir = Path(args.dir)
+    if not leetcode_dir.exists():
+        logger.info(f"Creating LeetCode directory: {leetcode_dir}")
+        leetcode_dir.mkdir(parents=True, exist_ok=True)
+
     logger.info("Starting LeetCode solution enhancement")
-    enhance_solutions(args.dir, args.csrf_token, args.session_token)
+    try:
+        enhanced_count = enhance_solutions(args.dir, args.csrf_token, args.session_token)
+        logger.info(f"Successfully enhanced {enhanced_count} solutions")
+    except Exception as e:
+        logger.error(f"Fatal error in main process: {str(e)}")
+        import traceback
+        logger.error(traceback.format_exc())
+        exit(1)
 
 if __name__ == '__main__':
     main()

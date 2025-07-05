@@ -15,7 +15,7 @@ jobs:
         uses: actions/checkout@v3
       
       - name: Sync LeetCode Solutions
-        uses: joshcai/leetcode-sync@v1.7
+        uses: joshcai/leetcode-sync@v1.6
         with:
           github-token: ${{ github.token }}
           leetcode-csrf-token: ${{ secrets.LEETCODE_CSRF_TOKEN }}
@@ -39,11 +39,11 @@ jobs:
       - name: Install dependencies
         run: |
           python -m pip install --upgrade pip
-          pip install requests beautifulsoup4
+          pip install requests beautifulsoup4 lxml
 
       - name: Enhance solution metadata
         run: |
-          python scripts/leetcode_sync.py --csrf-token "${{ secrets.LEETCODE_CSRF_TOKEN }}" --session-token "${{ secrets.LEETCODE_SESSION }}" --dir "src/com/leetcode"
+          python scripts/leetcode_sync.py --csrf-token "${{ secrets.LEETCODE_CSRF_TOKEN }}" --session-token "${{ secrets.LEETCODE_SESSION }}" --dir "src/com/leetcode" --verbose
       
       - name: Commit enhanced metadata
         run: |
