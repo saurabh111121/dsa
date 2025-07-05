@@ -11,6 +11,9 @@ jobs:
     permissions:
       contents: write
     steps:
+      - name: Checkout repository
+        uses: actions/checkout@v3
+      
       - name: Sync LeetCode Solutions
         uses: joshcai/leetcode-sync@v1.7
         with:
@@ -21,8 +24,12 @@ jobs:
           verbose: true
           commit-header: "[LeetCode Sync]"
       
-      - name: Checkout repository
-        uses: actions/checkout@v3
+      - name: Verify files synced
+        run: |
+          echo "Listing synced files:"
+          ls -la src/com/leetcode/
+          echo "Number of solution files:"
+          find src/com/leetcode -type f -name "*.java" | wc -l
 
       - name: Set up Python
         uses: actions/setup-python@v4

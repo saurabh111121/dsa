@@ -74,18 +74,103 @@ def enhance_solutions(leetcode_dir, csrf_token, session_token):
     solutions_enhanced = 0
     errors = 0
     
-    # Process each problem folder
-    for problem_dir in leetcode_dir.glob("*-*"):
-        if not problem_dir.is_dir():
-            continue
+    # List all files and directories to see what's available
+    logger.info("Listing contents of leetcode directory:")
+    all_files = list(leetcode_dir.glob("*"))
+    for file_path in all_files:
+        if file_path.is_dir():
+            logger.info(f"DIR: {file_path}")
+        else:
+            logger.info(f"FILE: {file_path}")
+    
+    # First, check if we have solution files directly in the leetcode directory
+    java_files = list(leetcode_dir.glob("*.java"))
+    if java_files:
+        logger.info(f"Found {len(java_files)} Java files directly in the leetcode directory")
+        # If we find Java files directly in the leetcode directory, we'll create folders for them
+        for java_file in java_files:
+            # Skip the Solutions.java file if it exists
+            if java_file.name == "Solutions.java":
+                continue
+                
+            # Extract the problem name from the file name
+            file_name = java_file.stem  # Get file name without extension
+            try:
+                # Try to extract problem number and name
+                if "-" in file_name:
+                    # Already in the expected format
+                    problem_dir = leetcode_dir / file_name
+                elif "_" in file_name:
+                    # Convert underscore format to dash format
+                    parts = file_name.split("_", 1)
+                    if len(parts) == 2:
+                        problem_dir = leetcode_dir / f"{parts[0]}-{parts[1]}"
+                    else:
+                        problem_dir = leetcode_dir / file_name
+                else:
+                    # Just use the file name as is
+                    problem_dir = leetcode_dir / file_name
+                
+                # Create the directory if it doesn't exist
+                problem_dir.mkdir(exist_ok=True)
+                
+                # Copy the Java file into the new directory
+                with open(java_file, 'r') as source_file:
+                    content = source_file.read()
+                
+                target_file = problem_dir / "Solution.java"
+                with open(target_file, 'w') as dest_file:
+                    dest_file.write(content)
+                
+                logger.info(f"Created directory and moved solution for {file_name}")
+                
+            except Exception as e:
+                logger.error(f"Error processing Java file {file_name}: {str(e)}")
+                continue
+    
+    # Process each problem folder - look for directories with hyphen or any directory containing Java files
+    potential_problem_dirs = []
+    
+    # Add directories with hyphen format
+    for dir_path in leetcode_dir.glob("*-*"):
+        if dir_path.is_dir():
+            potential_problem_dirs.append(dir_path)
+    
+    # Add other directories that contain Java files
+    for dir_path in leetcode_dir.glob("*"):
+        if dir_path.is_dir() and dir_path not in potential_problem_dirs:
+            if list(dir_path.glob("*.java")):
+                potential_problem_dirs.append(dir_path)
+    
+    logger.info(f"Found {len(potential_problem_dirs)} potential problem directories")
+    
+    # Process each problem directory
+    for problem_dir in potential_problem_dirs:
             
         solutions_processed += 1
             
         # Extract problem slug from directory name
         dir_name = problem_dir.name
         try:
-            problem_slug = "-".join(dir_name.split("-")[1:])
-        except:
+            # Handle different naming conventions
+            if "-" in dir_name:
+                # Standard format: 1-two-sum
+                parts = dir_name.split("-", 1)
+                if len(parts) == 2:
+                    problem_slug = parts[1]
+                else:
+                    problem_slug = dir_name
+            elif "_" in dir_name:
+                # Alternate format: 1_two_sum
+                parts = dir_name.split("_", 1)
+                if len(parts) == 2:
+                    problem_slug = parts[1].replace("_", "-")
+                else:
+                    problem_slug = dir_name.replace("_", "-")
+            else:
+                # No separator, just use as is
+                problem_slug = dir_name
+        except Exception as e:
             logger.error(f"Could not parse slug from directory: {dir_name}")
             errors += 1
             continue
