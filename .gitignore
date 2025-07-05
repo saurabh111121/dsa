@@ -5,7 +5,7 @@
 .idea/
 out/
 .gitattributes
-DSA.iml
+.iml/
 
 
 # Compiled class file

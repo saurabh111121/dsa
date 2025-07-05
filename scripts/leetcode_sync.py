@@ -48,7 +48,7 @@ def enhance_solutions(leetcode_dir, csrf_token, session_token):
         'Referer': 'https://leetcode.com/problems/',
     }
     
-    # GraphQL query for problem details and solution
+    # GraphQL query for problem details and solution with expanded data
     query = """
     query questionData($titleSlug: String!) {
       question(titleSlug: $titleSlug) {
@@ -57,14 +57,32 @@ def enhance_solutions(leetcode_dir, csrf_token, session_token):
         titleSlug
         content
         difficulty
+        stats
+        likes
+        dislikes
+        categoryTitle
         topicTags {
           name
           slug
         }
+        codeSnippets {
+          lang
+          langSlug
+          code
+        }
+        hints
         similarQuestions
         solution {
           content
           isPaidOnly
+        }
+        exampleTestcases
+        metaData
+        sampleTestCase
+        submitStats {
+          acRate
+          totalSubmissionCount
+          totalAcceptedCount
         }
       }
     }
@@ -204,6 +222,7 @@ def enhance_solutions(leetcode_dir, csrf_token, session_token):
                 title = problem_data.get('title', 'Unknown Title')
                 problem_id = problem_data.get('questionId', '0')
                 difficulty = problem_data.get('difficulty', 'Unknown')
+                category = problem_data.get('categoryTitle', '')
                 
                 # Process content if available
                 content = "No problem description available."
@@ -212,6 +231,38 @@ def enhance_solutions(leetcode_dir, csrf_token, session_token):
                         content = BeautifulSoup(problem_data.get('content', ''), 'html.parser').get_text()
                     except Exception as e:
                         logger.warning(f"Could not parse problem description for {problem_slug}: {str(e)}")
+                
+                # Process stats
+                stats_json = {}
+                try:
+                    if problem_data.get('stats'):
+                        stats_json = json.loads(problem_data.get('stats', '{}'))
+                except Exception as e:
+                    logger.warning(f"Could not parse stats for {problem_slug}: {str(e)}")
+                
+                # Process submit stats
+                submit_stats = problem_data.get('submitStats', {})
+                ac_rate = submit_stats.get('acRate', 'N/A')
+                total_submissions = submit_stats.get('totalSubmissionCount', 'N/A')
+                total_accepted = submit_stats.get('totalAcceptedCount', 'N/A')
+                
+                # Process hints
+                hints = problem_data.get('hints', [])
+                hints_str = ""
+                if hints:
+                    hints_list = [f"- {hint}" for hint in hints]
+                    hints_str = "\n".join(hints_list)
+                
+                # Process example testcases
+                example_testcases = problem_data.get('exampleTestcases', '')
+                
+                # Get code snippets
+                code_snippets = problem_data.get('codeSnippets', [])
+                java_snippet = None
+                for snippet in code_snippets:
+                    if snippet.get('lang') == 'Java':
+                        java_snippet = snippet.get('code', '')
+                        break
             except Exception as e:
                 logger.warning(f"Error processing basic problem metadata for {problem_slug}: {str(e)}")
                 title = f"Problem {problem_slug}"
@@ -287,16 +338,54 @@ def enhance_solutions(leetcode_dir, csrf_token, session_token):
             except Exception as e:
                 logger.warning(f"Error processing solution data for {problem_slug}: {str(e)}")
             
-            # Create README content
+            # Create problem stats section
+            stats_section = ""
+            if ac_rate != 'N/A' or total_accepted != 'N/A':
+                stats_section = f"""
+## Problem Stats
+- **Acceptance Rate**: {ac_rate}
+- **Total Submissions**: {total_submissions}
+- **Accepted Submissions**: {total_accepted}
+"""
+
+            # Create hints section
+            hints_section = ""
+            if hints_str:
+                hints_section = f"""
+## Hints
+{hints_str}
+"""
+
+            # Create code template section
+            code_template = ""
+            if java_snippet:
+                code_template = f"""
+## Code Template
+```java
+{java_snippet}
+```
+"""
+
+            # Create example testcases section
+            test_cases = ""
+            if example_testcases:
+                test_cases = f"""
+## Example Test Cases
+```
+{example_testcases}
+```
+"""
+
+            # Create README content with enhanced information
             readme_content = f"""# [{problem_id}] {title}
 
 ## Problem Description
 {content}
 
-## Difficulty: {difficulty}
+## Difficulty: {difficulty}{' | ' + category if category else ''}
 
 ## Tags
-{tags_str}
+{tags_str}{stats_section}{hints_section}{code_template}{test_cases}
 
 ## Approach
 <!-- Add your approach explanation here -->

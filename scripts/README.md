@@ -17,10 +17,14 @@ The LeetCode sync process uses:
 - Solutions are saved directly to the `src/com/leetcode` directory
 
 ### Solution Enhancement
-- After fetching solutions, a Python script enhances each solution with additional metadata:
+- After fetching solutions, a Python script enhances each solution with comprehensive metadata:
   - Full problem description from LeetCode
-  - Difficulty level (Easy, Medium, Hard)
+  - Difficulty level (Easy, Medium, Hard) and problem category
   - Topic tags related to the problem
+  - Problem statistics (acceptance rate, submission counts)
+  - Hints provided by LeetCode (when available)
+  - Code templates for starting your solution
+  - Example test cases for validation
   - Official solution from LeetCode (for non-premium problems)
   - Links to similar problems with their difficulty levels
 - This information is stored in a README.md file in each problem's directory
@@ -79,7 +83,11 @@ src/
 
 Each solution README.md contains:
 - Full problem description
-- Difficulty level
+- Difficulty level and category
 - Topic tags
+- Problem statistics (acceptance rate, submission counts)
+- Hints (when available)
+- Code templates in Java
+- Example test cases
 - Official solution from LeetCode (where available)
 - Similar questions with links and difficulty levels

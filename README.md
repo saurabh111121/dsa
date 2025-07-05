@@ -8,10 +8,14 @@ This repository includes an automated system that syncs all your LeetCode soluti
 
 - Fetches all accepted solutions from your LeetCode account
 - Organizes solutions by problem number in a structured format
-- Enhances each solution with detailed problem information including:
+- Enhances each solution with comprehensive problem information including:
   - Full problem description
-  - Difficulty level
+  - Difficulty level and category
   - Topic tags
+  - Problem statistics (acceptance rate, submissions)
+  - Hints (when available)
+  - Code templates
+  - Example test cases
   - Official solution from LeetCode (for non-premium problems)
   - Similar questions with links and difficulty levels
 - Runs automatically every day at midnight UTC (5:30 AM IST)
@@ -78,7 +82,15 @@ src/com/leetcode/
 
 Each problem directory contains:
 - The solution code in Solution.java
-- A detailed README.md with problem description, difficulty, tags, official solution (where available), and similar questions
+- A comprehensive README.md with:
+  - Problem description
+  - Difficulty and category
+  - Topic tags
+  - Problem statistics
+  - Hints and example test cases
+  - Code templates
+  - Official solution (where available)
+  - Similar questions
 
 ## Resources
 
