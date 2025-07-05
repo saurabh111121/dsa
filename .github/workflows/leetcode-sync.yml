@@ -17,16 +17,13 @@ jobs:
           github-token: ${{ github.token }}
           leetcode-csrf-token: ${{ secrets.LEETCODE_CSRF_TOKEN }}
           leetcode-session: ${{ secrets.LEETCODE_SESSION }}
-          destination-folder: src/com/leetcode/solutions
+          destination-folder: src/com/leetcode
           verbose: true
           commit-header: "[LeetCode Sync]"
-          
-      # Copy newest solutions to daily challenge folder if submitted today
+      
       - name: Checkout repository
         uses: actions/checkout@v3
-        with:
-          fetch-depth: 2
-      
+
       - name: Set up Python
         uses: actions/setup-python@v4
         with:
@@ -35,52 +32,178 @@ jobs:
       - name: Install dependencies
         run: |
           python -m pip install --upgrade pip
-          pip install requests
-          
-      - name: Extract today's solutions to daily challenge directory
+          pip install requests beautifulsoup4
+
+      - name: Enhance solution metadata
         run: |
           python - <<EOF
           import os
-          import shutil
-          from datetime import datetime
+          import json
+          import requests
+          from bs4 import BeautifulSoup
+          from pathlib import Path
+
+          leetcode_dir = Path("src/com/leetcode")
           
-          # Get today's date
-          today = datetime.now().strftime('%Y-%m-%d')
+          # LeetCode GraphQL endpoint
+          graphql_url = "https://leetcode.com/graphql"
           
-          # Create daily challenge directory
-          daily_dir = f"src/com/leetcode/daily_challenge/{today}"
-          os.makedirs(daily_dir, exist_ok=True)
+          # Set headers with the session cookies from secrets
+          cookies = {
+              'csrftoken': '${{ secrets.LEETCODE_CSRF_TOKEN }}',
+              'LEETCODE_SESSION': '${{ secrets.LEETCODE_SESSION }}',
+          }
           
-          # Get list of files modified in the last commit
-          recent_solutions = []
-          solutions_dir = "src/com/leetcode/solutions"
+          headers = {
+              'Content-Type': 'application/json',
+              'X-CSRFToken': '${{ secrets.LEETCODE_CSRF_TOKEN }}',
+              'Referer': 'https://leetcode.com/problems/',
+          }
           
-          # Only proceed if solutions directory exists
-          if os.path.exists(solutions_dir):
-              for root, dirs, files in os.walk(solutions_dir):
-                  for file in files:
-                      # Only copy Java files
-                      if file.endswith('.java'):
-                          src_file = os.path.join(root, file)
-                          dest_file = os.path.join(daily_dir, file)
-                          
-                          # Copy the file to daily challenge directory
-                          shutil.copy2(src_file, dest_file)
-                          print(f"Copied {src_file} to {dest_file}")
-                          
-                          # If there's a README, copy it too
-                          readme_src = os.path.join(root, "README.md")
-                          if os.path.exists(readme_src):
-                              readme_dest = os.path.join(daily_dir, "README.md")
-                              shutil.copy2(readme_src, readme_dest)
-                              print(f"Copied {readme_src} to {readme_dest}")
+          # GraphQL query for problem details and solution
+          query = """
+          query questionData($titleSlug: String!) {
+            question(titleSlug: $titleSlug) {
+              questionId
+              title
+              titleSlug
+              content
+              difficulty
+              topicTags {
+                name
+                slug
+              }
+              similarQuestions
+              solution {
+                content
+                isPaidOnly
+              }
+            }
+          }
+          """
+          
+          # Process each problem folder
+          for problem_dir in leetcode_dir.glob("*-*"):
+              if not problem_dir.is_dir():
+                  continue
+                  
+              # Extract problem slug from directory name
+              dir_name = problem_dir.name
+              try:
+                  problem_slug = "-".join(dir_name.split("-")[1:])
+              except:
+                  print(f"Could not parse slug from directory: {dir_name}")
+                  continue
+                  
+              print(f"Processing problem: {problem_slug}")
+              
+              # Query LeetCode for problem details
+              try:
+                  response = requests.post(
+                      graphql_url,
+                      headers=headers,
+                      cookies=cookies,
+                      json={'query': query, 'variables': {'titleSlug': problem_slug}}
+                  )
+                  
+                  if response.status_code != 200:
+                      print(f"Failed to fetch details for {problem_slug}: {response.status_code}")
+                      continue
+                      
+                  data = response.json()
+                  problem_data = data.get('data', {}).get('question', {})
+                  
+                  if not problem_data:
+                      print(f"No problem data found for {problem_slug}")
+                      continue
+                      
+                  # Extract problem details
+                  title = problem_data.get('title', 'Unknown Title')
+                  problem_id = problem_data.get('questionId', '0')
+                  difficulty = problem_data.get('difficulty', 'Unknown')
+                  content = BeautifulSoup(problem_data.get('content', ''), 'html.parser').get_text()
+                  
+                  # Get tags
+                  tags = [tag.get('name', '') for tag in problem_data.get('topicTags', [])]
+                  tags_str = '\n'.join([f'- {tag}' for tag in tags if tag])
+                  
+                  # Parse similar questions
+                  similar_questions = []
+                  similar_questions_raw = problem_data.get('similarQuestions', '')
+                  if similar_questions_raw:
+                      try:
+                          similar_questions_data = json.loads(similar_questions_raw)
+                          for question in similar_questions_data:
+                              similar_questions.append({
+                                  'title': question.get('title', ''),
+                                  'titleSlug': question.get('titleSlug', ''),
+                                  'difficulty': question.get('difficulty', '')
+                              })
+                      except json.JSONDecodeError:
+                          print(f"Failed to parse similar questions for problem {problem_id}")
+                  
+                  # Format similar questions section
+                  similar_questions_content = ""
+                  if similar_questions:
+                      similar_questions_list = []
+                      for q in similar_questions:
+                          q_title = q.get('title', '')
+                          q_slug = q.get('titleSlug', '')
+                          q_difficulty = q.get('difficulty', '')
+                          similar_questions_list.append(f"- [{q_title}](https://leetcode.com/problems/{q_slug}/) ({q_difficulty})")
+                      similar_questions_content = "\n\n## Similar Questions\n" + "\n".join(similar_questions_list)
+                  
+                  # Process solution content if available
+                  solution_content = ""
+                  solution_data = problem_data.get('solution', {})
+                  if solution_data:
+                      is_paid_only = solution_data.get('isPaidOnly', True)
+                      if not is_paid_only and solution_data.get('content'):
+                          # Parse HTML solution to markdown
+                          solution_html = solution_data.get('content', '')
+                          solution_text = BeautifulSoup(solution_html, 'html.parser').get_text()
+                          solution_content = f"\n\n## Official Solution\n{solution_text}"
+                      elif is_paid_only:
+                          solution_content = "\n\n## Official Solution\n*This is a premium-only solution. Subscribe to LeetCode Premium for access.*"
+                  
+                  # Create README content
+                  readme_content = f"""# [{problem_id}] {title}
+
+## Problem Description
+{content}
+
+## Difficulty: {difficulty}
+
+## Tags
+{tags_str}
+
+## Approach
+<!-- Add your approach explanation here -->
+
+## Complexity Analysis
+- Time Complexity: <!-- Add time complexity -->
+- Space Complexity: <!-- Add space complexity -->{solution_content}
+{similar_questions_content}
+"""
+                  
+                  # Save to README.md
+                  readme_path = problem_dir / "README.md"
+                  with open(readme_path, 'w', encoding='utf-8') as f:
+                      f.write(readme_content)
+                  
+                  print(f"Added detailed README for {title}")
+                  
+              except Exception as e:
+                  print(f"Error processing {problem_slug}: {str(e)}")
+          
+          print("Metadata enhancement completed")
           EOF
-          
-      - name: Commit daily challenge files
+      
+      - name: Commit enhanced metadata
         run: |
           git config --local user.email "action@github.com"
           git config --local user.name "GitHub Action"
-          git add src/com/leetcode/daily_challenge/
+          git add src/com/leetcode/
           
           # Commit only if there are changes
-          git diff --quiet && git diff --staged --quiet || (git commit -m "[LeetCode Sync] Update daily challenge folder" && git push)
+          git diff --quiet && git diff --staged --quiet || (git commit -m "[LeetCode Sync] Add detailed problem information" && git push)

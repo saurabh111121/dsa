@@ -7,18 +7,23 @@ This directory originally contained custom Python scripts for synchronizing Leet
 The LeetCode sync process now uses:
 
 1. The `joshcai/leetcode-sync` GitHub Action to fetch all your solutions from LeetCode
-2. A small Python helper script embedded in the workflow to copy solutions to the daily challenge folder
+2. A Python script embedded in the workflow to enhance solutions with detailed problem information
 
 ## How It Works
 
 ### Main Sync Process
 - The `joshcai/leetcode-sync` action connects to your LeetCode account using CSRF token and session cookie
 - It fetches all your accepted solutions and organizes them by problem number
-- Solutions are saved to the `src/com/leetcode/solutions` directory
+- Solutions are saved directly to the `src/com/leetcode` directory
 
-### Daily Challenge Organization
-- A Python script copies the most recent solutions to a date-based folder
-- This maintains the organization of solutions by both problem number and date
+### Solution Enhancement
+- After fetching solutions, a Python script enhances each solution with additional metadata:
+  - Full problem description from LeetCode
+  - Difficulty level (Easy, Medium, Hard)
+  - Topic tags related to the problem
+  - Official solution from LeetCode (for non-premium problems)
+  - Links to similar problems with their difficulty levels
+- This information is stored in a README.md file in each problem's directory
 
 ## GitHub Actions Configuration
 
@@ -62,17 +67,19 @@ The system organizes LeetCode solutions as follows:
 ```
 src/
 ├── com/
-    ├── leetcode/
-        ├── solutions/                 # All solutions by problem number
-        │   ├── 1-two-sum/
-        │   │   └── Solution.java
-        │   ├── 2-add-two-numbers/
-        │   │   └── Solution.java
-        │   └── ...
-        │
-        └── daily_challenge/           # Daily challenges by date
-            ├── 2025-05-07/
-            │   ├── Solution.java
-            │   └── README.md
-            └── ...
+    ├── leetcode/                     # All solutions directly in this directory
+        ├── 1-two-sum/
+        │   ├── Solution.java
+        │   └── README.md             # Contains problem details and similar questions
+        ├── 2-add-two-numbers/
+        │   ├── Solution.java
+        │   └── README.md
+        └── ...
 ```
+
+Each solution README.md contains:
+- Full problem description
+- Difficulty level
+- Topic tags
+- Official solution from LeetCode (where available)
+- Similar questions with links and difficulty levels

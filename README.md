@@ -8,7 +8,12 @@ This repository includes an automated system that syncs all your LeetCode soluti
 
 - Fetches all accepted solutions from your LeetCode account
 - Organizes solutions by problem number in a structured format
-- Maintains a separate section for daily challenges
+- Enhances each solution with detailed problem information including:
+  - Full problem description
+  - Difficulty level
+  - Topic tags
+  - Official solution from LeetCode (for non-premium problems)
+  - Similar questions with links and difficulty levels
 - Runs automatically every day at midnight UTC (5:30 AM IST)
 
 ### Setup Instructions
@@ -47,8 +52,6 @@ flowchart LR
     com --> leetcode
     interview --> EPAM
     interview --> Samsung
-    leetcode --> solutions["solutions (by problem #)"]
-    leetcode --> daily["daily_challenge (by date)"]
     
     %% Styling
     classDef rootNode fill:#f96,stroke:#333,stroke-width:2px;
@@ -57,8 +60,25 @@ flowchart LR
     
     class src rootNode;
     class com,Algo,dataStructures,interview,leetcode folderNode;
-    class EPAM,Samsung,solutions,daily subfolderNode;
+    class EPAM,Samsung subfolderNode;
 ```
+
+The LeetCode solutions are organized directly under the `src/com/leetcode` directory:
+
+```
+src/com/leetcode/
+├── 1-two-sum/
+│   ├── Solution.java
+│   └── README.md
+├── 2-add-two-numbers/
+│   ├── Solution.java
+│   └── README.md
+└── ...
+```
+
+Each problem directory contains:
+- The solution code in Solution.java
+- A detailed README.md with problem description, difficulty, tags, official solution (where available), and similar questions
 
 ## Resources
 
