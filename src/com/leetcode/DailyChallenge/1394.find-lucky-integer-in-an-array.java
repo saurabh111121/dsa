@@ -18,7 +18,7 @@ class Solution {
         int ans = -1;
         for (int key : map.keySet()) {
             if(key == map.get(key)) {
-                if(key > ans) ans = key;
+                ans = key;
             }
         }
         return ans;
