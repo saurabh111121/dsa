@@ -13,34 +13,23 @@ jobs:
     steps:
       - name: Checkout repository
         uses: actions/checkout@v3
+        with:
+          fetch-depth: 0  # Fetch all history for proper commits
+      
+      - name: Create necessary directories
+        run: mkdir -p src/com/leetcode
       
       - name: Sync LeetCode Solutions
-        uses: joshcai/leetcode-sync@v1.6
+        uses: joshcai/leetcode-sync@v1.7
         with:
           github-token: ${{ github.token }}
           leetcode-csrf-token: ${{ secrets.LEETCODE_CSRF_TOKEN }}
           leetcode-session: ${{ secrets.LEETCODE_SESSION }}
           destination-folder: src/com/leetcode
+          overwrite: true  # Force overwrite existing files
           verbose: true
           commit-header: "[LeetCode Sync]"
-      
-      - name: Verify files synced
-        run: |
-          echo "Listing synced files:"
-          ls -la src/com/leetcode/
-          echo "Number of solution files:"
-          find src/com/leetcode -type f -name "*.java" | wc -l
 
-      - name: Sync LeetCode Solutions
-        uses: joshcai/leetcode-sync@v1.6
-        with:
-          github-token: ${{ github.token }}
-          leetcode-csrf-token: ${{ secrets.LEETCODE_CSRF_TOKEN }}
-          leetcode-session: ${{ secrets.LEETCODE_SESSION }}
-          destination-folder: src/com/leetcode
-          verbose: true
-          commit-header: "[LeetCode Sync]"
-      
       - name: Verify files synced
         run: |
           echo "Listing synced files:"

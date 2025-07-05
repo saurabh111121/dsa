@@ -7,12 +7,14 @@ It works with solutions fetched by the joshcai/leetcode-sync GitHub Action.
 """
 
 import os
+import re
 import json
 import requests
 from bs4 import BeautifulSoup
 from pathlib import Path
 import argparse
 import logging
+import time
 
 # Set up logging
 logging.basicConfig(
@@ -33,6 +35,28 @@ def enhance_solutions(leetcode_dir, csrf_token, session_token):
     leetcode_dir = Path(leetcode_dir)
     logger.info(f"Processing solutions in {leetcode_dir}")
     
+    # Create the directory if it doesn't exist
+    leetcode_dir.mkdir(parents=True, exist_ok=True)
+    
+    # List directory contents
+    dir_contents = list(leetcode_dir.glob("*"))
+    logger.info(f"Directory contents ({len(dir_contents)} items):")
+    for item in dir_contents:
+        if item.is_dir():
+            logger.info(f"  DIR: {item.name}")
+        else:
+            logger.info(f"  FILE: {item.name}")
+    
+    if not dir_contents:
+        logger.warning("The directory is empty. No solutions to process.")
+        logger.info("This could indicate that the joshcai/leetcode-sync action didn't fetch any solutions.")
+        logger.info("Possible causes:")
+        logger.info("  1. Authentication issues (expired or incorrect tokens)")
+        logger.info("  2. No accepted solutions on LeetCode account")
+        logger.info("  3. Network or connectivity issues")
+        logger.info("  4. LeetCode API changes")
+        logger.info("Please check your GitHub Actions logs for more details.")
+    
     # LeetCode GraphQL endpoint
     graphql_url = "https://leetcode.com/graphql"
     
@@ -46,7 +70,45 @@ def enhance_solutions(leetcode_dir, csrf_token, session_token):
         'Content-Type': 'application/json',
         'X-CSRFToken': csrf_token,
         'Referer': 'https://leetcode.com/problems/',
+        'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36'
     }
+    
+    # Test authentication with a simple query
+    test_query = """
+    query {
+        userStatus {
+            username
+            isSignedIn
+        }
+    }
+    """
+    
+    logger.info("Testing LeetCode authentication...")
+    try:
+        test_response = requests.post(
+            graphql_url,
+            headers=headers,
+            cookies=cookies,
+            json={'query': test_query},
+            timeout=30
+        )
+        
+        if test_response.status_code != 200:
+            logger.error(f"Authentication test failed with status code: {test_response.status_code}")
+            logger.error(f"Response: {test_response.text}")
+        else:
+            test_data = test_response.json()
+            user_status = test_data.get('data', {}).get('userStatus', {})
+            is_signed_in = user_status.get('isSignedIn', False)
+            username = user_status.get('username', 'Unknown')
+            
+            if is_signed_in:
+                logger.info(f"Successfully authenticated as: {username}")
+            else:
+                logger.error("Not signed in to LeetCode. Check your credentials.")
+                return 0
+    except Exception as e:
+        logger.error(f"Error testing authentication: {str(e)}")
     
     # GraphQL query for problem details and solution
     query = """
@@ -74,19 +136,96 @@ def enhance_solutions(leetcode_dir, csrf_token, session_token):
     solutions_enhanced = 0
     errors = 0
     
-    # Process each problem folder
+    # Look for any problem directories or Java files
+    all_problem_dirs = []
+    
+    # First look for standard format directories (e.g., "1-two-sum")
     for problem_dir in leetcode_dir.glob("*-*"):
-        if not problem_dir.is_dir():
-            continue
+        if problem_dir.is_dir():
+            all_problem_dirs.append(problem_dir)
+    
+    # If we didn't find any in the standard format, look for any directories with Java files
+    if not all_problem_dirs:
+        for directory in leetcode_dir.glob("*"):
+            if directory.is_dir() and list(directory.glob("*.java")):
+                all_problem_dirs.append(directory)
+    
+    # Also look for Java files directly in the leetcode_dir
+    java_files = list(leetcode_dir.glob("*.java"))
+    if java_files and not all_problem_dirs:
+        logger.info(f"Found {len(java_files)} Java files directly in the leetcode directory.")
+        logger.info("Creating problem directories for these files...")
+        
+        for java_file in java_files:
+            if java_file.name.lower() == 'solution.java' or java_file.name.lower() == 'solutions.java':
+                continue
+                
+            # Try to extract the problem name from the file name
+            file_name = java_file.stem  # Get file name without extension
+            problem_dir = leetcode_dir / file_name
+            problem_dir.mkdir(exist_ok=True)
+            
+            # Copy the file to the new directory
+            with open(java_file, 'r') as source_file:
+                content = source_file.read()
+            
+            target_file = problem_dir / "Solution.java"
+            with open(target_file, 'w') as dest_file:
+                dest_file.write(content)
+            
+            all_problem_dirs.append(problem_dir)
+    
+    if not all_problem_dirs:
+        logger.warning("No problem directories found to process!")
+        return 0
+        
+    logger.info(f"Found {len(all_problem_dirs)} problem directories to process")
+    
+    # Process each problem folder
+    for problem_dir in all_problem_dirs:
             
         solutions_processed += 1
             
         # Extract problem slug from directory name
         dir_name = problem_dir.name
+        problem_slug = None
+        
         try:
-            problem_slug = "-".join(dir_name.split("-")[1:])
-        except:
-            logger.error(f"Could not parse slug from directory: {dir_name}")
+            # Handle different directory naming formats
+            if "-" in dir_name:
+                # Standard format: 1-two-sum
+                parts = dir_name.split("-", 1)
+                if len(parts) == 2:
+                    problem_slug = parts[1]
+                else:
+                    problem_slug = dir_name
+            elif "_" in dir_name:
+                # Alternative format: 1_two_sum or two_sum
+                parts = dir_name.split("_", 1)
+                if len(parts) == 2 and parts[0].isdigit():
+                    problem_slug = parts[1].replace("_", "-")
+                else:
+                    problem_slug = dir_name.replace("_", "-")
+            else:
+                # Try to find slug in solution file
+                solution_files = list(problem_dir.glob("*.java"))
+                if solution_files:
+                    with open(solution_files[0], 'r') as f:
+                        content = f.read()
+                        # Look for URL pattern in comments
+                        url_match = re.search(r'(?:leetcode\.com/problems/|@lc.*id=)([a-zA-Z0-9\-]+)', content)
+                        if url_match:
+                            problem_slug = url_match.group(1)
+                        else:
+                            # Extract title from filename or directory if no URL found
+                            problem_slug = dir_name.lower().replace(" ", "-")
+        except Exception as e:
+            logger.error(f"Could not parse slug from directory: {dir_name}: {str(e)}")
+            errors += 1
+            continue
+        
+        if not problem_slug:
+            logger.error(f"Could not determine problem slug from directory: {dir_name}")
             errors += 1
             continue
             
@@ -118,7 +257,14 @@ def enhance_solutions(leetcode_dir, csrf_token, session_token):
             title = problem_data.get('title', 'Unknown Title')
             problem_id = problem_data.get('questionId', '0')
             difficulty = problem_data.get('difficulty', 'Unknown')
+            category = ""  # Initialize empty category
             content = BeautifulSoup(problem_data.get('content', ''), 'html.parser').get_text()
+            
+            # Initialize empty sections
+            stats_section = ""
+            hints_section = ""
+            code_template = ""
+            test_cases = ""
             
             # Get tags
             tags = [tag.get('name', '') for tag in problem_data.get('topicTags', [])]
@@ -197,13 +343,13 @@ def enhance_solutions(leetcode_dir, csrf_token, session_token):
     
     logger.info(f"Enhancement completed. Processed: {solutions_processed}, Enhanced: {solutions_enhanced}, Errors: {errors}")
     return solutions_enhanced
-
 def main():
     parser = argparse.ArgumentParser(description='Enhance LeetCode solutions with problem details and solutions')
     parser.add_argument('--dir', default='src/com/leetcode', help='Directory containing LeetCode solutions')
     parser.add_argument('--csrf-token', required=True, help='LeetCode CSRF token')
     parser.add_argument('--session-token', required=True, help='LeetCode session token')
     parser.add_argument('--verbose', action='store_true', help='Enable verbose logging')
+    parser.add_argument('--check-auth', action='store_true', help='Only check authentication without processing solutions')
     args = parser.parse_args()
 
     # Set logging level based on verbosity
