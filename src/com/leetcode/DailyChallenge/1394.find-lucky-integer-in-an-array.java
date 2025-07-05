@@ -11,17 +11,16 @@ import java.util.HashMap;
 
 class Solution {
     public int findLucky(int[] arr) {
-        HashMap<Integer, Integer> map = new HashMap<>();
-        for (int i : arr) {
-            map.put(i, map.getOrDefault(i, 0) + 1);
+        int[] freq = new int[501];
+        for(int num : arr) {
+            freq[num]++;
         }
-        int ans = -1;
-        for (int key : map.keySet()) {
-            if(key == map.get(key)) {
-                ans = key;
+        for(int i=500; i>0; i--) {
+            if(freq[i] == i) {
+                return i;
             }
         }
-        return ans;
+        return -1;
     }
 }
 // @lc code=end
