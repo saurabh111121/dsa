@@ -14,13 +14,6 @@ import datetime
 import requests
 from pathlib import Path
 from bs4 import BeautifulSoup
-from selenium import webdriver
-from selenium.webdriver.common.by import By
-from selenium.webdriver.chrome.options import Options
-from selenium.webdriver.chrome.service import Service
-from selenium.webdriver.support.ui import WebDriverWait
-from selenium.webdriver.support import expected_conditions as EC
-from webdriver_manager.chrome import ChromeDriverManager
 
 # Set up logging
 logging.basicConfig(
@@ -47,52 +40,71 @@ class LeetCodeSync:
     def __init__(self):
         """Initialize the LeetCode Sync tool."""
         self.session = requests.Session()
-        self.driver = None
-        self.setup_driver()
         self.solutions_count = 0
         self.problems_data = {}  # Cache for problem data
     
-    def setup_driver(self):
-        """Set up the Chrome WebDriver for browser automation."""
-        chrome_options = Options()
-        chrome_options.add_argument('--headless')
-        chrome_options.add_argument('--no-sandbox')
-        chrome_options.add_argument('--disable-dev-shm-usage')
-        
-        service = Service(ChromeDriverManager().install())
-        self.driver = webdriver.Chrome(service=service, options=chrome_options)
-    
     def login(self):
-        """Log in to LeetCode using the provided credentials."""
+        """Log in to LeetCode using the provided credentials with direct API approach."""
         logger.info("Logging in to LeetCode...")
         
         try:
-            self.driver.get(LOGIN_URL)
+            # Set up common headers
+            headers = {
+                'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36',
+                'Referer': f'{BASE_URL}/',
+                'Origin': BASE_URL
+            }
+            self.session.headers.update(headers)
             
-            # Wait for the login form to load
-            WebDriverWait(self.driver, 10).until(
-                EC.presence_of_element_located((By.ID, "id_login"))
+            # First get the login page to retrieve the CSRF token
+            response = self.session.get(LOGIN_URL)
+            soup = BeautifulSoup(response.text, 'html.parser')
+            
+            # Find the CSRF token
+            csrf_token = None
+            for meta in soup.find_all('meta'):
+                if meta.get('name') == 'csrf-token':
+                    csrf_token = meta.get('content')
+                    break
+                    
+            if not csrf_token:
+                # Try to find it in input fields if not in meta
+                csrf_input = soup.find('input', {'name': 'csrfmiddlewaretoken'})
+                if csrf_input:
+                    csrf_token = csrf_input.get('value')
+            
+            if not csrf_token:
+                logger.error("Could not find CSRF token")
+                return False
+                
+            # Prepare login data
+            login_data = {
+                'login': LEETCODE_USERNAME,
+                'password': LEETCODE_PASSWORD,
+                'csrfmiddlewaretoken': csrf_token,
+                'next': '/'
+            }
+            
+            # Add CSRF token to headers
+            headers['X-CSRFToken'] = csrf_token
+            headers['Referer'] = LOGIN_URL
+            
+            # Perform login
+            response = self.session.post(
+                LOGIN_URL,
+                data=login_data,
+                headers=headers,
+                allow_redirects=True
             )
             
-            # Enter credentials
-            self.driver.find_element(By.ID, "id_login").send_keys(LEETCODE_USERNAME)
-            self.driver.find_element(By.ID, "id_password").send_keys(LEETCODE_PASSWORD)
+            # Check if login was successful
+            if 'leetcode.com/accounts/logout' in response.text or response.url.endswith('/problems'):
+                logger.info("Successfully logged in to LeetCode")
+                return True
+            else:
+                logger.error("Login failed, incorrect response")
+                return False
             
-            # Click login button
-            self.driver.find_element(By.ID, "signin_btn").click()
-            
-            # Wait for successful login
-            WebDriverWait(self.driver, 10).until(
-                EC.url_contains(BASE_URL)
-            )
-            
-            # Transfer cookies to requests session
-            for cookie in self.driver.get_cookies():
-                self.session.cookies.set(cookie['name'], cookie['value'])
-            
-            logger.info("Successfully logged in to LeetCode")
-            return True
-        
         except Exception as e:
             logger.error(f"Login failed: {str(e)}")
             return False
@@ -379,11 +391,6 @@ class LeetCodeSync:
         except Exception as e:
             logger.error(f"Sync process failed: {str(e)}")
             return False
-            
-        finally:
-            # Clean up
-            if self.driver:
-                self.driver.quit()
     
 if __name__ == '__main__':
     sync_tool = LeetCodeSync()
