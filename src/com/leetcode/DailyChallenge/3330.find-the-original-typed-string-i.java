@@ -1,4 +1,4 @@
-package DailyChallenge;
+package com.leetcode.DailyChallenge;
 /*
  * @lc app=leetcode id=3330 lang=java
  *
