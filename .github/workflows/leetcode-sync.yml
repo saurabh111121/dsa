@@ -1,40 +1,55 @@
 name: LeetCode Sync
 
 on:
-  schedule:
-    # Run daily at midnight UTC (5:30 AM IST)
-    - cron: '0 0 * * *'
   workflow_dispatch:  # Allow manual triggering
+  schedule:
+    - cron: "0 0 * * *"  # Run daily at midnight UTC (5:30 AM IST)
 
 jobs:
   sync-leetcode:
     runs-on: ubuntu-latest
+    permissions:
+      contents: write
     steps:
       - name: Checkout repository
         uses: actions/checkout@v3
+
+      - name: Sync LeetCode Solutions
+        uses: joshcai/leetcode-sync@v1.6
+        with:
+          github-token: ${{ github.token }}
+          leetcode-csrf-token: ${{ secrets.LEETCODE_CSRF_TOKEN }}
+          leetcode-session: ${{ secrets.LEETCODE_SESSION }}
+          destination-folder: src/com/leetcode
+          verbose: true
+          commit-header: "[LeetCode Sync]"
+      
+      - name: Verify files synced
+        run: |
+          echo "Listing synced files:"
+          ls -la src/com/leetcode/
+          echo "Number of solution files:"
+          find src/com/leetcode -type f -name "*.java" | wc -l
 
       - name: Set up Python
         uses: actions/setup-python@v4
         with:
           python-version: '3.10'
-
+          
       - name: Install dependencies
         run: |
           python -m pip install --upgrade pip
-          pip install requests beautifulsoup4
+          pip install requests beautifulsoup4 lxml
 
-      - name: Run LeetCode sync script
-        env:
-          LEETCODE_USERNAME: ${{ secrets.LEETCODE_USERNAME }}
-          LEETCODE_PASSWORD: ${{ secrets.LEETCODE_PASSWORD }}
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        run: python scripts/leetcode_sync.py
-
-      - name: Commit and push if there are changes
+      - name: Enhance solution metadata
+        run: |
+          python scripts/leetcode_sync.py --csrf-token "${{ secrets.LEETCODE_CSRF_TOKEN }}" --session-token "${{ secrets.LEETCODE_SESSION }}" --dir "src/com/leetcode" --verbose
+      
+      - name: Commit enhanced metadata
         run: |
           git config --local user.email "action@github.com"
           git config --local user.name "GitHub Action"
-          git add -A
+          git add src/com/leetcode/
           
-          # Attempt to commit and push, but don't fail if there are no changes
-          git diff --quiet && git diff --staged --quiet || (git commit -m "Auto-sync LeetCode solutions [$(date -u '+%Y-%m-%d')]" && git push)
+          # Commit only if there are changes
+          git diff --quiet && git diff --staged --quiet || (git commit -m "[LeetCode Sync] Add detailed problem information" && git push)

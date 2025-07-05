@@ -6,22 +6,40 @@ This repository contains implementations of various data structures and algorith
 
 This repository includes an automated system that syncs all your LeetCode solutions daily. It:
 
-- Fetches all accepted solutions from your LeetCode account (111121saurabh)
-- Creates well-structured solution files with proper formatting
-- Generates comprehensive README files with problem descriptions, difficulty, tags, etc.
-- Organizes solutions by problem number and maintains a separate section for daily challenges
+- Fetches all accepted solutions from your LeetCode account
+- Organizes solutions by problem number in a structured format
+- Enhances each solution with detailed problem information including:
+  - Full problem description
+  - Difficulty level
+  - Topic tags
+  - Official solution from LeetCode (for non-premium problems)
+  - Similar questions with links and difficulty levels
 - Runs automatically every day at midnight UTC (5:30 AM IST)
 
 ### Setup Instructions
 
-To enable the automated sync, add these secrets to your GitHub repository:
+To enable the automated sync, follow these steps:
 
-1. Go to your repository Settings → Secrets and variables → Actions
-2. Add two new repository secrets:
-   - `LEETCODE_USERNAME`: Your LeetCode username
-   - `LEETCODE_PASSWORD`: Your LeetCode password
+1. **Get your LeetCode authentication tokens**:
+   - Log in to LeetCode in your browser
+   - Open developer tools (F12 or right-click > Inspect)
+   - Go to the Application tab (or Storage tab in Firefox)
+   - Look under Cookies > leetcode.com
+   - Find and copy the values for:
+     - `csrftoken`
+     - `LEETCODE_SESSION`
 
-You can also manually trigger the sync by going to the Actions tab and running the "LeetCode Sync" workflow.
+2. **Add authentication tokens as GitHub secrets**:
+   - Go to your repository Settings → Secrets and variables → Actions
+   - Add two new repository secrets:
+     - `LEETCODE_CSRF_TOKEN`: Your LeetCode CSRF token
+     - `LEETCODE_SESSION`: Your LeetCode session cookie
+
+3. **Enable workflow permissions**:
+   - Go to Settings → Actions → General
+   - Under "Workflow permissions", select "Read and write permissions"
+
+You can manually trigger the sync by going to the Actions tab and running the "Sync LeetCode" workflow.
 
 ## Folder Structure
 
@@ -34,8 +52,6 @@ flowchart LR
     com --> leetcode
     interview --> EPAM
     interview --> Samsung
-    leetcode --> solutions["solutions (by problem #)"]
-    leetcode --> daily["daily_challenge (by date)"]
     
     %% Styling
     classDef rootNode fill:#f96,stroke:#333,stroke-width:2px;
@@ -44,8 +60,25 @@ flowchart LR
     
     class src rootNode;
     class com,Algo,dataStructures,interview,leetcode folderNode;
-    class EPAM,Samsung,solutions,daily subfolderNode;
+    class EPAM,Samsung subfolderNode;
 ```
+
+The LeetCode solutions are organized directly under the `src/com/leetcode` directory:
+
+```
+src/com/leetcode/
+├── 1-two-sum/
+│   ├── Solution.java
+│   └── README.md
+├── 2-add-two-numbers/
+│   ├── Solution.java
+│   └── README.md
+└── ...
+```
+
+Each problem directory contains:
+- The solution code in Solution.java
+- A detailed README.md with problem description, difficulty, tags, official solution (where available), and similar questions
 
 ## Resources
 
