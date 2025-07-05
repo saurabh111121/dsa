@@ -1,37 +1,24 @@
-# LeetCode Sync Scripts
+# LeetCode Sync Configuration
 
-This directory contains scripts for automatically synchronizing LeetCode solutions to this GitHub repository.
+This directory originally contained custom Python scripts for synchronizing LeetCode solutions, but we have now switched to using the `joshcai/leetcode-sync` GitHub Action for more reliable operation.
 
-## Main Script: `leetcode_sync.py`
+## Current Approach
 
-The `leetcode_sync.py` script is responsible for:
+The LeetCode sync process now uses:
 
-1. Logging into LeetCode using provided credentials
-2. Fetching all accepted solutions for the specified user (111121saurabh)
-3. Retrieving detailed problem information for each solution
-4. Formatting the code with proper structure and comments
-5. Organizing solutions into a logical directory structure
-6. Generating comprehensive README files for each solution with problem description, difficulty, tags, similar questions, etc.
-7. Tracking daily challenges in a separate directory
+1. The `joshcai/leetcode-sync` GitHub Action to fetch all your solutions from LeetCode
+2. A small Python helper script embedded in the workflow to copy solutions to the daily challenge folder
 
 ## How It Works
 
-The script uses a combination of:
+### Main Sync Process
+- The `joshcai/leetcode-sync` action connects to your LeetCode account using CSRF token and session cookie
+- It fetches all your accepted solutions and organizes them by problem number
+- Solutions are saved to the `src/com/leetcode/solutions` directory
 
-- Selenium WebDriver for LeetCode authentication
-- LeetCode's GraphQL API for fetching problem details
-- Beautiful Soup for parsing HTML content
-- GitHub Actions for scheduling daily runs
-
-## Requirements
-
-The script requires the following Python packages:
-- requests
-- beautifulsoup4
-- selenium
-- webdriver-manager
-
-These are automatically installed by the GitHub Actions workflow.
+### Daily Challenge Organization
+- A Python script copies the most recent solutions to a date-based folder
+- This maintains the organization of solutions by both problem number and date
 
 ## GitHub Actions Configuration
 
@@ -41,37 +28,46 @@ The sync process runs automatically every day at midnight UTC (5:30 AM IST) via 
 
 For this automation to work, you need to add the following secrets to your GitHub repository:
 
-1. `LEETCODE_USERNAME`: Your LeetCode username
-2. `LEETCODE_PASSWORD`: Your LeetCode password
+1. `LEETCODE_CSRF_TOKEN`: Your LeetCode CSRF token
+2. `LEETCODE_SESSION`: Your LeetCode session cookie
 
-To add these secrets:
+To obtain these values:
+1. Log in to LeetCode in your browser
+2. Open browser developer tools (F12 or right-click > Inspect)
+3. Go to the Application tab (or Storage tab in Firefox)
+4. Look under Cookies > leetcode.com
+5. Find the `csrftoken` and `LEETCODE_SESSION` values
+
+To add these as secrets:
 1. Go to your GitHub repository
 2. Click on "Settings" > "Secrets and variables" > "Actions"
 3. Click "New repository secret"
 4. Add each secret with its corresponding value
 
+Additionally, make sure GitHub Actions has write permissions:
+1. Go to Settings > Actions > General
+2. Under "Workflow permissions", select "Read and write permissions"
+
 ## Manual Execution
 
 You can manually trigger the sync process by:
 1. Going to the "Actions" tab in your GitHub repository
-2. Selecting the "LeetCode Sync" workflow
+2. Selecting the "Sync LeetCode" workflow
 3. Clicking "Run workflow"
 
 ## Directory Structure
 
-The script organizes LeetCode solutions as follows:
+The system organizes LeetCode solutions as follows:
 
 ```
 src/
 ├── com/
     ├── leetcode/
         ├── solutions/                 # All solutions by problem number
-        │   ├── p0001_two_sum/
-        │   │   ├── Solution.java
-        │   │   └── README.md          
-        │   ├── p0002_add_two_numbers/
-        │   │   ├── Solution.java
-        │   │   └── README.md
+        │   ├── 1-two-sum/
+        │   │   └── Solution.java
+        │   ├── 2-add-two-numbers/
+        │   │   └── Solution.java
         │   └── ...
         │
         └── daily_challenge/           # Daily challenges by date
@@ -80,7 +76,3 @@ src/
             │   └── README.md
             └── ...
 ```
-
-Each solution includes:
-- The complete solution code with proper formatting
-- A README.md file with problem description, difficulty, tags, similar questions, etc.
