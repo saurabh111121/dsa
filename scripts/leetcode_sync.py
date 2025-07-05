@@ -1,10 +1,6 @@
 #!/usr/bin/env python3
 """
-<<<<<<< HEAD
 LeetCode Solution Enhancement Script
-=======
-LeetCode Solution Sync Script
->>>>>>> 08162721dcdfaed440fb36c8117ac54adec1b141
 This script enhances the LeetCode solutions that have been synced to the repository
 by adding detailed problem information, official solutions, and similar questions.
 It works with solutions fetched by the joshcai/leetcode-sync GitHub Action.
@@ -13,22 +9,10 @@ It works with solutions fetched by the joshcai/leetcode-sync GitHub Action.
 import os
 import json
 import requests
-<<<<<<< HEAD
 from bs4 import BeautifulSoup
 from pathlib import Path
 import argparse
 import logging
-=======
-from bs4 import BeautifulSoup, MarkupResemblesLocatorWarning
-from pathlib import Path
-import argparse
-import logging
-import warnings
-import time
-
-# Suppress specific BeautifulSoup warnings that might cause noise
-warnings.filterwarnings("ignore", category=MarkupResemblesLocatorWarning)
->>>>>>> 08162721dcdfaed440fb36c8117ac54adec1b141
 
 # Set up logging
 logging.basicConfig(
@@ -64,11 +48,7 @@ def enhance_solutions(leetcode_dir, csrf_token, session_token):
         'Referer': 'https://leetcode.com/problems/',
     }
     
-<<<<<<< HEAD
     # GraphQL query for problem details and solution
-=======
-    # GraphQL query for problem details and solution with expanded data
->>>>>>> 08162721dcdfaed440fb36c8117ac54adec1b141
     query = """
     query questionData($titleSlug: String!) {
       question(titleSlug: $titleSlug) {
@@ -77,42 +57,15 @@ def enhance_solutions(leetcode_dir, csrf_token, session_token):
         titleSlug
         content
         difficulty
-<<<<<<< HEAD
-=======
-        stats
-        likes
-        dislikes
-        categoryTitle
->>>>>>> 08162721dcdfaed440fb36c8117ac54adec1b141
         topicTags {
           name
           slug
         }
-<<<<<<< HEAD
-=======
-        codeSnippets {
-          lang
-          langSlug
-          code
-        }
-        hints
->>>>>>> 08162721dcdfaed440fb36c8117ac54adec1b141
         similarQuestions
         solution {
           content
           isPaidOnly
         }
-<<<<<<< HEAD
-=======
-        exampleTestcases
-        metaData
-        sampleTestCase
-        submitStats {
-          acRate
-          totalSubmissionCount
-          totalAcceptedCount
-        }
->>>>>>> 08162721dcdfaed440fb36c8117ac54adec1b141
       }
     }
     """
@@ -121,115 +74,18 @@ def enhance_solutions(leetcode_dir, csrf_token, session_token):
     solutions_enhanced = 0
     errors = 0
     
-<<<<<<< HEAD
     # Process each problem folder
     for problem_dir in leetcode_dir.glob("*-*"):
         if not problem_dir.is_dir():
             continue
-=======
-    # List all files and directories to see what's available
-    logger.info("Listing contents of leetcode directory:")
-    all_files = list(leetcode_dir.glob("*"))
-    for file_path in all_files:
-        if file_path.is_dir():
-            logger.info(f"DIR: {file_path}")
-        else:
-            logger.info(f"FILE: {file_path}")
-    
-    # First, check if we have solution files directly in the leetcode directory
-    java_files = list(leetcode_dir.glob("*.java"))
-    if java_files:
-        logger.info(f"Found {len(java_files)} Java files directly in the leetcode directory")
-        # If we find Java files directly in the leetcode directory, we'll create folders for them
-        for java_file in java_files:
-            # Skip the Solutions.java file if it exists
-            if java_file.name == "Solutions.java":
-                continue
-                
-            # Extract the problem name from the file name
-            file_name = java_file.stem  # Get file name without extension
-            try:
-                # Try to extract problem number and name
-                if "-" in file_name:
-                    # Already in the expected format
-                    problem_dir = leetcode_dir / file_name
-                elif "_" in file_name:
-                    # Convert underscore format to dash format
-                    parts = file_name.split("_", 1)
-                    if len(parts) == 2:
-                        problem_dir = leetcode_dir / f"{parts[0]}-{parts[1]}"
-                    else:
-                        problem_dir = leetcode_dir / file_name
-                else:
-                    # Just use the file name as is
-                    problem_dir = leetcode_dir / file_name
-                
-                # Create the directory if it doesn't exist
-                problem_dir.mkdir(exist_ok=True)
-                
-                # Copy the Java file into the new directory
-                with open(java_file, 'r') as source_file:
-                    content = source_file.read()
-                
-                target_file = problem_dir / "Solution.java"
-                with open(target_file, 'w') as dest_file:
-                    dest_file.write(content)
-                
-                logger.info(f"Created directory and moved solution for {file_name}")
-                
-            except Exception as e:
-                logger.error(f"Error processing Java file {file_name}: {str(e)}")
-                continue
-    
-    # Process each problem folder - look for directories with hyphen or any directory containing Java files
-    potential_problem_dirs = []
-    
-    # Add directories with hyphen format
-    for dir_path in leetcode_dir.glob("*-*"):
-        if dir_path.is_dir():
-            potential_problem_dirs.append(dir_path)
-    
-    # Add other directories that contain Java files
-    for dir_path in leetcode_dir.glob("*"):
-        if dir_path.is_dir() and dir_path not in potential_problem_dirs:
-            if list(dir_path.glob("*.java")):
-                potential_problem_dirs.append(dir_path)
-    
-    logger.info(f"Found {len(potential_problem_dirs)} potential problem directories")
-    
-    # Process each problem directory
-    for problem_dir in potential_problem_dirs:
->>>>>>> 08162721dcdfaed440fb36c8117ac54adec1b141
             
         solutions_processed += 1
             
         # Extract problem slug from directory name
         dir_name = problem_dir.name
         try:
-<<<<<<< HEAD
             problem_slug = "-".join(dir_name.split("-")[1:])
         except:
-=======
-            # Handle different naming conventions
-            if "-" in dir_name:
-                # Standard format: 1-two-sum
-                parts = dir_name.split("-", 1)
-                if len(parts) == 2:
-                    problem_slug = parts[1]
-                else:
-                    problem_slug = dir_name
-            elif "_" in dir_name:
-                # Alternate format: 1_two_sum
-                parts = dir_name.split("_", 1)
-                if len(parts) == 2:
-                    problem_slug = parts[1].replace("_", "-")
-                else:
-                    problem_slug = dir_name.replace("_", "-")
-            else:
-                # No separator, just use as is
-                problem_slug = dir_name
-        except Exception as e:
->>>>>>> 08162721dcdfaed440fb36c8117ac54adec1b141
             logger.error(f"Could not parse slug from directory: {dir_name}")
             errors += 1
             continue
@@ -238,36 +94,12 @@ def enhance_solutions(leetcode_dir, csrf_token, session_token):
         
         # Query LeetCode for problem details
         try:
-<<<<<<< HEAD
             response = requests.post(
                 graphql_url,
                 headers=headers,
                 cookies=cookies,
                 json={'query': query, 'variables': {'titleSlug': problem_slug}}
             )
-=======
-            # Add retries for API requests
-            max_retries = 3
-            retry_delay = 2
-            
-            for retry in range(max_retries):
-                try:
-                    response = requests.post(
-                        graphql_url,
-                        headers=headers,
-                        cookies=cookies,
-                        json={'query': query, 'variables': {'titleSlug': problem_slug}},
-                        timeout=30  # Add timeout to prevent hanging
-                    )
-                    break
-                except requests.exceptions.RequestException as e:
-                    if retry < max_retries - 1:
-                        logger.warning(f"Request failed for {problem_slug}, retrying in {retry_delay}s: {str(e)}")
-                        time.sleep(retry_delay)
-                        retry_delay *= 2  # Exponential backoff
-                    else:
-                        raise
->>>>>>> 08162721dcdfaed440fb36c8117ac54adec1b141
             
             if response.status_code != 200:
                 logger.error(f"Failed to fetch details for {problem_slug}: {response.status_code}")
@@ -282,7 +114,6 @@ def enhance_solutions(leetcode_dir, csrf_token, session_token):
                 errors += 1
                 continue
                 
-<<<<<<< HEAD
             # Extract problem details
             title = problem_data.get('title', 'Unknown Title')
             problem_id = problem_data.get('questionId', '0')
@@ -333,176 +164,6 @@ def enhance_solutions(leetcode_dir, csrf_token, session_token):
                     solution_content = "\n\n## Official Solution\n*This is a premium-only solution. Subscribe to LeetCode Premium for access.*"
             
             # Create README content
-=======
-            # Extract problem details with graceful fallbacks
-            try:
-                title = problem_data.get('title', 'Unknown Title')
-                problem_id = problem_data.get('questionId', '0')
-                difficulty = problem_data.get('difficulty', 'Unknown')
-                category = problem_data.get('categoryTitle', '')
-                
-                # Process content if available
-                content = "No problem description available."
-                if problem_data.get('content'):
-                    try:
-                        # Use lxml parser if available, fallback to html.parser
-                        try:
-                            content = BeautifulSoup(problem_data.get('content', ''), 'lxml').get_text()
-                        except:
-                            content = BeautifulSoup(problem_data.get('content', ''), 'html.parser').get_text()
-                    except Exception as e:
-                        logger.warning(f"Could not parse problem description for {problem_slug}: {str(e)}")
-                
-                # Process stats
-                stats_json = {}
-                try:
-                    if problem_data.get('stats'):
-                        stats_json = json.loads(problem_data.get('stats', '{}'))
-                except Exception as e:
-                    logger.warning(f"Could not parse stats for {problem_slug}: {str(e)}")
-                
-                # Process submit stats
-                submit_stats = problem_data.get('submitStats', {})
-                ac_rate = submit_stats.get('acRate', 'N/A')
-                total_submissions = submit_stats.get('totalSubmissionCount', 'N/A')
-                total_accepted = submit_stats.get('totalAcceptedCount', 'N/A')
-                
-                # Process hints
-                hints = problem_data.get('hints', [])
-                hints_str = ""
-                if hints:
-                    hints_list = [f"- {hint}" for hint in hints]
-                    hints_str = "\n".join(hints_list)
-                
-                # Process example testcases
-                example_testcases = problem_data.get('exampleTestcases', '')
-                
-                # Get code snippets
-                code_snippets = problem_data.get('codeSnippets', [])
-                java_snippet = None
-                for snippet in code_snippets:
-                    if snippet.get('lang') == 'Java':
-                        java_snippet = snippet.get('code', '')
-                        break
-            except Exception as e:
-                logger.warning(f"Error processing basic problem metadata for {problem_slug}: {str(e)}")
-                title = f"Problem {problem_slug}"
-                problem_id = '0'
-                difficulty = 'Unknown'
-                content = "Failed to retrieve problem description."
-            
-            # Get tags with graceful fallbacks
-            tags_str = ""
-            try:
-                tags = [tag.get('name', '') for tag in problem_data.get('topicTags', []) if tag and tag.get('name')]
-                if tags:
-                    tags_str = '\n'.join([f'- {tag}' for tag in tags])
-                else:
-                    tags_str = "No tags available."
-            except Exception as e:
-                logger.warning(f"Error processing tags for {problem_slug}: {str(e)}")
-                tags_str = "Failed to retrieve tags."
-            
-            # Parse similar questions with graceful fallbacks
-            similar_questions_content = ""
-            try:
-                similar_questions = []
-                similar_questions_raw = problem_data.get('similarQuestions', '')
-                if similar_questions_raw:
-                    try:
-                        similar_questions_data = json.loads(similar_questions_raw)
-                        for question in similar_questions_data:
-                            if question:
-                                similar_questions.append({
-                                    'title': question.get('title', 'Unknown'),
-                                    'titleSlug': question.get('titleSlug', ''),
-                                    'difficulty': question.get('difficulty', 'Unknown')
-                                })
-                    except json.JSONDecodeError:
-                        logger.warning(f"Failed to parse similar questions JSON for problem {problem_id}")
-                
-                # Format similar questions section
-                if similar_questions:
-                    similar_questions_list = []
-                    for q in similar_questions:
-                        q_title = q.get('title', 'Unknown')
-                        q_slug = q.get('titleSlug', '')
-                        q_difficulty = q.get('difficulty', 'Unknown')
-                        # Only add if we have a slug to link to
-                        if q_slug:
-                            similar_questions_list.append(f"- [{q_title}](https://leetcode.com/problems/{q_slug}/) ({q_difficulty})")
-                    if similar_questions_list:
-                        similar_questions_content = "\n\n## Similar Questions\n" + "\n".join(similar_questions_list)
-            except Exception as e:
-                logger.warning(f"Error processing similar questions for {problem_slug}: {str(e)}")
-            
-            # Process solution content if available, with graceful fallbacks
-            solution_content = ""
-            try:
-                solution_data = problem_data.get('solution', {})
-                if solution_data:
-                    is_paid_only = solution_data.get('isPaidOnly', True)
-                    if not is_paid_only and solution_data.get('content'):
-                        # Parse HTML solution to markdown
-                        try:
-                            solution_html = solution_data.get('content', '')
-                            # Use lxml parser if available, fallback to html.parser
-                            try:
-                                solution_text = BeautifulSoup(solution_html, 'lxml').get_text()
-                            except:
-                                solution_text = BeautifulSoup(solution_html, 'html.parser').get_text()
-                            if solution_text.strip():
-                                solution_content = f"\n\n## Official Solution\n{solution_text}"
-                            else:
-                                solution_content = "\n\n## Official Solution\n*No solution content available.*"
-                        except Exception as e:
-                            logger.warning(f"Error parsing solution HTML for {problem_slug}: {str(e)}")
-                            solution_content = "\n\n## Official Solution\n*Error parsing solution content.*"
-                    elif is_paid_only:
-                        solution_content = "\n\n## Official Solution\n*This is a premium-only solution. Subscribe to LeetCode Premium for access.*"
-            except Exception as e:
-                logger.warning(f"Error processing solution data for {problem_slug}: {str(e)}")
-            
-            # Create problem stats section
-            stats_section = ""
-            if ac_rate != 'N/A' or total_accepted != 'N/A':
-                stats_section = f"""
-## Problem Stats
-- **Acceptance Rate**: {ac_rate}
-- **Total Submissions**: {total_submissions}
-- **Accepted Submissions**: {total_accepted}
-"""
-
-            # Create hints section
-            hints_section = ""
-            if hints_str:
-                hints_section = f"""
-## Hints
-{hints_str}
-"""
-
-            # Create code template section
-            code_template = ""
-            if java_snippet:
-                code_template = f"""
-## Code Template
-```java
-{java_snippet}
-```
-"""
-
-            # Create example testcases section
-            test_cases = ""
-            if example_testcases:
-                test_cases = f"""
-## Example Test Cases
-```
-{example_testcases}
-```
-"""
-
-            # Create README content with enhanced information
->>>>>>> 08162721dcdfaed440fb36c8117ac54adec1b141
             readme_content = f"""# [{problem_id}] {title}
 
 ## Problem Description
@@ -535,10 +196,6 @@ def enhance_solutions(leetcode_dir, csrf_token, session_token):
             errors += 1
     
     logger.info(f"Enhancement completed. Processed: {solutions_processed}, Enhanced: {solutions_enhanced}, Errors: {errors}")
-<<<<<<< HEAD
-=======
-    logger.info("Note: Some problems may have partial data if certain fields couldn't be fetched, but the script continued processing.")
->>>>>>> 08162721dcdfaed440fb36c8117ac54adec1b141
     return solutions_enhanced
 
 def main():
