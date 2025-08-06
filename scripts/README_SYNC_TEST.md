@@ -2,9 +2,41 @@
 
 This document explains how to troubleshoot the LeetCode sync process when you encounter errors.
 
-## Common Error: "submissions is not iterable"
+## Common Error 1: "submissions is not iterable"
 
 If you're seeing the error `TypeError: response.data.data.submissionList.submissions is not iterable` in your GitHub Actions logs, this typically means that your LeetCode authentication tokens have expired. LeetCode session tokens typically expire after some time (usually a few weeks to months), requiring you to refresh them.
+
+## Common Error 2: "HttpError: Reference cannot be updated"
+
+If you're seeing the error `HttpError: Reference cannot be updated` in your GitHub Actions logs, this is a GitHub permissions issue. This happens when the GitHub Action tries to commit changes to your repository but doesn't have sufficient permissions.
+
+### How to Fix "Reference cannot be updated" Error
+
+1. **Enable Write Permissions for GitHub Actions**:
+   - Go to your repository on GitHub
+   - Click on "Settings" > "Actions" > "General"
+   - Under "Workflow permissions", select "Read and write permissions"
+   - Click "Save"
+
+2. **Verify Repository Permissions**:
+   - Make sure your workflow has the proper permissions by adding this to your workflow file:
+   ```yaml
+   permissions:
+     contents: write
+   ```
+
+3. **Check Branch Protection Rules**:
+   - If you have branch protection rules, make sure they allow GitHub Actions to push to the branch
+   - Go to Settings > Branches > Branch protection rules
+   - Consider adjusting the rules to allow GitHub Actions to push to the branch
+
+4. **Use Personal Access Token** (if above steps don't work):
+   - Create a Personal Access Token with `repo` scope
+   - Add it as a repository secret (e.g., `PERSONAL_ACCESS_TOKEN`)
+   - Use it in your workflow instead of `${{ github.token }}`:
+   ```yaml
+   github-token: ${{ secrets.PERSONAL_ACCESS_TOKEN }}
+   ```
 
 ## How to Test Your LeetCode Sync Configuration
 
