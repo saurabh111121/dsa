@@ -23,6 +23,89 @@ logging.basicConfig(
 )
 logger = logging.getLogger('leetcode_sync')
 
+def test_leetcode_api(graphql_url, headers, cookies):
+    """
+    Test the LeetCode API to verify credentials and API availability.
+    
+    Args:
+        graphql_url (str): LeetCode GraphQL endpoint
+        headers (dict): HTTP headers for the request
+        cookies (dict): Cookies for authentication
+        
+    Returns:
+        bool: True if API is working and credentials are valid, False otherwise
+    """
+    # Get recent submissions query
+    recent_submissions_query = """
+    query recentSubmissions {
+      submissionList(limit: 1) {
+        submissions {
+          id
+          title
+          titleSlug
+          status
+          statusDisplay
+          lang
+          timestamp
+        }
+      }
+    }
+    """
+    
+    try:
+        logger.info("Testing LeetCode API access...")
+        response = requests.post(
+            graphql_url,
+            headers=headers,
+            cookies=cookies,
+            json={'query': recent_submissions_query},
+            timeout=30
+        )
+        
+        # Check response status
+        if response.status_code != 200:
+            logger.error(f"API test failed with status code: {response.status_code}")
+            logger.error(f"Response: {response.text}")
+            return False
+            
+        # Check if response has expected structure
+        data = response.json()
+        
+        # Check if data is properly structured
+        if not data.get('data'):
+            logger.error("API response missing data field")
+            logger.error(f"Response: {json.dumps(data)}")
+            return False
+            
+        if not data.get('data', {}).get('submissionList'):
+            logger.error("API response missing submissionList field")
+            logger.error(f"Response: {json.dumps(data)}")
+            return False
+            
+        submissions = data.get('data', {}).get('submissionList', {}).get('submissions')
+        if submissions is None:
+            logger.error("API response has null submissions field - likely expired session token")
+            logger.error("Please refresh your LeetCode CSRF and session tokens")
+            return False
+            
+        if not isinstance(submissions, list):
+            logger.error(f"API response submissions field is not a list: {type(submissions)}")
+            logger.error(f"Response: {json.dumps(data)}")
+            return False
+            
+        # Log success
+        if len(submissions) > 0:
+            submission = submissions[0]
+            logger.info(f"Successfully retrieved submission for '{submission.get('title', 'Unknown')}' in {submission.get('lang', 'Unknown')}")
+        else:
+            logger.info("API accessible but no recent submissions found")
+            
+        return True
+        
+    except Exception as e:
+        logger.error(f"Error testing LeetCode API: {str(e)}")
+        return False
+
 def enhance_solutions(leetcode_dir, csrf_token, session_token):
     """
     Enhance LeetCode solutions with problem details, solutions, and similar questions.
@@ -96,6 +179,7 @@ def enhance_solutions(leetcode_dir, csrf_token, session_token):
         if test_response.status_code != 200:
             logger.error(f"Authentication test failed with status code: {test_response.status_code}")
             logger.error(f"Response: {test_response.text}")
+            return 0
         else:
             test_data = test_response.json()
             user_status = test_data.get('data', {}).get('userStatus', {})
@@ -104,11 +188,19 @@ def enhance_solutions(leetcode_dir, csrf_token, session_token):
             
             if is_signed_in:
                 logger.info(f"Successfully authenticated as: {username}")
+                
+                # Test the API specifically for submissions endpoint
+                if not test_leetcode_api(graphql_url, headers, cookies):
+                    logger.error("LeetCode API test failed - cannot proceed with enhancement")
+                    logger.error("Please check your LEETCODE_CSRF_TOKEN and LEETCODE_SESSION values")
+                    logger.error("These tokens may have expired and need to be refreshed")
+                    return 0
             else:
                 logger.error("Not signed in to LeetCode. Check your credentials.")
                 return 0
     except Exception as e:
         logger.error(f"Error testing authentication: {str(e)}")
+        return 0
     
     # GraphQL query for problem details and solution
     query = """
@@ -343,6 +435,7 @@ def enhance_solutions(leetcode_dir, csrf_token, session_token):
     
     logger.info(f"Enhancement completed. Processed: {solutions_processed}, Enhanced: {solutions_enhanced}, Errors: {errors}")
     return solutions_enhanced
+
 def main():
     parser = argparse.ArgumentParser(description='Enhance LeetCode solutions with problem details and solutions')
     parser.add_argument('--dir', default='src/com/leetcode', help='Directory containing LeetCode solutions')
@@ -363,6 +456,30 @@ def main():
         leetcode_dir.mkdir(parents=True, exist_ok=True)
 
     logger.info("Starting LeetCode solution enhancement")
+    
+    # Check if we're only testing authentication
+    if args.check_auth:
+        # LeetCode GraphQL endpoint
+        graphql_url = "https://leetcode.com/graphql"
+        
+        # Set headers with the session cookies
+        cookies = {
+            'csrftoken': args.csrf_token,
+            'LEETCODE_SESSION': args.session_token,
+        }
+        
+        headers = {
+            'Content-Type': 'application/json',
+            'X-CSRFToken': args.csrf_token,
+            'Referer': 'https://leetcode.com/problems/',
+            'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36'
+        }
+        
+        test_leetcode_api(graphql_url, headers, cookies)
+        logger.info("Authentication check completed.")
+        exit(0)
+    
+    # Otherwise, proceed with enhancement
     try:
         enhanced_count = enhance_solutions(args.dir, args.csrf_token, args.session_token)
         logger.info(f"Successfully enhanced {enhanced_count} solutions")
