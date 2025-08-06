@@ -19,10 +19,17 @@ jobs:
       - name: Create necessary directories
         run: mkdir -p src/com/leetcode
       
+      - name: Generate Personal Access Token
+        id: generate-token
+        uses: actions/create-github-app-token@v1
+        with:
+          app-id: ${{ secrets.APP_ID }}
+          private-key: ${{ secrets.PRIVATE_KEY }}
+          
       - name: Sync LeetCode Solutions
         uses: joshcai/leetcode-sync@v1.7
         with:
-          github-token: ${{ github.token }}
+          github-token: ${{ secrets.PERSONAL_ACCESS_TOKEN || github.token }}  # Use Personal Access Token if available
           leetcode-csrf-token: ${{ secrets.LEETCODE_CSRF_TOKEN }}
           leetcode-session: ${{ secrets.LEETCODE_SESSION }}
           destination-folder: src/com/leetcode
