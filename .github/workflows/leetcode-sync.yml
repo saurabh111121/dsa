@@ -11,19 +11,18 @@ jobs:
     permissions:
       contents: write
     steps:
-      - name: Checkout repository
+      # First checkout main branch
+      - name: Checkout main branch
         uses: actions/checkout@v3
         with:
           fetch-depth: 0  # Fetch all history for proper commits
-          # Create and checkout a new branch for LeetCode sync
-          ref: leetcode-sync-branch
       
-      # Create the leetcode-sync-branch if it doesn't exist
-      - name: Create branch if not exists
+      # Create and checkout the leetcode-sync-branch
+      - name: Create and checkout leetcode-sync branch
         run: |
           git fetch origin
           git checkout -B leetcode-sync-branch
-          git push -u origin leetcode-sync-branch
+          git push -u origin leetcode-sync-branch || echo "Branch exists or couldn't be pushed, continuing..."
       
       - name: Create necessary directories
         run: mkdir -p src/com/leetcode
