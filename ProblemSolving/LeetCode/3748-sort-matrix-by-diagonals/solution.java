@@ -1,42 +1,30 @@
 class Solution {
+
     public int[][] sortMatrix(int[][] grid) {
         int n = grid.length;
 
-        for (int d = 0; d < n; d++) {
-            sortDiagonal(grid, d, 0, false);
+        for (int i = 0; i < n; i++) {
+            List<Integer> tmp = new ArrayList<>();
+            for (int j = 0; i + j < n; j++) {
+                tmp.add(grid[i + j][j]);
+            }
+            tmp.sort(Collections.reverseOrder());
+            for (int j = 0; i + j < n; j++) {
+                grid[i + j][j] = tmp.get(j);
+            }
         }
 
-        for (int d = 1; d < n; d++) {
-            sortDiagonal(grid, 0, d, true);
+        for (int j = 1; j < n; j++) {
+            List<Integer> tmp = new ArrayList<>();
+            for (int i = 0; j + i < n; i++) {
+                tmp.add(grid[i][j + i]);
+            }
+            Collections.sort(tmp);
+            for (int i = 0; j + i < n; i++) {
+                grid[i][j + i] = tmp.get(i);
+            }
         }
 
         return grid;
-    }
-
-    private void sortDiagonal(int[][] grid, int row, int col, boolean ascending) {
-        int n = grid.length;
-        int[] freq = new int[200001];
-        int offset = 100000;
-
-        int r = row, c = col;
-        while (r < n && c < n) {
-            freq[grid[r][c] + offset]++;
-            r++;
-            c++;
-        }
-
-        r = row;
-        c = col;
-        int index = ascending ? 0 : 200000;
-
-        while (r < n && c < n) {
-            while (freq[index] == 0) {
-                index += ascending ? 1 : -1;
-            }
-            grid[r][c] = index - offset;
-            freq[index]--;
-            r++;
-            c++;
-        }
     }
 }
