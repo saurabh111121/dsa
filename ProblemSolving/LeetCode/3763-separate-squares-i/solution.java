@@ -1,41 +1,26 @@
-
 class Solution {
     public double separateSquares(int[][] squares) {
-        Arrays.sort(squares, Comparator.comparingInt(a -> a[1]));
-
-        double totalArea = 0;
-        for (int[] square : squares) {
-            totalArea += (double) square[2] * square[2];
+        long total = 0;
+        HashMap<Long, Long> diff = new HashMap<>();
+        for (int[] sq : squares) {
+            long y = sq[1], s = sq[2];
+            total += s * s;
+            diff.put(y, diff.getOrDefault(y, 0L) + s);
+            diff.put(y + s, diff.getOrDefault(y + s, 0L) - s);
         }
-
-        double targetArea = totalArea / 2;
-        double low = squares[0][1];
-        double high = low;
-        
-        for (int[] square : squares) {
-            high = Math.max(high, square[1] + square[2]);
+        long[] curr = new long[diff.size()];
+        int idx = 0;
+        for (long k : diff.keySet())
+            curr[idx++] = k;
+        Arrays.sort(curr);
+        long area = 0, target = 0;
+        for (int i = 0; i + 1 < curr.length; i++) {
+            long y = curr[i], y2 = curr[i + 1];
+            target += diff.get(y);
+            area += target * (y2 - y);
+            if (area * 2L >= total)
+                return (double) y2 - (double) (area * 2L - total) / (double) (target * 2L);
         }
-
-        while (high - low > 1e-6) {
-            double mid = (low + high) / 2;
-            if (calculateAreaBelow(squares, mid) < targetArea) {
-                low = mid;
-            } else {
-                high = mid;
-            }
-        }
-        return low;
-    }
-
-    private double calculateAreaBelow(int[][] squares, double y) {
-        double areaBelow = 0;
-        for (int[] square : squares) {
-            double bottom = square[1], top = bottom + square[2];
-
-            if (y > bottom) {
-                areaBelow += Math.min(y - bottom, square[2]) * square[2];
-            }
-        }
-        return areaBelow;
+        return (double) curr[curr.length - 1];
     }
 }
