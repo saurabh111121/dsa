@@ -1,5 +1,3 @@
-package com.interview.EPAM;
-
 import java.util.*;
 import java.util.stream.Collectors;
 

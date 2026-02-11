@@ -1,11 +1,3 @@
-/*
- * @lc app=leetcode id=1 lang=java
- *
- * [1] Two Sum
- */
-
-// @lc code=start
-
 import java.util.HashMap;
 
 class Solution {
@@ -18,6 +10,9 @@ class Solution {
             map.put(nums[i], i);
         }
         throw new IllegalArgumentException("No two sum solution"); 
+    }
+    public static void main(String[] args){
+        System.out.println("Hello World.");
     }
 }
 // @lc code=end
