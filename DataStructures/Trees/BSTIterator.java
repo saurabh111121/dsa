@@ -39,10 +39,10 @@ public class BSTIterator {
     // =====================================================
     // BST Iterator Class
     // =====================================================
-    static class BSTIterator {
+    static class Iterator {
         private Stack<TreeNode> stack = new Stack<>();
 
-        public BSTIterator(TreeNode root) {
+        public Iterator(TreeNode root) {
             pushAllLeft(root);
         }
 
@@ -76,7 +76,7 @@ public class BSTIterator {
         for (int val : values) root = insertBSTRecursive(root, val);
 
         System.out.println("BST Iterator Traversal (Next Elements):");
-        BSTIterator iterator = new BSTIterator(root);
+        Iterator iterator = new Iterator(root);
         while (iterator.hasNext()) {
             System.out.print(iterator.next() + " ");
         }
