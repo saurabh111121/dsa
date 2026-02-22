@@ -500,6 +500,528 @@ Self-balancing BST – maintains balance factor (−1, 0, +1) at every node.
 
 ---
 
+## 🔗 LinkedLists
+
+> 📂 All files: [`DataStructures/LinkedLists/`](https://github.com/saurabh111121/dsa/tree/main/DataStructures/LinkedLists)
+
+<details>
+<summary><b>📋 All Files – Quick Reference (click to expand)</b></summary>
+
+| # | File | Key Operations |
+|---|------|----------------|
+| 1 | [Node.java](https://github.com/saurabh111121/dsa/blob/main/DataStructures/LinkedLists/Node.java) | Base node: val, next, prev |
+| 2 | [SinglyLinkedList.java](https://github.com/saurabh111121/dsa/blob/main/DataStructures/LinkedLists/SinglyLinkedList.java) | Insert/Delete/Search/Reverse/Middle/NthFromEnd |
+| 3 | [DoublyLinkedList.java](https://github.com/saurabh111121/dsa/blob/main/DataStructures/LinkedLists/DoublyLinkedList.java) | Bidirectional traversal, O(1) delete given node |
+| 4 | [CircularLinkedList.java](https://github.com/saurabh111121/dsa/blob/main/DataStructures/LinkedLists/CircularLinkedList.java) | Insert/Delete/Search, Floyd's cycle detection |
+| 5 | [LinkedListAdvancedOperations.java](https://github.com/saurabh111121/dsa/blob/main/DataStructures/LinkedLists/LinkedListAdvancedOperations.java) | Merge, Rotate, Palindrome, Intersection, Sort |
+
+</details>
+
+<details>
+<summary><b>1. Node</b> – Base Node Structure</summary>
+
+| Operation | Time | Space |
+|-----------|------|-------|
+| Access val | O(1) | O(1) |
+
+- Fields: `val`, `next`, `prev`
+- Used by all linked list variants
+</details>
+
+<details>
+<summary><b>2. SinglyLinkedList</b> – One-directional linked list</summary>
+
+| Operation | Time | Space |
+|-----------|------|-------|
+| Insert at Head | O(1) | O(1) |
+| Insert at Tail | O(n) | O(1) |
+| Insert at Index | O(n) | O(1) |
+| Delete Head | O(1) | O(1) |
+| Delete Tail | O(n) | O(1) |
+| Delete by Value | O(n) | O(1) |
+| Search | O(n) | O(1) |
+| Find Middle (slow-fast) | O(n) | O(1) |
+| Find Nth from End | O(n) | O(1) |
+| Reverse iterative | O(n) | O(1) |
+| Reverse recursive | O(n) | O(n) |
+
+</details>
+
+<details>
+<summary><b>3. DoublyLinkedList</b> – Bidirectional linked list</summary>
+
+| Operation | Time | Space |
+|-----------|------|-------|
+| Insert/Delete Head or Tail | O(1) | O(1) |
+| Insert/Delete at Index | O(n) | O(1) |
+| Delete given node reference | O(1) | O(1) |
+| Forward/Backward traversal | O(n) | O(1) |
+| Reverse | O(n) | O(1) |
+
+</details>
+
+<details>
+<summary><b>4. CircularLinkedList</b> – Circular structure with cycle utilities</summary>
+
+| Operation | Time | Space |
+|-----------|------|-------|
+| Insert/Delete | O(n) | O(1) |
+| Search | O(n) | O(1) |
+| Detect Cycle (Floyd's) | O(n) | O(1) |
+| Find Cycle Start | O(n) | O(1) |
+
+</details>
+
+<details>
+<summary><b>5. LinkedListAdvancedOperations</b> – Complex list problems</summary>
+
+| Operation | Time | Space |
+|-----------|------|-------|
+| Merge Sorted (recursive) | O(n+m) | O(n+m) |
+| Merge Sorted (iterative) | O(n+m) | O(1) |
+| Remove Duplicates (sorted) | O(n) | O(1) |
+| Remove Duplicates (unsorted) | O(n) | O(n) |
+| Partition | O(n) | O(1) |
+| Rotate Right | O(n) | O(1) |
+| Is Palindrome | O(n) | O(1) |
+| Intersection (length-diff) | O(n+m) | O(1) |
+| Add Two Numbers | O(max(n,m)) | O(max(n,m)) |
+| Swap Pairs | O(n) | O(1) |
+| Merge Sort | O(n log n) | O(log n) |
+
+</details>
+
+---
+
+## 📚 Stacks
+
+> 📂 All files: [`DataStructures/Stacks/`](https://github.com/saurabh111121/dsa/tree/main/DataStructures/Stacks)
+
+<details>
+<summary><b>📋 All Files – Quick Reference (click to expand)</b></summary>
+
+| # | File | Key Operations |
+|---|------|----------------|
+| 1 | [StackUsingArray.java](https://github.com/saurabh111121/dsa/blob/main/DataStructures/Stacks/StackUsingArray.java) | FixedStack, DynamicStack (amortized O(1) push) |
+| 2 | [StackUsingLinkedList.java](https://github.com/saurabh111121/dsa/blob/main/DataStructures/Stacks/StackUsingLinkedList.java) | push/pop/peek O(1), no size limit |
+| 3 | [StackApplications.java](https://github.com/saurabh111121/dsa/blob/main/DataStructures/Stacks/StackApplications.java) | Balanced parens, Postfix eval, NGE, MinStack, Decode |
+
+</details>
+
+<details>
+<summary><b>1. StackUsingArray</b> – Array-backed stack</summary>
+
+| Operation | Time | Space |
+|-----------|------|-------|
+| push | O(1) amortized | O(1) |
+| pop | O(1) | O(1) |
+| peek | O(1) | O(1) |
+| search | O(n) | O(1) |
+
+- `FixedStack`: static capacity; `DynamicStack`: doubles when full
+</details>
+
+<details>
+<summary><b>2. StackUsingLinkedList</b> – Node-backed stack</summary>
+
+| Operation | Time | Space |
+|-----------|------|-------|
+| push / pop / peek | O(1) | O(1) |
+| search | O(n) | O(1) |
+
+- No fixed size limit; slight extra pointer overhead vs array
+</details>
+
+<details>
+<summary><b>3. StackApplications</b> – Classic stack problems</summary>
+
+| Problem | Time | Space |
+|---------|------|-------|
+| isBalanced (parens) | O(n) | O(n) |
+| reverseString | O(n) | O(n) |
+| evaluatePostfix | O(n) | O(n) |
+| infixToPostfix | O(n) | O(n) |
+| nextGreaterElement | O(n) | O(n) |
+| prevGreaterElement | O(n) | O(n) |
+| stockSpan | O(n) | O(n) |
+| MinStack (push/pop/getMin) | O(1) | O(n) |
+| sortStack | O(n²) | O(n) |
+| decodeString | O(n·k) | O(n) |
+
+</details>
+
+---
+
+## 📬 Queues
+
+> 📂 All files: [`DataStructures/Queues/`](https://github.com/saurabh111121/dsa/tree/main/DataStructures/Queues)
+
+<details>
+<summary><b>📋 All Files – Quick Reference (click to expand)</b></summary>
+
+| # | File | Key Operations |
+|---|------|----------------|
+| 1 | [QueueUsingArray.java](https://github.com/saurabh111121/dsa/blob/main/DataStructures/Queues/QueueUsingArray.java) | SimpleQueue O(n) dequeue; CircularQueue O(1) all ops |
+| 2 | [QueueUsingLinkedList.java](https://github.com/saurabh111121/dsa/blob/main/DataStructures/Queues/QueueUsingLinkedList.java) | All ops O(1) |
+| 3 | [QueueUsingTwoStacks.java](https://github.com/saurabh111121/dsa/blob/main/DataStructures/Queues/QueueUsingTwoStacks.java) | Lazy/Eager queue, StackUsingQueues |
+| 4 | [PriorityQueueOperations.java](https://github.com/saurabh111121/dsa/blob/main/DataStructures/Queues/PriorityQueueOperations.java) | Min/Max PQ, Kth Largest/Smallest, Merge K sorted |
+| 5 | [DequeOperations.java](https://github.com/saurabh111121/dsa/blob/main/DataStructures/Queues/DequeOperations.java) | All ends O(1), Sliding Window Max, Palindrome |
+
+</details>
+
+<details>
+<summary><b>1. QueueUsingArray</b> – Array-backed queue variants</summary>
+
+| Variant | enqueue | dequeue |
+|---------|---------|---------|
+| SimpleQueue | O(1) | O(n) shifting |
+| CircularQueue | O(1) | O(1) ✅ |
+
+</details>
+
+<details>
+<summary><b>2. QueueUsingLinkedList</b> – Node-backed queue</summary>
+
+| Operation | Time |
+|-----------|------|
+| enqueue / dequeue / peek / size | O(1) |
+
+</details>
+
+<details>
+<summary><b>3. QueueUsingTwoStacks</b> – Dual-stack implementations</summary>
+
+| Variant | enqueue | dequeue |
+|---------|---------|---------|
+| QueueLazy | O(1) | O(1) amortized |
+| QueueEager | O(n) | O(1) |
+| StackUsingQueues | push O(n) | pop O(1) |
+
+</details>
+
+<details>
+<summary><b>4. PriorityQueueOperations</b> – Heap-based priority queue</summary>
+
+| Operation | Time |
+|-----------|------|
+| offer / poll | O(log n) |
+| peek | O(1) |
+| Kth Largest / Smallest | O(n log k) |
+| Merge K Sorted Lists | O(n log k) |
+| Top K Frequent | O(n log k) |
+
+</details>
+
+<details>
+<summary><b>5. DequeOperations</b> – Double-ended queue</summary>
+
+| Operation | Time |
+|-----------|------|
+| addFirst/addLast/removeFirst/removeLast/peek | O(1) |
+| Sliding Window Maximum | O(n) |
+| isPalindromeDeque | O(n) |
+
+</details>
+
+---
+
+## 📊 Graphs
+
+> 📂 All files: [`DataStructures/Graphs/`](https://github.com/saurabh111121/dsa/tree/main/DataStructures/Graphs)
+
+<details>
+<summary><b>📋 All Files – Quick Reference (click to expand)</b></summary>
+
+| # | File | Key Operations |
+|---|------|----------------|
+| 1 | [GraphRepresentations.java](https://github.com/saurabh111121/dsa/blob/main/DataStructures/Graphs/GraphRepresentations.java) | AdjMatrix, AdjList, WeightedAdjList, EdgeList |
+| 2 | [GraphTraversals.java](https://github.com/saurabh111121/dsa/blob/main/DataStructures/Graphs/GraphTraversals.java) | BFS, DFS (recursive+iterative), Cycle detection |
+| 3 | [GraphShortestPath.java](https://github.com/saurabh111121/dsa/blob/main/DataStructures/Graphs/GraphShortestPath.java) | Dijkstra, Bellman-Ford, BFS shortest, Topo Sort |
+| 4 | [GraphAdvanced.java](https://github.com/saurabh111121/dsa/blob/main/DataStructures/Graphs/GraphAdvanced.java) | Union-Find, Kruskal MST, Prim MST, Islands, Bipartite |
+
+</details>
+
+<details>
+<summary><b>1. GraphRepresentations</b> – Graph storage structures</summary>
+
+| Representation | Space | addEdge | hasEdge | getNeighbors |
+|----------------|-------|---------|---------|--------------|
+| AdjacencyMatrix | O(V²) | O(1) | O(1) | O(V) |
+| AdjacencyList | O(V+E) | O(1) | O(deg) | O(1) |
+| WeightedAdjList | O(V+E) | O(1) | O(deg) | O(1) |
+| EdgeList | O(E) | O(1) | O(E) | O(E) |
+
+</details>
+
+<details>
+<summary><b>2. GraphTraversals</b> – BFS/DFS and cycle detection</summary>
+
+| Algorithm | Time | Space |
+|-----------|------|-------|
+| BFS iterative | O(V+E) | O(V) |
+| DFS recursive | O(V+E) | O(V) |
+| DFS iterative | O(V+E) | O(V) |
+| BFS Level Order | O(V+E) | O(V) |
+| Cycle Detection Undirected (BFS+DFS) | O(V+E) | O(V) |
+| Cycle Detection Directed (DFS 3-color) | O(V+E) | O(V) |
+
+</details>
+
+<details>
+<summary><b>3. GraphShortestPath</b> – Shortest path algorithms</summary>
+
+| Algorithm | Time | Space | Notes |
+|-----------|------|-------|-------|
+| Dijkstra | O((V+E) log V) | O(V) | No negative edges |
+| Bellman-Ford | O(V·E) | O(V) | Handles negatives |
+| BFS Shortest Path | O(V+E) | O(V) | Unweighted only |
+| Topological Sort (Kahn's BFS) | O(V+E) | O(V) | DAG only |
+| Topological Sort (DFS) | O(V+E) | O(V) | DAG only |
+
+</details>
+
+<details>
+<summary><b>4. GraphAdvanced</b> – MST, Union-Find, advanced problems</summary>
+
+| Algorithm | Time | Space |
+|-----------|------|-------|
+| Union-Find (path compression) | O(α(n)) | O(V) |
+| Kruskal MST | O(E log E) | O(V) |
+| Prim MST | O((V+E) log V) | O(V) |
+| Number of Islands (DFS/BFS) | O(M·N) | O(M·N) |
+| Bipartite Check (BFS/DFS) | O(V+E) | O(V) |
+
+</details>
+
+---
+
+## #️⃣ HashTables
+
+> 📂 All files: [`DataStructures/HashTables/`](https://github.com/saurabh111121/dsa/tree/main/DataStructures/HashTables)
+
+<details>
+<summary><b>📋 All Files – Quick Reference (click to expand)</b></summary>
+
+| # | File | Key Operations |
+|---|------|----------------|
+| 1 | [HashMapImplementation.java](https://github.com/saurabh111121/dsa/blob/main/DataStructures/HashTables/HashMapImplementation.java) | Custom HashMap, Separate Chaining, resize at 0.75 LF |
+| 2 | [HashSetImplementation.java](https://github.com/saurabh111121/dsa/blob/main/DataStructures/HashTables/HashSetImplementation.java) | Custom HashSet, Linear Probing, common Set problems |
+| 3 | [HashCollisionStrategies.java](https://github.com/saurabh111121/dsa/blob/main/DataStructures/HashTables/HashCollisionStrategies.java) | Chaining, Linear/Quadratic Probing, Double Hashing |
+
+</details>
+
+<details>
+<summary><b>1. HashMapImplementation</b> – Custom HashMap with Separate Chaining</summary>
+
+| Operation | Avg | Worst |
+|-----------|-----|-------|
+| put / get / remove | O(1) | O(n) |
+| resize (at 0.75 load) | O(n) | O(n) |
+| keys() / values() | O(n+cap) | O(n+cap) |
+
+</details>
+
+<details>
+<summary><b>2. HashSetImplementation</b> – Custom HashSet with Linear Probing</summary>
+
+| Operation | Avg | Worst |
+|-----------|-----|-------|
+| add / contains / remove | O(1) | O(n) |
+| removeDuplicates / twoSum / findDuplicates / intersection / longestConsecutive | O(n) | O(n) |
+
+</details>
+
+<details>
+<summary><b>3. HashCollisionStrategies</b> – Collision resolution techniques</summary>
+
+| Strategy | Avg | Worst | Notes |
+|----------|-----|-------|-------|
+| Separate Chaining | O(1) | O(n) | Linked list buckets |
+| Linear Probing | O(1) | O(n) | Sequential scan |
+| Quadratic Probing | O(1) | O(n) | i² step jumps |
+| Double Hashing | O(1) | O(n) | Two hash functions |
+
+</details>
+
+---
+
+## 🏔️ Heaps
+
+> 📂 All files: [`DataStructures/Heaps/`](https://github.com/saurabh111121/dsa/tree/main/DataStructures/Heaps)
+
+<details>
+<summary><b>📋 All Files – Quick Reference (click to expand)</b></summary>
+
+| # | File | Key Operations |
+|---|------|----------------|
+| 1 | [MinHeap.java](https://github.com/saurabh111121/dsa/blob/main/DataStructures/Heaps/MinHeap.java) | insert, extractMin, buildHeap O(n), heapSort, decreaseKey |
+| 2 | [MaxHeap.java](https://github.com/saurabh111121/dsa/blob/main/DataStructures/Heaps/MaxHeap.java) | insert, extractMax, buildHeap O(n), in-place heapSort, increaseKey |
+| 3 | [HeapApplications.java](https://github.com/saurabh111121/dsa/blob/main/DataStructures/Heaps/HeapApplications.java) | MedianFinder, K Closest Points, Reorganize String, Task Scheduler |
+
+</details>
+
+<details>
+<summary><b>1. MinHeap</b> – Min-heap implementation</summary>
+
+| Operation | Time |
+|-----------|------|
+| insert | O(log n) |
+| extractMin | O(log n) |
+| peekMin | O(1) |
+| buildHeap | O(n) |
+| heapSort | O(n log n) |
+| decreaseKey | O(log n) |
+| deleteAt | O(log n) |
+| contains | O(n) |
+
+</details>
+
+<details>
+<summary><b>2. MaxHeap</b> – Max-heap implementation</summary>
+
+| Operation | Time |
+|-----------|------|
+| insert | O(log n) |
+| extractMax | O(log n) |
+| peekMax | O(1) |
+| buildHeap | O(n) |
+| heapSort (in-place) | O(n log n) |
+| increaseKey | O(log n) |
+
+- Both iterative and recursive heapifyUp/Down variants
+</details>
+
+<details>
+<summary><b>3. HeapApplications</b> – Heap-based problem solving</summary>
+
+| Problem | Time | Space |
+|---------|------|-------|
+| MedianFinder – addNum | O(log n) | O(n) |
+| MedianFinder – findMedian | O(1) | — |
+| K Closest Points | O(n log k) | O(k) |
+| Reorganize String | O(n log n) | O(n) |
+| Task Scheduler | O(n) | O(1) |
+| K Pairs Smallest Sums | O(k log k) | O(k) |
+
+</details>
+
+---
+
+## 🗺️ Maps
+
+> 📂 All files: [`DataStructures/Maps/`](https://github.com/saurabh111121/dsa/tree/main/DataStructures/Maps)
+
+<details>
+<summary><b>📋 All Files – Quick Reference (click to expand)</b></summary>
+
+| # | File | Key Operations |
+|---|------|----------------|
+| 1 | [MapOperations.java](https://github.com/saurabh111121/dsa/blob/main/DataStructures/Maps/MapOperations.java) | HashMap, LinkedHashMap, TreeMap, LRU Cache, Applications |
+
+</details>
+
+<details>
+<summary><b>1. MapOperations</b> – Map variants and applications</summary>
+
+| Operation | HashMap | LinkedHashMap | TreeMap |
+|-----------|---------|---------------|---------|
+| put / get / remove | O(1) avg | O(1) avg | O(log n) |
+| Ordering | None | Insertion order | Sorted |
+| firstKey / lastKey | — | — | O(log n) |
+| floorKey / ceilingKey | — | — | O(log n) |
+| headMap / tailMap | — | — | O(log n) |
+
+**Applications:** `frequencyCount`, `groupAnagrams`, `wordCount` — all O(n)
+
+**LRU Cache** (LinkedHashMap): `get` O(1), `put` O(1)
+</details>
+
+---
+
+## 🔷 Sets
+
+> 📂 All files: [`DataStructures/Sets/`](https://github.com/saurabh111121/dsa/tree/main/DataStructures/Sets)
+
+<details>
+<summary><b>📋 All Files – Quick Reference (click to expand)</b></summary>
+
+| # | File | Key Operations |
+|---|------|----------------|
+| 1 | [SetOperations.java](https://github.com/saurabh111121/dsa/blob/main/DataStructures/Sets/SetOperations.java) | HashSet, LinkedHashSet, TreeSet, Set operations, Applications |
+
+</details>
+
+<details>
+<summary><b>1. SetOperations</b> – Set variants and applications</summary>
+
+| Operation | HashSet | LinkedHashSet | TreeSet |
+|-----------|---------|---------------|---------|
+| add / remove / contains | O(1) avg | O(1) avg | O(log n) |
+| Ordering | None | Insertion order | Sorted |
+| floor / ceiling | — | — | O(log n) |
+| headSet / tailSet | — | — | O(log n) |
+
+| Set Problem | Time | Space |
+|-------------|------|-------|
+| Union / Intersection / Difference | O(n) | O(n) |
+| SymmetricDifference | O(n) | O(n) |
+| isSubset | O(n) | O(1) |
+| isAnagram | O(n) | O(1) |
+| firstUniqueChar | O(n) | O(1) |
+| distinctInWindow | O(n) | O(k) |
+
+</details>
+
+---
+
+## 🌿 Tries
+
+> 📂 All files: [`DataStructures/Tries/`](https://github.com/saurabh111121/dsa/tree/main/DataStructures/Tries)
+
+<details>
+<summary><b>📋 All Files – Quick Reference (click to expand)</b></summary>
+
+| # | File | Key Operations |
+|---|------|----------------|
+| 1 | [TrieBasic.java](https://github.com/saurabh111121/dsa/blob/main/DataStructures/Tries/TrieBasic.java) | insert, search, startsWith, delete, printAll, LCP |
+| 2 | [TrieAdvanced.java](https://github.com/saurabh111121/dsa/blob/main/DataStructures/Tries/TrieAdvanced.java) | WordSearchII, WordBreak, ReplaceWords, MagicDictionary, Autocomplete |
+
+</details>
+
+<details>
+<summary><b>1. TrieBasic</b> – Core Trie operations</summary>
+
+| Operation | Time | Space |
+|-----------|------|-------|
+| insert | O(m) | O(m) |
+| search | O(m) | O(1) |
+| startsWith | O(m) | O(1) |
+| delete (recursive) | O(m) | O(m) |
+| delete (iterative) | O(m) | O(1) |
+| countWordsWithPrefix | O(m) | O(1) |
+| printAllWords | O(n·m) | O(n·m) |
+| longestCommonPrefix | O(n·m) | O(1) |
+
+*m = word length, n = number of words. Space: O(26·n·m) worst case*
+</details>
+
+<details>
+<summary><b>2. TrieAdvanced</b> – Advanced Trie problems</summary>
+
+| Problem | Time | Space |
+|---------|------|-------|
+| Word Search II | O(M·N·4^L) | O(W·L) |
+| Word Break (DP + Trie) | O(n²) | O(n) |
+| Replace Words | O(total chars) | O(total chars) |
+| Magic Dictionary (build) | O(W·L) | O(W·L) |
+| Magic Dictionary (search DFS) | O(26·L) | O(L) |
+| Autocomplete System (insert) | O(L·unique) | O(L) |
+| Autocomplete System (query) | O(L + k log k) | O(results) |
+
+</details>
+
+---
+
 ## Learning Path
 
 1. Arrays → LinkedLists → Stacks & Queues → Trees → Graphs → Heaps → HashTables → Tries / Sets / Maps
