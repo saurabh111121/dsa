@@ -8,7 +8,7 @@ This folder contains implementations of fundamental data structures in Java.
 
 | Section | Topics |
 |---------|--------|
-| [Arrays](Arrays/) | Insertion, Deletion, Search, 2D Arrays |
+| [Arrays](Arrays/) | Insertion, Deletion, Search, Update, Traversal, Advanced, Matrix, Subarray, Merge/Split, Dynamic Array |
 | [LinkedLists](LinkedLists/) | Singly, Doubly, Circular |
 | [Stacks](Stacks/) | Array-based, Linked list-based, Applications |
 | [Queues](Queues/) | Simple, Circular, Priority, Deque |
@@ -19,6 +19,159 @@ This folder contains implementations of fundamental data structures in Java.
 | [Tries](Tries/) | Prefix Tree, Autocomplete |
 | [Sets](Sets/) | Set operations, Union-Find |
 | [Maps](Maps/) | TreeMap, HashMap |
+
+---
+
+## 📦 Arrays
+
+> 📂 All files: [`DataStructures/Arrays/`](https://github.com/saurabh111121/dsa/tree/main/DataStructures/Arrays)
+
+<details>
+<summary><b>📋 All Files – Quick Reference (click to expand)</b></summary>
+
+| # | File | Category | Key Operations |
+|---|------|----------|----------------|
+| 1 | [ArrayAdvancedOperations.java](https://github.com/saurabh111121/dsa/blob/main/DataStructures/Arrays/ArrayAdvancedOperations.java) | Advanced | Reverse, Rotate (L/R), Max, Min, Sum |
+| 2 | [ArrayDeletionOperations.java](https://github.com/saurabh111121/dsa/blob/main/DataStructures/Arrays/ArrayDeletionOperations.java) | Deletion | Delete from end/start/index, Delete multiple |
+| 3 | [ArrayInsertionOperations.java](https://github.com/saurabh111121/dsa/blob/main/DataStructures/Arrays/ArrayInsertionOperations.java) | Insertion | Insert at end/start/index, Insert multiple |
+| 4 | [ArrayMergeSplit.java](https://github.com/saurabh111121/dsa/blob/main/DataStructures/Arrays/ArrayMergeSplit.java) | Merge & Split | Merge two arrays, Split at index |
+| 5 | [ArraySearchOperations.java](https://github.com/saurabh111121/dsa/blob/main/DataStructures/Arrays/ArraySearchOperations.java) | Search | Linear Search, Binary Search |
+| 6 | [ArrayTraversalOperations.java](https://github.com/saurabh111121/dsa/blob/main/DataStructures/Arrays/ArrayTraversalOperations.java) | Traversal | For loop, Enhanced for-each loop |
+| 7 | [ArrayUpdateOperations.java](https://github.com/saurabh111121/dsa/blob/main/DataStructures/Arrays/ArrayUpdateOperations.java) | Update | Update element at index |
+| 8 | [DynamicArray.java](https://github.com/saurabh111121/dsa/blob/main/DataStructures/Arrays/DynamicArray.java) | Dynamic Array | add(), get(), remove(), resize (auto-doubling) |
+| 9 | [MatrixAdvancedOperations.java](https://github.com/saurabh111121/dsa/blob/main/DataStructures/Arrays/MatrixAdvancedOperations.java) | Matrix – Advanced | Transpose, Diagonal Sums, Spiral Traversal |
+| 10 | [MatrixOperations.java](https://github.com/saurabh111121/dsa/blob/main/DataStructures/Arrays/MatrixOperations.java) | Matrix | Traversal, Sum, 90° Clockwise Rotation |
+| 11 | [SubarrayOperations.java](https://github.com/saurabh111121/dsa/blob/main/DataStructures/Arrays/SubarrayOperations.java) | Subarray | Kadane's Algorithm (Max Subarray Sum) |
+
+</details>
+
+---
+
+<details>
+<summary><b>1. Insertion</b> – <a href="https://github.com/saurabh111121/dsa/blob/main/DataStructures/Arrays/ArrayInsertionOperations.java">ArrayInsertionOperations.java</a></summary>
+
+| Operation | Time | Space |
+|-----------|------|-------|
+| Insert at end | O(n) | O(n) |
+| Insert at beginning | O(n) | O(n) |
+| Insert at specific index | O(n) | O(n) |
+| Insert multiple at index | O(n) | O(n) |
+
+> All operations create a new array (Java arrays are fixed-size).
+
+</details>
+
+<details>
+<summary><b>2. Deletion</b> – <a href="https://github.com/saurabh111121/dsa/blob/main/DataStructures/Arrays/ArrayDeletionOperations.java">ArrayDeletionOperations.java</a></summary>
+
+| Operation | Time | Space |
+|-----------|------|-------|
+| Delete from end | O(n) | O(n) |
+| Delete from beginning | O(n) | O(n) |
+| Delete at specific index | O(n) | O(n) |
+| Delete multiple from index | O(n) | O(n) |
+
+</details>
+
+<details>
+<summary><b>3. Search</b> – <a href="https://github.com/saurabh111121/dsa/blob/main/DataStructures/Arrays/ArraySearchOperations.java">ArraySearchOperations.java</a></summary>
+
+| Operation | Requirement | Time | Space |
+|-----------|-------------|------|-------|
+| Linear Search | Unsorted array | O(n) | O(1) |
+| Binary Search | **Sorted array** | O(log n) | O(1) |
+
+</details>
+
+<details>
+<summary><b>4. Update</b> – <a href="https://github.com/saurabh111121/dsa/blob/main/DataStructures/Arrays/ArrayUpdateOperations.java">ArrayUpdateOperations.java</a></summary>
+
+| Operation | Time | Space |
+|-----------|------|-------|
+| Update element at index | O(1) | O(1) |
+
+</details>
+
+<details>
+<summary><b>5. Traversal</b> – <a href="https://github.com/saurabh111121/dsa/blob/main/DataStructures/Arrays/ArrayTraversalOperations.java">ArrayTraversalOperations.java</a></summary>
+
+| Operation | Time | Space |
+|-----------|------|-------|
+| for loop traversal | O(n) | O(1) |
+| Enhanced for-each traversal | O(n) | O(1) |
+
+</details>
+
+<details>
+<summary><b>6. Advanced Operations</b> – <a href="https://github.com/saurabh111121/dsa/blob/main/DataStructures/Arrays/ArrayAdvancedOperations.java">ArrayAdvancedOperations.java</a></summary>
+
+| Operation | Description | Time | Space |
+|-----------|-------------|------|-------|
+| Reverse | Two-pointer swap in-place | O(n) | O(1) |
+| Rotate Right by k | Reverse 3-step approach | O(n) | O(1) |
+| Rotate Left by k | Reverse 3-step approach | O(n) | O(1) |
+| Find Max | Linear scan | O(n) | O(1) |
+| Find Min | Linear scan | O(n) | O(1) |
+| Sum of elements | Linear scan | O(n) | O(1) |
+
+</details>
+
+<details>
+<summary><b>7. Merge & Split</b> – <a href="https://github.com/saurabh111121/dsa/blob/main/DataStructures/Arrays/ArrayMergeSplit.java">ArrayMergeSplit.java</a></summary>
+
+| Operation | Time | Space |
+|-----------|------|-------|
+| Merge two arrays | O(n + m) | O(n + m) |
+| Split array at index | O(n) | O(n) |
+
+</details>
+
+<details>
+<summary><b>8. Subarray (Kadane's Algorithm)</b> – <a href="https://github.com/saurabh111121/dsa/blob/main/DataStructures/Arrays/SubarrayOperations.java">SubarrayOperations.java</a></summary>
+
+| Operation | Description | Time | Space |
+|-----------|-------------|------|-------|
+| Max Subarray Sum | Kadane's Algorithm | O(n) | O(1) |
+| Get Max Subarray | Kadane's with index tracking | O(n) | O(k) |
+
+</details>
+
+<details>
+<summary><b>9. Dynamic Array</b> – <a href="https://github.com/saurabh111121/dsa/blob/main/DataStructures/Arrays/DynamicArray.java">DynamicArray.java</a></summary>
+
+Simulates an `ArrayList` with auto-resizing (doubles capacity on overflow).
+
+| Operation | Time | Space |
+|-----------|------|-------|
+| `add(value)` | O(1) amortized | O(n) on resize |
+| `get(index)` | O(1) | O(1) |
+| `remove(index)` | O(n) | O(1) |
+| `resize()` (internal) | O(n) | O(n) |
+
+</details>
+
+<details>
+<summary><b>10. Matrix Operations</b> – <a href="https://github.com/saurabh111121/dsa/blob/main/DataStructures/Arrays/MatrixOperations.java">MatrixOperations.java</a></summary>
+
+| Operation | Time | Space |
+|-----------|------|-------|
+| Row-wise traversal | O(n×m) | O(1) |
+| Sum of all elements | O(n×m) | O(1) |
+| 90° Clockwise Rotation | O(n²) | O(n²) |
+
+</details>
+
+<details>
+<summary><b>11. Matrix Advanced Operations</b> – <a href="https://github.com/saurabh111121/dsa/blob/main/DataStructures/Arrays/MatrixAdvancedOperations.java">MatrixAdvancedOperations.java</a></summary>
+
+| Operation | Description | Time | Space |
+|-----------|-------------|------|-------|
+| Transpose | Swap `[i][j]` ↔ `[j][i]` into new matrix | O(n×m) | O(n×m) |
+| Main Diagonal Sum | Sum `matrix[i][i]` | O(n) | O(1) |
+| Secondary Diagonal Sum | Sum `matrix[i][n-1-i]` | O(n) | O(1) |
+| Spiral Traversal | Layer-by-layer boundary traversal | O(n×m) | O(1) |
+
+</details>
 
 ---
 
