@@ -190,7 +190,7 @@ Simulates an `ArrayList` with auto-resizing (doubles capacity on overflow).
 | 4 | [BinaryTreeAllDeletions.java](https://github.com/saurabh111121/dsa/blob/main/DataStructures/Trees/BinaryTreeAllDeletions.java) | Deletion | BST (rec/itr), Level Order, Special Deletions |
 | 5 | [BinaryTreeAllInsertions.java](https://github.com/saurabh111121/dsa/blob/main/DataStructures/Trees/BinaryTreeAllInsertions.java) | Insertion | BST (rec/itr), Level Order, Special Insertions |
 | 6 | [BinaryTreeAllSearches.java](https://github.com/saurabh111121/dsa/blob/main/DataStructures/Trees/BinaryTreeAllSearches.java) | Search | BST (rec/itr), Min/Max, DFS, BFS, Parent, Level |
-| 7 | [BinaryTreeAllTraversals.java](https://github.com/saurabh111121/dsa/blob/main/DataStructures/Trees/BinaryTreeAllTraversals.java) | Traversal | Inorder, Preorder, Postorder, Level Order |
+| 7 | [BinaryTreeTraversals.java](https://github.com/saurabh111121/dsa/blob/main/DataStructures/Trees/BinaryTreeTraversals.java) | Traversal | Inorder, Preorder, Postorder, Level Order |
 | 8 | [BinaryTreeDiameter.java](https://github.com/saurabh111121/dsa/blob/main/DataStructures/Trees/BinaryTreeDiameter.java) | Metrics | Diameter – Naive O(n²), Optimized O(n) |
 | 9 | [BinaryTreeFileSerialization.java](https://github.com/saurabh111121/dsa/blob/main/DataStructures/Trees/BinaryTreeFileSerialization.java) | Serialization | Serialize/Deserialize to/from file |
 | 10 | [BinaryTreeHeightDepth.java](https://github.com/saurabh111121/dsa/blob/main/DataStructures/Trees/BinaryTreeHeightDepth.java) | Metrics | Height (rec/itr), Node Depth, Max/Min Depth |
@@ -259,7 +259,7 @@ Simulates an `ArrayList` with auto-resizing (doubles capacity on overflow).
 </details>
 
 <details>
-<summary><b>4. Traversals</b> – <a href="https://github.com/saurabh111121/dsa/blob/main/DataStructures/Trees/BinaryTreeAllTraversals.java">BinaryTreeAllTraversals.java</a></summary>
+<summary><b>4. Traversals</b> – <a href="https://github.com/saurabh111121/dsa/blob/main/DataStructures/Trees/BinaryTreeTraversals.java">BinaryTreeTraversals.java</a></summary>
 
 | Traversal | Order | Type |
 |-----------|-------|------|
