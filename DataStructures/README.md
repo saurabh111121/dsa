@@ -1022,9 +1022,75 @@ Self-balancing BST – maintains balance factor (−1, 0, +1) at every node.
 
 ---
 
-## Learning Path
+## 🗺️ Learning Path
 
-1. Arrays → LinkedLists → Stacks & Queues → Trees → Graphs → Heaps → HashTables → Tries / Sets / Maps
+> Recommended overall order: **Arrays → LinkedLists → Stacks → Queues → Trees → Graphs → Heaps → HashTables → Tries → Sets → Maps**
 
-### Trees – Suggested Order
+---
+
+### 📦 Arrays – Suggested Order
+`Traversal` → `Search` → `Update` → `Insertion` → `Deletion` → `Advanced Ops` → `Merge & Split` → `Subarray (Kadane's)` → `Matrix` → `Matrix Advanced` → `Dynamic Array`
+
+---
+
+### 🔗 LinkedLists – Suggested Order
+`Node` → `SinglyLinkedList` → `DoublyLinkedList` → `CircularLinkedList` → `Advanced Operations`
+
+---
+
+### 📚 Stacks – Suggested Order
+`StackUsingArray` → `StackUsingLinkedList` → `StackApplications`
+
+> Focus order in Applications: Balanced Parens → Reverse → Postfix Eval → Infix to Postfix → NGE → Prev Greater → Stock Span → MinStack → Sort Stack → Decode String
+
+---
+
+### 📬 Queues – Suggested Order
+`QueueUsingArray` → `QueueUsingLinkedList` → `QueueUsingTwoStacks` → `DequeOperations` → `PriorityQueueOperations`
+
+> Focus order in PQ: Min/Max basics → Kth Largest → Kth Smallest → Merge K Sorted → Top K Frequent
+
+---
+
+### 🌳 Trees – Suggested Order
 `TreeNode` → `Insertions` → `Traversals` → `Height/Depth` → `Node Counts` → `Properties` → `Searches` → `Deletions` → `Paths` → `LCA` → `Mirror` → `Diameter` → `Views` → `LevelSums` → `Zigzag` → `Serialization` → `LeetCode Style` → `SameTree` → `BST Validation` → `Kth Element` → `BST Iterator` → `Advanced BST Ops` → `Advanced Path Queries` → `Morris Traversal` → `AVL Tree`
+
+---
+
+### 📊 Graphs – Suggested Order
+`GraphRepresentations` → `GraphTraversals` → `GraphShortestPath` → `GraphAdvanced`
+
+> Focus order in Traversals: BFS → DFS Recursive → DFS Iterative → Cycle Detection Undirected → Cycle Detection Directed
+> Focus order in ShortestPath: BFS Unweighted → Dijkstra → Bellman-Ford → Topo Sort (Kahn's) → Topo Sort (DFS)
+> Focus order in Advanced: Union-Find → Kruskal MST → Prim MST → Number of Islands → Bipartite Check
+
+---
+
+### 🏔️ Heaps – Suggested Order
+`MinHeap` → `MaxHeap` → `HeapApplications`
+
+> Focus order in Applications: MedianFinder → K Closest Points → Reorganize String → Task Scheduler → K Pairs Smallest Sums
+
+---
+
+### #️⃣ HashTables – Suggested Order
+`HashMapImplementation` → `HashCollisionStrategies` → `HashSetImplementation`
+
+> Focus order in Collision Strategies: Separate Chaining → Linear Probing → Quadratic Probing → Double Hashing
+
+---
+
+### 🌿 Tries – Suggested Order
+`TrieBasic` → `TrieAdvanced`
+
+> Focus order in Advanced: Replace Words → Word Break → Magic Dictionary → Word Search II → Autocomplete System
+
+---
+
+### 🗺️ Maps – Suggested Order
+`MapOperations` — start with HashMap basics → LRU Cache → LinkedHashMap → TreeMap range ops → Applications
+
+---
+
+### 🔷 Sets – Suggested Order
+`SetOperations` — start with HashSet basics → Set math (Union/Intersection/Diff) → LinkedHashSet → TreeSet range ops → Applications
