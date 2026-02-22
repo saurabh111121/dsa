@@ -28,10 +28,10 @@ public class Knapsack {
     public static int knapsack01(int[] weights, int[] values, int capacity) {
         int n = weights.length;
         int[][] dp = new int[n + 1][capacity + 1];
-        for (int i = 1; i <= n; i++)
-            for (int w = 0; w <= capacity; w++) {
+        for(int i = 1; i <= n; i++)
+            for(int w = 0; w <= capacity; w++) {
                 dp[i][w] = dp[i-1][w];
-                if (weights[i-1] <= w)
+                if(weights[i-1] <= w)
                     dp[i][w] = Math.max(dp[i][w], dp[i-1][w - weights[i-1]] + values[i-1]);
             }
         return dp[n][capacity];
@@ -40,8 +40,8 @@ public class Knapsack {
     /** Space-optimized 1D */
     public static int knapsack01Opt(int[] weights, int[] values, int capacity) {
         int[] dp = new int[capacity + 1];
-        for (int i = 0; i < weights.length; i++)
-            for (int w = capacity; w >= weights[i]; w--)
+        for(int i = 0; i < weights.length; i++)
+            for(int w = capacity; w >= weights[i]; w--)
                 dp[w] = Math.max(dp[w], dp[w - weights[i]] + values[i]);
         return dp[capacity];
     }
@@ -52,9 +52,9 @@ public class Knapsack {
 
     public static int unboundedKnapsack(int[] weights, int[] values, int capacity) {
         int[] dp = new int[capacity + 1];
-        for (int w = 1; w <= capacity; w++)
-            for (int i = 0; i < weights.length; i++)
-                if (weights[i] <= w)
+        for(int w = 1; w <= capacity; w++)
+            for(int i = 0; i < weights.length; i++)
+                if(weights[i] <= w)
                     dp[w] = Math.max(dp[w], dp[w - weights[i]] + values[i]);
         return dp[capacity];
     }
@@ -66,8 +66,8 @@ public class Knapsack {
     public static boolean subsetSum(int[] nums, int target) {
         boolean[] dp = new boolean[target + 1];
         dp[0] = true;
-        for (int n : nums)
-            for (int j = target; j >= n; j--)
+        for(int n : nums)
+            for(int j = target; j >= n; j--)
                 dp[j] |= dp[j - n];
         return dp[target];
     }
@@ -78,7 +78,7 @@ public class Knapsack {
 
     public static boolean canPartition(int[] nums) {
         int sum = Arrays.stream(nums).sum();
-        if (sum % 2 != 0) return false;
+        if(sum % 2 != 0) return false;
         return subsetSum(nums, sum / 2);
     }
 
@@ -89,8 +89,8 @@ public class Knapsack {
     public static int countSubsets(int[] nums, int target) {
         int[] dp = new int[target + 1];
         dp[0] = 1;
-        for (int n : nums)
-            for (int j = target; j >= n; j--)
+        for(int n : nums)
+            for(int j = target; j >= n; j--)
                 dp[j] += dp[j - n];
         return dp[target];
     }
@@ -103,11 +103,11 @@ public class Knapsack {
         int sum = Arrays.stream(nums).sum();
         boolean[] dp = new boolean[sum / 2 + 1];
         dp[0] = true;
-        for (int n : nums)
-            for (int j = sum / 2; j >= n; j--)
+        for(int n : nums)
+            for(int j = sum / 2; j >= n; j--)
                 dp[j] |= dp[j - n];
-        for (int j = sum / 2; j >= 0; j--)
-            if (dp[j]) return sum - 2 * j;
+        for(int j = sum / 2; j >= 0; j--)
+            if(dp[j]) return sum - 2 * j;
         return sum;
     }
 
@@ -117,8 +117,8 @@ public class Knapsack {
 
     public static int rodCutting(int[] prices, int n) {
         int[] dp = new int[n + 1];
-        for (int i = 1; i <= n; i++)
-            for (int j = 0; j < prices.length && j < i; j++)
+        for(int i = 1; i <= n; i++)
+            for(int j = 0; j < prices.length && j < i; j++)
                 dp[i] = Math.max(dp[i], prices[j] + dp[i - (j + 1)]);
         return dp[n];
     }
@@ -129,12 +129,12 @@ public class Knapsack {
 
     public static int findTargetSumWays(int[] nums, int target) {
         int sum = Arrays.stream(nums).sum();
-        if (Math.abs(target) > sum || (sum + target) % 2 != 0) return 0;
+        if(Math.abs(target) > sum || (sum + target) % 2 != 0) return 0;
         int pos = (sum + target) / 2;   // count subsets summing to pos
         int[] dp = new int[pos + 1];
         dp[0] = 1;
-        for (int n : nums)
-            for (int j = pos; j >= n; j--)
+        for(int n : nums)
+            for(int j = pos; j >= n; j--)
                 dp[j] += dp[j - n];
         return dp[pos];
     }

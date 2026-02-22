@@ -29,9 +29,9 @@ public class ThreadedBSTMorris {
     // 1️⃣ BST INSERT - RECURSIVE
     // =====================================================
     public static TreeNode insertBSTRecursive(TreeNode root, int val) {
-        if (root == null) return new TreeNode(val);
-        if (val < root.val) root.left = insertBSTRecursive(root.left, val);
-        else if (val > root.val) root.right = insertBSTRecursive(root.right, val);
+        if(root == null) return new TreeNode(val);
+        if(val < root.val) root.left = insertBSTRecursive(root.left, val);
+        else if(val > root.val) root.right = insertBSTRecursive(root.right, val);
         return root;
     }
 
@@ -40,17 +40,17 @@ public class ThreadedBSTMorris {
     // =====================================================
     public static TreeNode insertBSTIterative(TreeNode root, int val) {
         TreeNode newNode = new TreeNode(val);
-        if (root == null) return newNode;
+        if(root == null) return newNode;
 
         TreeNode current = root, parent = null;
-        while (current != null) {
+        while(current != null) {
             parent = current;
-            if (val < current.val) current = current.left;
-            else if (val > current.val) current = current.right;
+            if(val < current.val) current = current.left;
+            else if(val > current.val) current = current.right;
             else return root; // ignore duplicates
         }
 
-        if (val < parent.val) parent.left = newNode;
+        if(val < parent.val) parent.left = newNode;
         else parent.right = newNode;
 
         return root;
@@ -62,18 +62,18 @@ public class ThreadedBSTMorris {
     public static void morrisInorder(TreeNode root) {
         TreeNode current = root;
 
-        while (current != null) {
-            if (current.left == null) {
+        while(current != null) {
+            if(current.left == null) {
                 System.out.print(current.val + " ");
                 current = current.right;
             } else {
                 // Find inorder predecessor of current
                 TreeNode pred = current.left;
-                while (pred.right != null && pred.right != current) {
+                while(pred.right != null && pred.right != current) {
                     pred = pred.right;
                 }
 
-                if (pred.right == null) {
+                if(pred.right == null) {
                     // Make thread to current
                     pred.right = current;
                     current = current.left;
@@ -91,7 +91,7 @@ public class ThreadedBSTMorris {
     // 4️⃣ RECURSIVE INORDER (FOR VERIFICATION)
     // =====================================================
     public static void inorder(TreeNode root) {
-        if (root == null) return;
+        if(root == null) return;
         inorder(root.left);
         System.out.print(root.val + " ");
         inorder(root.right);
@@ -104,7 +104,7 @@ public class ThreadedBSTMorris {
         int[] values = {20, 10, 30, 5, 15, 25, 35};
         TreeNode bst = null;
 
-        for (int val : values) bst = insertBSTRecursive(bst, val);
+        for(int val : values) bst = insertBSTRecursive(bst, val);
 
         System.out.println("Recursive Inorder Traversal:");
         inorder(bst);
@@ -116,7 +116,7 @@ public class ThreadedBSTMorris {
 
         // Test iterative insertion
         TreeNode bst2 = null;
-        for (int val : values) bst2 = insertBSTIterative(bst2, val);
+        for(int val : values) bst2 = insertBSTIterative(bst2, val);
 
         System.out.println("Morris Inorder Traversal on Iteratively Inserted BST:");
         morrisInorder(bst2);

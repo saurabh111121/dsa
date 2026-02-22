@@ -32,7 +32,7 @@ public class BinaryTreeMirror {
     // 1️⃣ MIRROR / INVERT TREE - RECURSIVE
     // =====================================================
     public static TreeNode mirrorRecursive(TreeNode root) {
-        if (root == null) return null;
+        if(root == null) return null;
 
         TreeNode left = mirrorRecursive(root.left);
         TreeNode right = mirrorRecursive(root.right);
@@ -47,12 +47,12 @@ public class BinaryTreeMirror {
     // 2️⃣ MIRROR / INVERT TREE - ITERATIVE (LEVEL ORDER)
     // =====================================================
     public static TreeNode mirrorIterative(TreeNode root) {
-        if (root == null) return null;
+        if(root == null) return null;
 
         Queue<TreeNode> queue = new LinkedList<>();
         queue.offer(root);
 
-        while (!queue.isEmpty()) {
+        while(!queue.isEmpty()) {
             TreeNode node = queue.poll();
 
             // Swap children
@@ -60,8 +60,8 @@ public class BinaryTreeMirror {
             node.left = node.right;
             node.right = temp;
 
-            if (node.left != null) queue.offer(node.left);
-            if (node.right != null) queue.offer(node.right);
+            if(node.left != null) queue.offer(node.left);
+            if(node.right != null) queue.offer(node.right);
         }
 
         return root;
@@ -71,7 +71,7 @@ public class BinaryTreeMirror {
     // INORDER (for testing tree structure)
     // =====================================================
     public static void inorder(TreeNode root) {
-        if (root == null) return;
+        if(root == null) return;
         inorder(root.left);
         System.out.print(root.val + " ");
         inorder(root.right);

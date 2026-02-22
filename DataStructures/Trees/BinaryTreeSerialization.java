@@ -38,7 +38,7 @@ public class BinaryTreeSerialization {
     }
 
     private static void serializeHelper(TreeNode root, StringBuilder sb) {
-        if (root == null) {
+        if(root == null) {
             sb.append("null,");
             return;
         }
@@ -58,10 +58,10 @@ public class BinaryTreeSerialization {
     }
 
     private static TreeNode deserializeHelper(Queue<String> queue) {
-        if (queue.isEmpty()) return null;
+        if(queue.isEmpty()) return null;
 
         String val = queue.poll();
-        if (val.equals("null")) return null;
+        if(val.equals("null")) return null;
 
         TreeNode node = new TreeNode(Integer.parseInt(val));
         node.left = deserializeHelper(queue);
@@ -74,7 +74,7 @@ public class BinaryTreeSerialization {
     // 3️⃣ INORDER (for testing tree structure)
     // =====================================================
     public static void inorder(TreeNode root) {
-        if (root == null) return;
+        if(root == null) return;
         inorder(root.left);
         System.out.print(root.val + " ");
         inorder(root.right);

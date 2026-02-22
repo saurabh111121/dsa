@@ -27,9 +27,9 @@ public class BinarySearchAdvanced {
      * Pattern:
      *   lo = minimum possible answer
      *   hi = maximum possible answer
-     *   while (lo < hi) {
+     *   while(lo < hi) {
      *       mid = lo + (hi - lo) / 2
-     *       if (feasible(mid)) hi = mid;   // or lo = mid + 1 depending on direction
+     *       if(feasible(mid)) hi = mid;   // or lo = mid + 1 depending on direction
      *       else lo = mid + 1;
      *   }
      *   return lo;
@@ -41,9 +41,9 @@ public class BinarySearchAdvanced {
 
     public static int minEatingSpeed(int[] piles, int h) {
         int lo = 1, hi = Arrays.stream(piles).max().getAsInt();
-        while (lo < hi) {
+        while(lo < hi) {
             int mid = lo + (hi - lo) / 2;
-            if (canFinish(piles, h, mid)) hi = mid;
+            if(canFinish(piles, h, mid)) hi = mid;
             else lo = mid + 1;
         }
         return lo;
@@ -51,7 +51,7 @@ public class BinarySearchAdvanced {
 
     private static boolean canFinish(int[] piles, int h, int k) {
         int hours = 0;
-        for (int p : piles) hours += (p + k - 1) / k;  // ceil division
+        for(int p : piles) hours += (p + k - 1) / k;  // ceil division
         return hours <= h;
     }
 
@@ -61,11 +61,11 @@ public class BinarySearchAdvanced {
     // bloomDay[i] = day flower i blooms; need m bouquets of k consecutive flowers
 
     public static int minDays(int[] bloomDay, int m, int k) {
-        if ((long) m * k > bloomDay.length) return -1;
+        if((long) m * k > bloomDay.length) return -1;
         int lo = 1, hi = Arrays.stream(bloomDay).max().getAsInt();
-        while (lo < hi) {
+        while(lo < hi) {
             int mid = lo + (hi - lo) / 2;
-            if (canMakeBouquets(bloomDay, m, k, mid)) hi = mid;
+            if(canMakeBouquets(bloomDay, m, k, mid)) hi = mid;
             else lo = mid + 1;
         }
         return lo;
@@ -73,8 +73,8 @@ public class BinarySearchAdvanced {
 
     private static boolean canMakeBouquets(int[] bd, int m, int k, int day) {
         int bouquets = 0, consec = 0;
-        for (int b : bd) {
-            if (b <= day) { consec++; if (consec == k) { bouquets++; consec = 0; } }
+        for(int b : bd) {
+            if(b <= day) { consec++; if(consec == k) { bouquets++; consec = 0; } }
             else consec = 0;
         }
         return bouquets >= m;
@@ -86,13 +86,13 @@ public class BinarySearchAdvanced {
     // n books with pages[], m students; minimize max pages assigned to any student
 
     public static int allocateBooks(int[] pages, int m) {
-        if (m > pages.length) return -1;
+        if(m > pages.length) return -1;
         int lo = Arrays.stream(pages).max().getAsInt();
         int hi = Arrays.stream(pages).sum();
         int ans = hi;
-        while (lo <= hi) {
+        while(lo <= hi) {
             int mid = lo + (hi - lo) / 2;
-            if (canAllocate(pages, m, mid)) { ans = mid; hi = mid - 1; }
+            if(canAllocate(pages, m, mid)) { ans = mid; hi = mid - 1; }
             else lo = mid + 1;
         }
         return ans;
@@ -100,9 +100,9 @@ public class BinarySearchAdvanced {
 
     private static boolean canAllocate(int[] pages, int m, int maxPages) {
         int students = 1, sum = 0;
-        for (int p : pages) {
-            if (p > maxPages) return false;
-            if (sum + p > maxPages) { students++; sum = p; }
+        for(int p : pages) {
+            if(p > maxPages) return false;
+            if(sum + p > maxPages) { students++; sum = p; }
             else sum += p;
         }
         return students <= m;
@@ -115,9 +115,9 @@ public class BinarySearchAdvanced {
     public static int aggressiveCows(int[] stalls, int cows) {
         Arrays.sort(stalls);
         int lo = 1, hi = stalls[stalls.length - 1] - stalls[0], ans = 0;
-        while (lo <= hi) {
+        while(lo <= hi) {
             int mid = lo + (hi - lo) / 2;
-            if (canPlaceCows(stalls, cows, mid)) { ans = mid; lo = mid + 1; }
+            if(canPlaceCows(stalls, cows, mid)) { ans = mid; lo = mid + 1; }
             else hi = mid - 1;
         }
         return ans;
@@ -125,9 +125,9 @@ public class BinarySearchAdvanced {
 
     private static boolean canPlaceCows(int[] stalls, int cows, int minDist) {
         int placed = 1, last = stalls[0];
-        for (int i = 1; i < stalls.length; i++) {
-            if (stalls[i] - last >= minDist) { placed++; last = stalls[i]; }
-            if (placed >= cows) return true;
+        for(int i = 1; i < stalls.length; i++) {
+            if(stalls[i] - last >= minDist) { placed++; last = stalls[i]; }
+            if(placed >= cows) return true;
         }
         return false;
     }
@@ -137,20 +137,20 @@ public class BinarySearchAdvanced {
     // =========================================================================
 
     public static double findMedianSortedArrays(int[] nums1, int[] nums2) {
-        if (nums1.length > nums2.length) return findMedianSortedArrays(nums2, nums1);
+        if(nums1.length > nums2.length) return findMedianSortedArrays(nums2, nums1);
         int m = nums1.length, n = nums2.length;
         int lo = 0, hi = m;
-        while (lo <= hi) {
+        while(lo <= hi) {
             int px = lo + (hi - lo) / 2;
             int py = (m + n + 1) / 2 - px;
             int maxX = (px == 0) ? Integer.MIN_VALUE : nums1[px - 1];
             int minX = (px == m) ? Integer.MAX_VALUE : nums1[px];
             int maxY = (py == 0) ? Integer.MIN_VALUE : nums2[py - 1];
             int minY = (py == n) ? Integer.MAX_VALUE : nums2[py];
-            if (maxX <= minY && maxY <= minX) {
-                if ((m + n) % 2 == 1) return Math.max(maxX, maxY);
+            if(maxX <= minY && maxY <= minX) {
+                if((m + n) % 2 == 1) return Math.max(maxX, maxY);
                 return (Math.max(maxX, maxY) + Math.min(minX, minY)) / 2.0;
-            } else if (maxX > minY) hi = px - 1;
+            } else if(maxX > minY) hi = px - 1;
             else lo = px + 1;
         }
         return 0;
@@ -162,11 +162,11 @@ public class BinarySearchAdvanced {
 
     public static int smallestDivisor(int[] nums, int threshold) {
         int lo = 1, hi = Arrays.stream(nums).max().getAsInt();
-        while (lo < hi) {
+        while(lo < hi) {
             int mid = lo + (hi - lo) / 2;
             int sum = 0;
-            for (int n : nums) sum += (n + mid - 1) / mid;
-            if (sum <= threshold) hi = mid;
+            for(int n : nums) sum += (n + mid - 1) / mid;
+            if(sum <= threshold) hi = mid;
             else lo = mid + 1;
         }
         return lo;
@@ -179,9 +179,9 @@ public class BinarySearchAdvanced {
     public static int shipWithinDays(int[] weights, int days) {
         int lo = Arrays.stream(weights).max().getAsInt();
         int hi = Arrays.stream(weights).sum();
-        while (lo < hi) {
+        while(lo < hi) {
             int mid = lo + (hi - lo) / 2;
-            if (canShip(weights, days, mid)) hi = mid;
+            if(canShip(weights, days, mid)) hi = mid;
             else lo = mid + 1;
         }
         return lo;
@@ -189,8 +189,8 @@ public class BinarySearchAdvanced {
 
     private static boolean canShip(int[] weights, int days, int cap) {
         int d = 1, load = 0;
-        for (int w : weights) {
-            if (load + w > cap) { d++; load = 0; }
+        for(int w : weights) {
+            if(load + w > cap) { d++; load = 0; }
             load += w;
         }
         return d <= days;

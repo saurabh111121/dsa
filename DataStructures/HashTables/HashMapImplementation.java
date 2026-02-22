@@ -70,14 +70,14 @@ public class HashMapImplementation {
         // 1️⃣ PUT - insert or update - O(1) average
         // =====================================================
         public void put(K key, V value) {
-            if ((double) size / capacity >= LOAD_FACTOR) resize();
+            if((double) size / capacity >= LOAD_FACTOR) resize();
 
             int index = hash(key);
             Entry<K, V> head = buckets[index];
 
             // Check if key already exists -> update
-            while (head != null) {
-                if (head.key.equals(key)) {
+            while(head != null) {
+                if(head.key.equals(key)) {
                     head.value = value;
                     return;
                 }
@@ -98,8 +98,8 @@ public class HashMapImplementation {
             int index = hash(key);
             Entry<K, V> current = buckets[index];
 
-            while (current != null) {
-                if (current.key.equals(key)) return current.value;
+            while(current != null) {
+                if(current.key.equals(key)) return current.value;
                 current = current.next;
             }
 
@@ -114,9 +114,9 @@ public class HashMapImplementation {
             Entry<K, V> current = buckets[index];
             Entry<K, V> prev = null;
 
-            while (current != null) {
-                if (current.key.equals(key)) {
-                    if (prev == null) buckets[index] = current.next;
+            while(current != null) {
+                if(current.key.equals(key)) {
+                    if(prev == null) buckets[index] = current.next;
                     else prev.next = current.next;
                     size--;
                     return true;
@@ -147,9 +147,9 @@ public class HashMapImplementation {
         // =====================================================
         public List<K> keys() {
             List<K> keys = new ArrayList<>();
-            for (Entry<K, V> bucket : buckets) {
+            for(Entry<K, V> bucket : buckets) {
                 Entry<K, V> current = bucket;
-                while (current != null) {
+                while(current != null) {
                     keys.add(current.key);
                     current = current.next;
                 }
@@ -162,9 +162,9 @@ public class HashMapImplementation {
         // =====================================================
         public List<V> values() {
             List<V> values = new ArrayList<>();
-            for (Entry<K, V> bucket : buckets) {
+            for(Entry<K, V> bucket : buckets) {
                 Entry<K, V> current = bucket;
-                while (current != null) {
+                while(current != null) {
                     values.add(current.value);
                     current = current.next;
                 }
@@ -181,9 +181,9 @@ public class HashMapImplementation {
             capacity *= 2;
             Entry<K, V>[] newBuckets = new Entry[capacity];
 
-            for (int i = 0; i < oldCapacity; i++) {
+            for(int i = 0; i < oldCapacity; i++) {
                 Entry<K, V> current = buckets[i];
-                while (current != null) {
+                while(current != null) {
                     Entry<K, V> next = current.next;
                     int newIndex = Math.abs(current.key.hashCode()) % capacity;
                     current.next = newBuckets[newIndex];
@@ -198,13 +198,13 @@ public class HashMapImplementation {
 
         public void print() {
             System.out.println("HashMap contents:");
-            for (int i = 0; i < capacity; i++) {
-                if (buckets[i] != null) {
+            for(int i = 0; i < capacity; i++) {
+                if(buckets[i] != null) {
                     System.out.print("  bucket[" + i + "]: ");
                     Entry<K, V> current = buckets[i];
-                    while (current != null) {
+                    while(current != null) {
                         System.out.print("{" + current.key + "=" + current.value + "}");
-                        if (current.next != null) System.out.print(" -> ");
+                        if(current.next != null) System.out.print(" -> ");
                         current = current.next;
                     }
                     System.out.println();
@@ -253,7 +253,7 @@ public class HashMapImplementation {
 
         // Test resize - add many entries
         CustomHashMap<Integer, String> bigMap = new CustomHashMap<>();
-        for (int i = 0; i < 20; i++) {
+        for(int i = 0; i < 20; i++) {
             bigMap.put(i, "val" + i);
         }
         System.out.println("BigMap size after 20 inserts: " + bigMap.size());

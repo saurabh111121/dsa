@@ -28,9 +28,9 @@ public class SlidingWindow {
 
     public static int maxSumSubarrayK(int[] arr, int k) {
         int windowSum = 0, maxSum = 0;
-        for (int i = 0; i < k; i++) windowSum += arr[i];   // build first window
+        for(int i = 0; i < k; i++) windowSum += arr[i];   // build first window
         maxSum = windowSum;
-        for (int i = k; i < arr.length; i++) {
+        for(int i = k; i < arr.length; i++) {
             windowSum += arr[i] - arr[i - k];               // slide
             maxSum = Math.max(maxSum, windowSum);
         }
@@ -46,13 +46,13 @@ public class SlidingWindow {
         int n = nums.length;
         int[] result = new int[n - k + 1];
         Deque<Integer> dq = new ArrayDeque<>();  // stores indices
-        for (int i = 0; i < n; i++) {
+        for(int i = 0; i < n; i++) {
             // remove indices outside window
-            while (!dq.isEmpty() && dq.peekFirst() < i - k + 1) dq.pollFirst();
+            while(!dq.isEmpty() && dq.peekFirst() < i - k + 1) dq.pollFirst();
             // remove smaller elements from back
-            while (!dq.isEmpty() && nums[dq.peekLast()] < nums[i]) dq.pollLast();
+            while(!dq.isEmpty() && nums[dq.peekLast()] < nums[i]) dq.pollLast();
             dq.addLast(i);
-            if (i >= k - 1) result[i - k + 1] = nums[dq.peekFirst()];
+            if(i >= k - 1) result[i - k + 1] = nums[dq.peekFirst()];
         }
         return result;
     }
@@ -64,9 +64,9 @@ public class SlidingWindow {
     public static int lengthOfLongestSubstring(String s) {
         Map<Character, Integer> map = new HashMap<>();
         int maxLen = 0, left = 0;
-        for (int right = 0; right < s.length(); right++) {
+        for(int right = 0; right < s.length(); right++) {
             char c = s.charAt(right);
-            if (map.containsKey(c)) left = Math.max(left, map.get(c) + 1);
+            if(map.containsKey(c)) left = Math.max(left, map.get(c) + 1);
             map.put(c, right);
             maxLen = Math.max(maxLen, right - left + 1);
         }
@@ -78,19 +78,19 @@ public class SlidingWindow {
     // =========================================================================
 
     public static String minWindow(String s, String t) {
-        if (s.isEmpty() || t.isEmpty()) return "";
+        if(s.isEmpty() || t.isEmpty()) return "";
         int[] need = new int[128], have = new int[128];
-        for (char c : t.toCharArray()) need[c]++;
+        for(char c : t.toCharArray()) need[c]++;
         int formed = 0, required = 0;
-        for (int x : need) if (x > 0) required++;
+        for(int x : need) if(x > 0) required++;
         int left = 0, minLen = Integer.MAX_VALUE, minLeft = 0;
-        for (int right = 0; right < s.length(); right++) {
+        for(int right = 0; right < s.length(); right++) {
             have[s.charAt(right)]++;
-            if (need[s.charAt(right)] > 0 && have[s.charAt(right)] == need[s.charAt(right)]) formed++;
-            while (formed == required) {
-                if (right - left + 1 < minLen) { minLen = right - left + 1; minLeft = left; }
+            if(need[s.charAt(right)] > 0 && have[s.charAt(right)] == need[s.charAt(right)]) formed++;
+            while(formed == required) {
+                if(right - left + 1 < minLen) { minLen = right - left + 1; minLeft = left; }
                 have[s.charAt(left)]--;
-                if (need[s.charAt(left)] > 0 && have[s.charAt(left)] < need[s.charAt(left)]) formed--;
+                if(need[s.charAt(left)] > 0 && have[s.charAt(left)] < need[s.charAt(left)]) formed--;
                 left++;
             }
         }
@@ -103,9 +103,9 @@ public class SlidingWindow {
 
     public static int longestSubarraySumK(int[] arr, int k) {
         int left = 0, sum = 0, maxLen = 0;
-        for (int right = 0; right < arr.length; right++) {
+        for(int right = 0; right < arr.length; right++) {
             sum += arr[right];
-            while (sum > k) sum -= arr[left++];
+            while(sum > k) sum -= arr[left++];
             maxLen = Math.max(maxLen, right - left + 1);
         }
         return maxLen;
@@ -118,12 +118,12 @@ public class SlidingWindow {
     public static int totalFruit(int[] fruits) {
         Map<Integer, Integer> basket = new HashMap<>();
         int left = 0, maxFruits = 0;
-        for (int right = 0; right < fruits.length; right++) {
+        for(int right = 0; right < fruits.length; right++) {
             basket.merge(fruits[right], 1, Integer::sum);
-            while (basket.size() > 2) {
+            while(basket.size() > 2) {
                 int f = fruits[left++];
                 basket.merge(f, -1, Integer::sum);
-                if (basket.get(f) == 0) basket.remove(f);
+                if(basket.get(f) == 0) basket.remove(f);
             }
             maxFruits = Math.max(maxFruits, right - left + 1);
         }
@@ -137,12 +137,12 @@ public class SlidingWindow {
     public static int lengthOfLongestSubstringKDistinct(String s, int k) {
         Map<Character, Integer> map = new HashMap<>();
         int left = 0, maxLen = 0;
-        for (int right = 0; right < s.length(); right++) {
+        for(int right = 0; right < s.length(); right++) {
             map.merge(s.charAt(right), 1, Integer::sum);
-            while (map.size() > k) {
+            while(map.size() > k) {
                 char c = s.charAt(left++);
                 map.merge(c, -1, Integer::sum);
-                if (map.get(c) == 0) map.remove(c);
+                if(map.get(c) == 0) map.remove(c);
             }
             maxLen = Math.max(maxLen, right - left + 1);
         }
@@ -154,11 +154,11 @@ public class SlidingWindow {
     // =========================================================================
 
     public static int numSubarrayProductLessThanK(int[] nums, int k) {
-        if (k <= 1) return 0;
+        if(k <= 1) return 0;
         int left = 0, product = 1, count = 0;
-        for (int right = 0; right < nums.length; right++) {
+        for(int right = 0; right < nums.length; right++) {
             product *= nums[right];
-            while (product >= k) product /= nums[left++];
+            while(product >= k) product /= nums[left++];
             count += right - left + 1;
         }
         return count;
@@ -170,9 +170,9 @@ public class SlidingWindow {
 
     public static int minSubArrayLen(int target, int[] nums) {
         int left = 0, sum = 0, minLen = Integer.MAX_VALUE;
-        for (int right = 0; right < nums.length; right++) {
+        for(int right = 0; right < nums.length; right++) {
             sum += nums[right];
-            while (sum >= target) {
+            while(sum >= target) {
                 minLen = Math.min(minLen, right - left + 1);
                 sum -= nums[left++];
             }
@@ -187,12 +187,12 @@ public class SlidingWindow {
     public static List<Integer> findAnagrams(String s, String p) {
         List<Integer> result = new ArrayList<>();
         int[] need = new int[26], have = new int[26];
-        for (char c : p.toCharArray()) need[c - 'a']++;
+        for(char c : p.toCharArray()) need[c - 'a']++;
         int k = p.length();
-        for (int i = 0; i < s.length(); i++) {
+        for(int i = 0; i < s.length(); i++) {
             have[s.charAt(i) - 'a']++;
-            if (i >= k) have[s.charAt(i - k) - 'a']--;
-            if (Arrays.equals(need, have)) result.add(i - k + 1);
+            if(i >= k) have[s.charAt(i - k) - 'a']--;
+            if(Arrays.equals(need, have)) result.add(i - k + 1);
         }
         return result;
     }

@@ -32,12 +32,12 @@ public class GraphTraversals {
         visited[start] = true;
         queue.offer(start);
 
-        while (!queue.isEmpty()) {
+        while(!queue.isEmpty()) {
             int node = queue.poll();
             result.add(node);
 
-            for (int neighbor : graph.get(node)) {
-                if (!visited[neighbor]) {
+            for(int neighbor : graph.get(node)) {
+                if(!visited[neighbor]) {
                     visited[neighbor] = true;
                     queue.offer(neighbor);
                 }
@@ -59,8 +59,8 @@ public class GraphTraversals {
     private static void dfsHelper(List<List<Integer>> graph, int node, boolean[] visited, List<Integer> result) {
         visited[node] = true;
         result.add(node);
-        for (int neighbor : graph.get(node)) {
-            if (!visited[neighbor]) dfsHelper(graph, neighbor, visited, result);
+        for(int neighbor : graph.get(node)) {
+            if(!visited[neighbor]) dfsHelper(graph, neighbor, visited, result);
         }
     }
 
@@ -74,15 +74,15 @@ public class GraphTraversals {
 
         stack.push(start);
 
-        while (!stack.isEmpty()) {
+        while(!stack.isEmpty()) {
             int node = stack.pop();
-            if (!visited[node]) {
+            if(!visited[node]) {
                 visited[node] = true;
                 result.add(node);
                 // Push neighbors in reverse so left is processed first
                 List<Integer> neighbors = graph.get(node);
-                for (int i = neighbors.size() - 1; i >= 0; i--) {
-                    if (!visited[neighbors.get(i)]) stack.push(neighbors.get(i));
+                for(int i = neighbors.size() - 1; i >= 0; i--) {
+                    if(!visited[neighbors.get(i)]) stack.push(neighbors.get(i));
                 }
             }
         }
@@ -100,14 +100,14 @@ public class GraphTraversals {
         visited[start] = true;
         queue.offer(start);
 
-        while (!queue.isEmpty()) {
+        while(!queue.isEmpty()) {
             int size = queue.size();
             List<Integer> level = new ArrayList<>();
-            for (int i = 0; i < size; i++) {
+            for(int i = 0; i < size; i++) {
                 int node = queue.poll();
                 level.add(node);
-                for (int neighbor : graph.get(node)) {
-                    if (!visited[neighbor]) {
+                for(int neighbor : graph.get(node)) {
+                    if(!visited[neighbor]) {
                         visited[neighbor] = true;
                         queue.offer(neighbor);
                     }
@@ -125,21 +125,21 @@ public class GraphTraversals {
         int n = graph.size();
         boolean[] visited = new boolean[n];
 
-        for (int start = 0; start < n; start++) {
-            if (!visited[start]) {
+        for(int start = 0; start < n; start++) {
+            if(!visited[start]) {
                 Queue<int[]> queue = new LinkedList<>(); // [node, parent]
                 visited[start] = true;
                 queue.offer(new int[]{start, -1});
 
-                while (!queue.isEmpty()) {
+                while(!queue.isEmpty()) {
                     int[] curr = queue.poll();
                     int node = curr[0], parent = curr[1];
 
-                    for (int neighbor : graph.get(node)) {
-                        if (!visited[neighbor]) {
+                    for(int neighbor : graph.get(node)) {
+                        if(!visited[neighbor]) {
                             visited[neighbor] = true;
                             queue.offer(new int[]{neighbor, node});
-                        } else if (neighbor != parent) {
+                        } else if(neighbor != parent) {
                             return true; // back edge found
                         }
                     }
@@ -154,18 +154,18 @@ public class GraphTraversals {
     // =====================================================
     public static boolean hasCycleUndirectedDFS(List<List<Integer>> graph) {
         boolean[] visited = new boolean[graph.size()];
-        for (int i = 0; i < graph.size(); i++) {
-            if (!visited[i] && dfsCycleUndirected(graph, i, -1, visited)) return true;
+        for(int i = 0; i < graph.size(); i++) {
+            if(!visited[i] && dfsCycleUndirected(graph, i, -1, visited)) return true;
         }
         return false;
     }
 
     private static boolean dfsCycleUndirected(List<List<Integer>> graph, int node, int parent, boolean[] visited) {
         visited[node] = true;
-        for (int neighbor : graph.get(node)) {
-            if (!visited[neighbor]) {
-                if (dfsCycleUndirected(graph, neighbor, node, visited)) return true;
-            } else if (neighbor != parent) {
+        for(int neighbor : graph.get(node)) {
+            if(!visited[neighbor]) {
+                if(dfsCycleUndirected(graph, neighbor, node, visited)) return true;
+            } else if(neighbor != parent) {
                 return true;
             }
         }
@@ -178,17 +178,17 @@ public class GraphTraversals {
     // =====================================================
     public static boolean hasCycleDirected(List<List<Integer>> graph) {
         int[] color = new int[graph.size()];
-        for (int i = 0; i < graph.size(); i++) {
-            if (color[i] == 0 && dfsCycleDirected(graph, i, color)) return true;
+        for(int i = 0; i < graph.size(); i++) {
+            if(color[i] == 0 && dfsCycleDirected(graph, i, color)) return true;
         }
         return false;
     }
 
     private static boolean dfsCycleDirected(List<List<Integer>> graph, int node, int[] color) {
         color[node] = 1; // gray
-        for (int neighbor : graph.get(node)) {
-            if (color[neighbor] == 1) return true; // back edge
-            if (color[neighbor] == 0 && dfsCycleDirected(graph, neighbor, color)) return true;
+        for(int neighbor : graph.get(node)) {
+            if(color[neighbor] == 1) return true; // back edge
+            if(color[neighbor] == 0 && dfsCycleDirected(graph, neighbor, color)) return true;
         }
         color[node] = 2; // black
         return false;
@@ -199,8 +199,8 @@ public class GraphTraversals {
     // =====================================================
     public static List<List<Integer>> buildGraph(int n, int[][] edges) {
         List<List<Integer>> graph = new ArrayList<>();
-        for (int i = 0; i < n; i++) graph.add(new ArrayList<>());
-        for (int[] e : edges) {
+        for(int i = 0; i < n; i++) graph.add(new ArrayList<>());
+        for(int[] e : edges) {
             graph.get(e[0]).add(e[1]);
             graph.get(e[1]).add(e[0]);
         }
@@ -209,8 +209,8 @@ public class GraphTraversals {
 
     public static List<List<Integer>> buildDirected(int n, int[][] edges) {
         List<List<Integer>> graph = new ArrayList<>();
-        for (int i = 0; i < n; i++) graph.add(new ArrayList<>());
-        for (int[] e : edges) graph.get(e[0]).add(e[1]);
+        for(int i = 0; i < n; i++) graph.add(new ArrayList<>());
+        for(int[] e : edges) graph.get(e[0]).add(e[1]);
         return graph;
     }
 

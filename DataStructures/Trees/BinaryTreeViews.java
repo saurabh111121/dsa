@@ -34,7 +34,7 @@ public class BinaryTreeViews {
     // INORDER (for testing)
     // =====================================================
     public static void inorder(TreeNode root) {
-        if (root == null) return;
+        if(root == null) return;
         inorder(root.left);
         System.out.print(root.val + " ");
         inorder(root.right);
@@ -45,20 +45,20 @@ public class BinaryTreeViews {
     // =====================================================
     public static List<Integer> topView(TreeNode root) {
         List<Integer> result = new ArrayList<>();
-        if (root == null) return result;
+        if(root == null) return result;
 
         Map<Integer, Integer> hdNodeMap = new TreeMap<>();
         Queue<Pair> queue = new LinkedList<>();
         queue.offer(new Pair(root, 0));
 
-        while (!queue.isEmpty()) {
+        while(!queue.isEmpty()) {
             Pair p = queue.poll();
-            if (!hdNodeMap.containsKey(p.hd)) {
+            if(!hdNodeMap.containsKey(p.hd)) {
                 hdNodeMap.put(p.hd, p.node.val);
             }
 
-            if (p.node.left != null) queue.offer(new Pair(p.node.left, p.hd - 1));
-            if (p.node.right != null) queue.offer(new Pair(p.node.right, p.hd + 1));
+            if(p.node.left != null) queue.offer(new Pair(p.node.left, p.hd - 1));
+            if(p.node.right != null) queue.offer(new Pair(p.node.right, p.hd + 1));
         }
 
         result.addAll(hdNodeMap.values());
@@ -70,18 +70,18 @@ public class BinaryTreeViews {
     // =====================================================
     public static List<Integer> bottomView(TreeNode root) {
         List<Integer> result = new ArrayList<>();
-        if (root == null) return result;
+        if(root == null) return result;
 
         Map<Integer, Integer> hdNodeMap = new TreeMap<>();
         Queue<Pair> queue = new LinkedList<>();
         queue.offer(new Pair(root, 0));
 
-        while (!queue.isEmpty()) {
+        while(!queue.isEmpty()) {
             Pair p = queue.poll();
             hdNodeMap.put(p.hd, p.node.val);
 
-            if (p.node.left != null) queue.offer(new Pair(p.node.left, p.hd - 1));
-            if (p.node.right != null) queue.offer(new Pair(p.node.right, p.hd + 1));
+            if(p.node.left != null) queue.offer(new Pair(p.node.left, p.hd - 1));
+            if(p.node.right != null) queue.offer(new Pair(p.node.right, p.hd + 1));
         }
 
         result.addAll(hdNodeMap.values());
@@ -93,19 +93,19 @@ public class BinaryTreeViews {
     // =====================================================
     public static List<Integer> leftView(TreeNode root) {
         List<Integer> result = new ArrayList<>();
-        if (root == null) return result;
+        if(root == null) return result;
 
         Queue<TreeNode> queue = new LinkedList<>();
         queue.offer(root);
 
-        while (!queue.isEmpty()) {
+        while(!queue.isEmpty()) {
             int size = queue.size();
-            for (int i = 0; i < size; i++) {
+            for(int i = 0; i < size; i++) {
                 TreeNode node = queue.poll();
-                if (i == 0) result.add(node.val);
+                if(i == 0) result.add(node.val);
 
-                if (node.left != null) queue.offer(node.left);
-                if (node.right != null) queue.offer(node.right);
+                if(node.left != null) queue.offer(node.left);
+                if(node.right != null) queue.offer(node.right);
             }
         }
         return result;
@@ -116,19 +116,19 @@ public class BinaryTreeViews {
     // =====================================================
     public static List<Integer> rightView(TreeNode root) {
         List<Integer> result = new ArrayList<>();
-        if (root == null) return result;
+        if(root == null) return result;
 
         Queue<TreeNode> queue = new LinkedList<>();
         queue.offer(root);
 
-        while (!queue.isEmpty()) {
+        while(!queue.isEmpty()) {
             int size = queue.size();
-            for (int i = 0; i < size; i++) {
+            for(int i = 0; i < size; i++) {
                 TreeNode node = queue.poll();
-                if (i == size - 1) result.add(node.val);
+                if(i == size - 1) result.add(node.val);
 
-                if (node.left != null) queue.offer(node.left);
-                if (node.right != null) queue.offer(node.right);
+                if(node.left != null) queue.offer(node.left);
+                if(node.right != null) queue.offer(node.right);
             }
         }
         return result;
@@ -139,19 +139,19 @@ public class BinaryTreeViews {
     // =====================================================
     public static List<List<Integer>> diagonalView(TreeNode root) {
         List<List<Integer>> result = new ArrayList<>();
-        if (root == null) return result;
+        if(root == null) return result;
 
         Map<Integer, List<Integer>> diagonalMap = new TreeMap<>();
         diagonalHelper(root, 0, diagonalMap);
 
-        for (List<Integer> list : diagonalMap.values()) {
+        for(List<Integer> list : diagonalMap.values()) {
             result.add(list);
         }
         return result;
     }
 
     private static void diagonalHelper(TreeNode node, int d, Map<Integer, List<Integer>> map) {
-        if (node == null) return;
+        if(node == null) return;
 
         map.computeIfAbsent(d, k -> new ArrayList<>()).add(node.val);
 

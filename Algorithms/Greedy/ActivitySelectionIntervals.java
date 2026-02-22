@@ -28,12 +28,12 @@ public class ActivitySelectionIntervals {
     public static int maxActivities(int[] start, int[] end) {
         int n = start.length;
         Integer[] idx = new Integer[n];
-        for (int i = 0; i < n; i++) idx[i] = i;
+        for(int i = 0; i < n; i++) idx[i] = i;
         Arrays.sort(idx, (a, b) -> end[a] - end[b]);
 
         int count = 1, lastEnd = end[idx[0]];
-        for (int i = 1; i < n; i++) {
-            if (start[idx[i]] >= lastEnd) { count++; lastEnd = end[idx[i]]; }
+        for(int i = 1; i < n; i++) {
+            if(start[idx[i]] >= lastEnd) { count++; lastEnd = end[idx[i]]; }
         }
         return count;
     }
@@ -46,9 +46,9 @@ public class ActivitySelectionIntervals {
         Arrays.sort(intervals, (a, b) -> a[0] - b[0]);
         List<int[]> merged = new ArrayList<>();
         merged.add(intervals[0]);
-        for (int i = 1; i < intervals.length; i++) {
+        for(int i = 1; i < intervals.length; i++) {
             int[] last = merged.get(merged.size() - 1);
-            if (intervals[i][0] <= last[1]) last[1] = Math.max(last[1], intervals[i][1]);
+            if(intervals[i][0] <= last[1]) last[1] = Math.max(last[1], intervals[i][1]);
             else merged.add(intervals[i]);
         }
         return merged.toArray(new int[0][]);
@@ -60,8 +60,8 @@ public class ActivitySelectionIntervals {
 
     public static boolean canAttendMeetings(int[][] intervals) {
         Arrays.sort(intervals, (a, b) -> a[0] - b[0]);
-        for (int i = 1; i < intervals.length; i++)
-            if (intervals[i][0] < intervals[i-1][1]) return false;
+        for(int i = 1; i < intervals.length; i++)
+            if(intervals[i][0] < intervals[i-1][1]) return false;
         return true;
     }
 
@@ -72,11 +72,11 @@ public class ActivitySelectionIntervals {
     public static int minMeetingRooms(int[][] intervals) {
         int[] starts = new int[intervals.length];
         int[] ends   = new int[intervals.length];
-        for (int i = 0; i < intervals.length; i++) { starts[i] = intervals[i][0]; ends[i] = intervals[i][1]; }
+        for(int i = 0; i < intervals.length; i++) { starts[i] = intervals[i][0]; ends[i] = intervals[i][1]; }
         Arrays.sort(starts); Arrays.sort(ends);
         int rooms = 0, endPtr = 0;
-        for (int s : starts) {
-            if (s < ends[endPtr]) rooms++;
+        for(int s : starts) {
+            if(s < ends[endPtr]) rooms++;
             else endPtr++;
         }
         return rooms;
@@ -89,8 +89,8 @@ public class ActivitySelectionIntervals {
     public static int eraseOverlapIntervals(int[][] intervals) {
         Arrays.sort(intervals, (a, b) -> a[1] - b[1]);
         int count = 0, lastEnd = Integer.MIN_VALUE;
-        for (int[] iv : intervals) {
-            if (iv[0] >= lastEnd) lastEnd = iv[1];
+        for(int[] iv : intervals) {
+            if(iv[0] >= lastEnd) lastEnd = iv[1];
             else count++;
         }
         return count;
@@ -102,8 +102,8 @@ public class ActivitySelectionIntervals {
 
     public static boolean canJump(int[] nums) {
         int maxReach = 0;
-        for (int i = 0; i < nums.length; i++) {
-            if (i > maxReach) return false;
+        for(int i = 0; i < nums.length; i++) {
+            if(i > maxReach) return false;
             maxReach = Math.max(maxReach, i + nums[i]);
         }
         return true;
@@ -115,9 +115,9 @@ public class ActivitySelectionIntervals {
 
     public static int jump(int[] nums) {
         int jumps = 0, curEnd = 0, farthest = 0;
-        for (int i = 0; i < nums.length - 1; i++) {
+        for(int i = 0; i < nums.length - 1; i++) {
             farthest = Math.max(farthest, i + nums[i]);
-            if (i == curEnd) { jumps++; curEnd = farthest; }
+            if(i == curEnd) { jumps++; curEnd = farthest; }
         }
         return jumps;
     }
@@ -128,11 +128,11 @@ public class ActivitySelectionIntervals {
 
     public static int canCompleteCircuit(int[] gas, int[] cost) {
         int total = 0, tank = 0, start = 0;
-        for (int i = 0; i < gas.length; i++) {
+        for(int i = 0; i < gas.length; i++) {
             int diff = gas[i] - cost[i];
             total += diff;
             tank  += diff;
-            if (tank < 0) { start = i + 1; tank = 0; }
+            if(tank < 0) { start = i + 1; tank = 0; }
         }
         return total >= 0 ? start : -1;
     }

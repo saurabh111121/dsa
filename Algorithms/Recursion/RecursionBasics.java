@@ -29,13 +29,13 @@ public class RecursionBasics {
     // =========================================================================
 
     public static long factorialRecursive(int n) {
-        if (n <= 1) return 1;
+        if(n <= 1) return 1;
         return n * factorialRecursive(n - 1);
     }
 
     public static long factorialIterative(int n) {
         long result = 1;
-        for (int i = 2; i <= n; i++) result *= i;
+        for(int i = 2; i <= n; i++) result *= i;
         return result;
     }
 
@@ -45,22 +45,22 @@ public class RecursionBasics {
 
     /** Naive O(2^n) */
     public static long fibNaive(int n) {
-        if (n <= 1) return n;
+        if(n <= 1) return n;
         return fibNaive(n - 1) + fibNaive(n - 2);
     }
 
     /** Memoized O(n) */
     public static long fibMemo(int n, long[] memo) {
-        if (n <= 1) return n;
-        if (memo[n] != 0) return memo[n];
+        if(n <= 1) return n;
+        if(memo[n] != 0) return memo[n];
         return memo[n] = fibMemo(n - 1, memo) + fibMemo(n - 2, memo);
     }
 
     /** Iterative O(n) O(1) space */
     public static long fibIterative(int n) {
-        if (n <= 1) return n;
+        if(n <= 1) return n;
         long a = 0, b = 1;
-        for (int i = 2; i <= n; i++) { long c = a + b; a = b; b = c; }
+        for(int i = 2; i <= n; i++) { long c = a + b; a = b; b = c; }
         return b;
     }
 
@@ -70,16 +70,16 @@ public class RecursionBasics {
 
     /** Recursive O(log n) */
     public static long power(long base, int exp) {
-        if (exp == 0) return 1;
-        if (exp % 2 == 0) { long half = power(base, exp / 2); return half * half; }
+        if(exp == 0) return 1;
+        if(exp % 2 == 0) { long half = power(base, exp / 2); return half * half; }
         return base * power(base, exp - 1);
     }
 
     /** Iterative O(log n) */
     public static long powerIterative(long base, int exp) {
         long result = 1;
-        while (exp > 0) {
-            if ((exp & 1) == 1) result *= base;
+        while(exp > 0) {
+            if((exp & 1) == 1) result *= base;
             base *= base;
             exp >>= 1;
         }
@@ -91,7 +91,7 @@ public class RecursionBasics {
     // =========================================================================
 
     public static int sumOfDigits(int n) {
-        if (n < 10) return n;
+        if(n < 10) return n;
         return n % 10 + sumOfDigits(n / 10);
     }
 
@@ -100,7 +100,7 @@ public class RecursionBasics {
     // =========================================================================
 
     public static String reverseString(String s) {
-        if (s.length() <= 1) return s;
+        if(s.length() <= 1) return s;
         return reverseString(s.substring(1)) + s.charAt(0);
     }
 
@@ -109,8 +109,8 @@ public class RecursionBasics {
     // =========================================================================
 
     public static boolean isPalindrome(String s, int lo, int hi) {
-        if (lo >= hi) return true;
-        if (s.charAt(lo) != s.charAt(hi)) return false;
+        if(lo >= hi) return true;
+        if(s.charAt(lo) != s.charAt(hi)) return false;
         return isPalindrome(s, lo + 1, hi - 1);
     }
 
@@ -119,7 +119,7 @@ public class RecursionBasics {
     // =========================================================================
 
     public static void hanoi(int n, char from, char to, char aux) {
-        if (n == 0) return;
+        if(n == 0) return;
         hanoi(n - 1, from, aux, to);
         System.out.println("Move disk " + n + " from " + from + " to " + to);
         hanoi(n - 1, aux, to, from);
@@ -138,7 +138,7 @@ public class RecursionBasics {
     private static void generateSubsets(int[] nums, int idx,
                                          List<Integer> current, List<List<Integer>> result) {
         result.add(new ArrayList<>(current));
-        for (int i = idx; i < nums.length; i++) {
+        for(int i = idx; i < nums.length; i++) {
             current.add(nums[i]);
             generateSubsets(nums, i + 1, current, result);
             current.remove(current.size() - 1);
@@ -150,8 +150,8 @@ public class RecursionBasics {
     // =========================================================================
 
     public static int climbStairs(int n, int[] dp) {
-        if (n <= 1) return 1;
-        if (dp[n] != 0) return dp[n];
+        if(n <= 1) return 1;
+        if(dp[n] != 0) return dp[n];
         return dp[n] = climbStairs(n - 1, dp) + climbStairs(n - 2, dp);
     }
 
@@ -164,7 +164,7 @@ public class RecursionBasics {
     }
 
     public static int gcdIterative(int a, int b) {
-        while (b != 0) { int t = b; b = a % b; a = t; }
+        while(b != 0) { int t = b; b = a % b; a = t; }
         return a;
     }
 
@@ -174,8 +174,8 @@ public class RecursionBasics {
 
     public static List<Integer> flatten(Object[] nested) {
         List<Integer> result = new ArrayList<>();
-        for (Object o : nested) {
-            if (o instanceof Integer) result.add((Integer) o);
+        for(Object o : nested) {
+            if(o instanceof Integer) result.add((Integer) o);
             else result.addAll(flatten((Object[]) o));
         }
         return result;
@@ -192,8 +192,8 @@ public class RecursionBasics {
     }
 
     private static void permuteHelper(char[] arr, int start, List<String> result) {
-        if (start == arr.length) { result.add(new String(arr)); return; }
-        for (int i = start; i < arr.length; i++) {
+        if(start == arr.length) { result.add(new String(arr)); return; }
+        for(int i = start; i < arr.length; i++) {
             swap(arr, start, i);
             permuteHelper(arr, start + 1, result);
             swap(arr, start, i);  // backtrack

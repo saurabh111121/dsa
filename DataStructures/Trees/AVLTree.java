@@ -80,29 +80,29 @@ public class AVLTree {
     // INSERT NODE
     // =====================================================
     public static TreeNode insert(TreeNode node, int val) {
-        if (node == null) return new TreeNode(val);
+        if(node == null) return new TreeNode(val);
 
-        if (val < node.val) node.left = insert(node.left, val);
-        else if (val > node.val) node.right = insert(node.right, val);
+        if(val < node.val) node.left = insert(node.left, val);
+        else if(val > node.val) node.right = insert(node.right, val);
         else return node; // no duplicates
 
         node.height = 1 + Math.max(height(node.left), height(node.right));
         int balance = getBalance(node);
 
         // Left Left Case
-        if (balance > 1 && val < node.left.val) return rightRotate(node);
+        if(balance > 1 && val < node.left.val) return rightRotate(node);
 
         // Right Right Case
-        if (balance < -1 && val > node.right.val) return leftRotate(node);
+        if(balance < -1 && val > node.right.val) return leftRotate(node);
 
         // Left Right Case
-        if (balance > 1 && val > node.left.val) {
+        if(balance > 1 && val > node.left.val) {
             node.left = leftRotate(node.left);
             return rightRotate(node);
         }
 
         // Right Left Case
-        if (balance < -1 && val < node.right.val) {
+        if(balance < -1 && val < node.right.val) {
             node.right = rightRotate(node.right);
             return leftRotate(node);
         }
@@ -115,7 +115,7 @@ public class AVLTree {
     // =====================================================
     private static TreeNode minValueNode(TreeNode node) {
         TreeNode current = node;
-        while (current.left != null) current = current.left;
+        while(current.left != null) current = current.left;
         return current;
     }
 
@@ -123,14 +123,14 @@ public class AVLTree {
     // DELETE NODE
     // =====================================================
     public static TreeNode delete(TreeNode root, int val) {
-        if (root == null) return root;
+        if(root == null) return root;
 
-        if (val < root.val) root.left = delete(root.left, val);
-        else if (val > root.val) root.right = delete(root.right, val);
+        if(val < root.val) root.left = delete(root.left, val);
+        else if(val > root.val) root.right = delete(root.right, val);
         else {
-            if (root.left == null || root.right == null) {
+            if(root.left == null || root.right == null) {
                 TreeNode temp = (root.left != null) ? root.left : root.right;
-                if (temp == null) return null;
+                if(temp == null) return null;
                 else root = temp;
             } else {
                 TreeNode temp = minValueNode(root.right);
@@ -143,19 +143,19 @@ public class AVLTree {
         int balance = getBalance(root);
 
         // Left Left Case
-        if (balance > 1 && getBalance(root.left) >= 0) return rightRotate(root);
+        if(balance > 1 && getBalance(root.left) >= 0) return rightRotate(root);
 
         // Left Right Case
-        if (balance > 1 && getBalance(root.left) < 0) {
+        if(balance > 1 && getBalance(root.left) < 0) {
             root.left = leftRotate(root.left);
             return rightRotate(root);
         }
 
         // Right Right Case
-        if (balance < -1 && getBalance(root.right) <= 0) return leftRotate(root);
+        if(balance < -1 && getBalance(root.right) <= 0) return leftRotate(root);
 
         // Right Left Case
-        if (balance < -1 && getBalance(root.right) > 0) {
+        if(balance < -1 && getBalance(root.right) > 0) {
             root.right = rightRotate(root.right);
             return leftRotate(root);
         }
@@ -167,7 +167,7 @@ public class AVLTree {
     // INORDER TRAVERSAL
     // =====================================================
     public static void inorder(TreeNode root) {
-        if (root == null) return;
+        if(root == null) return;
         inorder(root.left);
         System.out.print(root.val + " ");
         inorder(root.right);
@@ -180,7 +180,7 @@ public class AVLTree {
         TreeNode root = null;
         int[] values = {10, 20, 30, 40, 50, 25};
 
-        for (int val : values) root = insert(root, val);
+        for(int val : values) root = insert(root, val);
 
         System.out.println("Inorder Traversal of AVL Tree:");
         inorder(root);

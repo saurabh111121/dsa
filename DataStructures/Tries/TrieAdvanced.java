@@ -35,33 +35,33 @@ public class TrieAdvanced {
         /** Build trie from dictionary, then DFS every cell on board. O(M*N*4^L) */
         public List<String> findWords(char[][] board, String[] words) {
             TrieNode root = new TrieNode();
-            for (String w : words) insertWord(root, w);
+            for(String w : words) insertWord(root, w);
 
             List<String> result = new ArrayList<>();
             int rows = board.length, cols = board[0].length;
-            for (int r = 0; r < rows; r++)
-                for (int c = 0; c < cols; c++)
+            for(int r = 0; r < rows; r++)
+                for(int c = 0; c < cols; c++)
                     dfs(board, r, c, root, result);
             return result;
         }
 
         private void insertWord(TrieNode root, String word) {
             TrieNode cur = root;
-            for (char ch : word.toCharArray()) {
+            for(char ch : word.toCharArray()) {
                 int idx = ch - 'a';
-                if (cur.children[idx] == null) cur.children[idx] = new TrieNode();
+                if(cur.children[idx] == null) cur.children[idx] = new TrieNode();
                 cur = cur.children[idx];
             }
             cur.word = word;
         }
 
         private void dfs(char[][] board, int r, int c, TrieNode node, List<String> res) {
-            if (r < 0 || r >= board.length || c < 0 || c >= board[0].length) return;
+            if(r < 0 || r >= board.length || c < 0 || c >= board[0].length) return;
             char ch = board[r][c];
-            if (ch == '#' || node.children[ch - 'a'] == null) return;
+            if(ch == '#' || node.children[ch - 'a'] == null) return;
 
             TrieNode next = node.children[ch - 'a'];
-            if (next.word != null) {
+            if(next.word != null) {
                 res.add(next.word);
                 next.word = null;          // deduplicate
             }
@@ -85,20 +85,20 @@ public class TrieAdvanced {
             int n = s.length();
             boolean[] dp = new boolean[n + 1];
             dp[0] = true;
-            for (int i = 1; i <= n; i++)
-                for (int j = 0; j < i; j++)
-                    if (dp[j] && dict.contains(s.substring(j, i))) { dp[i] = true; break; }
+            for(int i = 1; i <= n; i++)
+                for(int j = 0; j < i; j++)
+                    if(dp[j] && dict.contains(s.substring(j, i))) { dp[i] = true; break; }
             return dp[n];
         }
 
         // ── 2b. DP + Trie  O(n²) ─────────────────────────────────────────────
         public boolean wordBreakTrie(String s, List<String> wordDict) {
             TrieNode root = new TrieNode();
-            for (String w : wordDict) {
+            for(String w : wordDict) {
                 TrieNode cur = root;
-                for (char ch : w.toCharArray()) {
+                for(char ch : w.toCharArray()) {
                     int idx = ch - 'a';
-                    if (cur.children[idx] == null) cur.children[idx] = new TrieNode();
+                    if(cur.children[idx] == null) cur.children[idx] = new TrieNode();
                     cur = cur.children[idx];
                 }
                 cur.word = w;
@@ -106,14 +106,14 @@ public class TrieAdvanced {
             int n = s.length();
             boolean[] dp = new boolean[n + 1];
             dp[0] = true;
-            for (int i = 0; i < n; i++) {
-                if (!dp[i]) continue;
+            for(int i = 0; i < n; i++) {
+                if(!dp[i]) continue;
                 TrieNode cur = root;
-                for (int j = i; j < n; j++) {
+                for(int j = i; j < n; j++) {
                     int idx = s.charAt(j) - 'a';
-                    if (cur.children[idx] == null) break;
+                    if(cur.children[idx] == null) break;
                     cur = cur.children[idx];
-                    if (cur.word != null) dp[j + 1] = true;
+                    if(cur.word != null) dp[j + 1] = true;
                 }
             }
             return dp[n];
@@ -129,10 +129,10 @@ public class TrieAdvanced {
 
         private void backtrack(String s, int start, Set<String> dict,
                                 StringBuilder path, List<String> result) {
-            if (start == s.length()) { result.add(path.toString().trim()); return; }
-            for (int end = start + 1; end <= s.length(); end++) {
+            if(start == s.length()) { result.add(path.toString().trim()); return; }
+            for(int end = start + 1; end <= s.length(); end++) {
                 String word = s.substring(start, end);
-                if (!dict.contains(word)) continue;
+                if(!dict.contains(word)) continue;
                 int len = path.length();
                 path.append(word).append(' ');
                 backtrack(s, end, dict, path, result);
@@ -149,19 +149,19 @@ public class TrieAdvanced {
         // ── 3a. Trie-based approach  O(total chars) ───────────────────────────
         public String replaceWordsTrie(List<String> dictionary, String sentence) {
             TrieNode root = new TrieNode();
-            for (String root2 : dictionary) {
+            for(String root2 : dictionary) {
                 TrieNode cur = root;
-                for (char ch : root2.toCharArray()) {
+                for(char ch : root2.toCharArray()) {
                     int idx = ch - 'a';
-                    if (cur.children[idx] == null) cur.children[idx] = new TrieNode();
+                    if(cur.children[idx] == null) cur.children[idx] = new TrieNode();
                     cur = cur.children[idx];
-                    if (cur.word != null) break;   // shorter prefix already exists
+                    if(cur.word != null) break;   // shorter prefix already exists
                 }
                 cur.word = root2;
             }
             StringBuilder sb = new StringBuilder();
-            for (String token : sentence.split(" ")) {
-                if (sb.length() > 0) sb.append(' ');
+            for(String token : sentence.split(" ")) {
+                if(sb.length() > 0) sb.append(' ');
                 sb.append(findShortestRoot(root, token));
             }
             return sb.toString();
@@ -169,11 +169,11 @@ public class TrieAdvanced {
 
         private String findShortestRoot(TrieNode root, String word) {
             TrieNode cur = root;
-            for (char ch : word.toCharArray()) {
+            for(char ch : word.toCharArray()) {
                 int idx = ch - 'a';
-                if (cur.children[idx] == null) return word;
+                if(cur.children[idx] == null) return word;
                 cur = cur.children[idx];
-                if (cur.word != null) return cur.word;
+                if(cur.word != null) return cur.word;
             }
             return word;
         }
@@ -182,12 +182,12 @@ public class TrieAdvanced {
         public String replaceWordsHashSet(List<String> dictionary, String sentence) {
             Set<String> dict = new HashSet<>(dictionary);
             StringBuilder sb = new StringBuilder();
-            for (String token : sentence.split(" ")) {
-                if (sb.length() > 0) sb.append(' ');
+            for(String token : sentence.split(" ")) {
+                if(sb.length() > 0) sb.append(' ');
                 String found = token;
-                for (int i = 1; i <= token.length(); i++) {
+                for(int i = 1; i <= token.length(); i++) {
                     String prefix = token.substring(0, i);
-                    if (dict.contains(prefix)) { found = prefix; break; }
+                    if(dict.contains(prefix)) { found = prefix; break; }
                 }
                 sb.append(found);
             }
@@ -203,11 +203,11 @@ public class TrieAdvanced {
         private TrieNode root = new TrieNode();
 
         public void buildDict(String[] dictionary) {
-            for (String w : dictionary) {
+            for(String w : dictionary) {
                 TrieNode cur = root;
-                for (char ch : w.toCharArray()) {
+                for(char ch : w.toCharArray()) {
                     int idx = ch - 'a';
-                    if (cur.children[idx] == null) cur.children[idx] = new TrieNode();
+                    if(cur.children[idx] == null) cur.children[idx] = new TrieNode();
                     cur = cur.children[idx];
                 }
                 cur.word = w;
@@ -220,13 +220,13 @@ public class TrieAdvanced {
         }
 
         private boolean dfs(TrieNode node, String word, int idx, boolean changed) {
-            if (idx == word.length()) return changed && node.word != null;
+            if(idx == word.length()) return changed && node.word != null;
             int target = word.charAt(idx) - 'a';
-            for (int i = 0; i < 26; i++) {
-                if (node.children[i] == null) continue;
+            for(int i = 0; i < 26; i++) {
+                if(node.children[i] == null) continue;
                 boolean newChange = (i != target);
-                if (newChange && changed) continue;   // already used one change
-                if (dfs(node.children[i], word, idx + 1, changed || newChange)) return true;
+                if(newChange && changed) continue;   // already used one change
+                if(dfs(node.children[i], word, idx + 1, changed || newChange)) return true;
             }
             return false;
         }
@@ -237,21 +237,21 @@ public class TrieAdvanced {
             // Each state: [trieNode, position, mismatches]
             Queue<Object[]> queue = new LinkedList<>();
             queue.add(new Object[]{root, 0, 0});
-            while (!queue.isEmpty()) {
+            while(!queue.isEmpty()) {
                 Object[] state = queue.poll();
                 TrieNode node = (TrieNode) state[0];
                 int pos = (int) state[1];
                 int mis = (int) state[2];
-                if (mis > 1) continue;
-                if (pos == searchWord.length()) {
-                    if (mis == 1 && node.word != null) return true;
+                if(mis > 1) continue;
+                if(pos == searchWord.length()) {
+                    if(mis == 1 && node.word != null) return true;
                     continue;
                 }
                 int target = searchWord.charAt(pos) - 'a';
-                for (int i = 0; i < 26; i++) {
-                    if (node.children[i] == null) continue;
+                for(int i = 0; i < 26; i++) {
+                    if(node.children[i] == null) continue;
                     int newMis = mis + (i != target ? 1 : 0);
-                    if (newMis <= 1) queue.add(new Object[]{node.children[i], pos + 1, newMis});
+                    if(newMis <= 1) queue.add(new Object[]{node.children[i], pos + 1, newMis});
                 }
             }
             return false;
@@ -273,14 +273,14 @@ public class TrieAdvanced {
         private StringBuilder current = new StringBuilder();
 
         public AutocompleteSystem(String[] sentences, int[] times) {
-            for (int i = 0; i < sentences.length; i++)
+            for(int i = 0; i < sentences.length; i++)
                 insert(sentences[i], times[i]);
         }
 
         private void insert(String sentence, int count) {
             ACNode cur = root;
-            for (char ch : sentence.toCharArray()) {
-                if (cur.children[ch] == null) cur.children[ch] = new ACNode();
+            for(char ch : sentence.toCharArray()) {
+                if(cur.children[ch] == null) cur.children[ch] = new ACNode();
                 cur = cur.children[ch];
                 cur.counts.merge(sentence, count, Integer::sum);
             }
@@ -291,7 +291,7 @@ public class TrieAdvanced {
          * Returns top-3 matching sentences sorted by frequency (desc), then lexicographically.
          */
         public List<String> input(char c) {
-            if (c == '#') {
+            if(c == '#') {
                 insert(current.toString(), 1);
                 current.setLength(0);
                 return new ArrayList<>();
@@ -300,18 +300,18 @@ public class TrieAdvanced {
             String prefix = current.toString();
             // Navigate to prefix node
             ACNode cur = root;
-            for (char ch : prefix.toCharArray()) {
-                if (cur.children[ch] == null) return new ArrayList<>();
+            for(char ch : prefix.toCharArray()) {
+                if(cur.children[ch] == null) return new ArrayList<>();
                 cur = cur.children[ch];
             }
             // Sort candidates
             List<Map.Entry<String, Integer>> entries = new ArrayList<>(cur.counts.entrySet());
             entries.sort((a, b) -> {
-                if (!b.getValue().equals(a.getValue())) return b.getValue() - a.getValue();
+                if(!b.getValue().equals(a.getValue())) return b.getValue() - a.getValue();
                 return a.getKey().compareTo(b.getKey());
             });
             List<String> result = new ArrayList<>();
-            for (int i = 0; i < Math.min(3, entries.size()); i++)
+            for(int i = 0; i < Math.min(3, entries.size()); i++)
                 result.add(entries.get(i).getKey());
             return result;
         }

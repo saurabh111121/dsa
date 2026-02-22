@@ -25,10 +25,10 @@ public class BinarySearchBasic {
     /** Iterative – O(log n) */
     public static int binarySearch(int[] arr, int target) {
         int lo = 0, hi = arr.length - 1;
-        while (lo <= hi) {
+        while(lo <= hi) {
             int mid = lo + (hi - lo) / 2;
-            if (arr[mid] == target) return mid;
-            if (arr[mid] < target)  lo = mid + 1;
+            if(arr[mid] == target) return mid;
+            if(arr[mid] < target)  lo = mid + 1;
             else                    hi = mid - 1;
         }
         return -1;
@@ -36,10 +36,10 @@ public class BinarySearchBasic {
 
     /** Recursive */
     public static int binarySearchRecursive(int[] arr, int lo, int hi, int target) {
-        if (lo > hi) return -1;
+        if(lo > hi) return -1;
         int mid = lo + (hi - lo) / 2;
-        if (arr[mid] == target) return mid;
-        if (arr[mid] < target)  return binarySearchRecursive(arr, mid + 1, hi, target);
+        if(arr[mid] == target) return mid;
+        if(arr[mid] < target)  return binarySearchRecursive(arr, mid + 1, hi, target);
         return binarySearchRecursive(arr, lo, mid - 1, target);
     }
 
@@ -49,10 +49,10 @@ public class BinarySearchBasic {
 
     public static int firstOccurrence(int[] arr, int target) {
         int lo = 0, hi = arr.length - 1, result = -1;
-        while (lo <= hi) {
+        while(lo <= hi) {
             int mid = lo + (hi - lo) / 2;
-            if (arr[mid] == target) { result = mid; hi = mid - 1; }
-            else if (arr[mid] < target) lo = mid + 1;
+            if(arr[mid] == target) { result = mid; hi = mid - 1; }
+            else if(arr[mid] < target) lo = mid + 1;
             else hi = mid - 1;
         }
         return result;
@@ -60,10 +60,10 @@ public class BinarySearchBasic {
 
     public static int lastOccurrence(int[] arr, int target) {
         int lo = 0, hi = arr.length - 1, result = -1;
-        while (lo <= hi) {
+        while(lo <= hi) {
             int mid = lo + (hi - lo) / 2;
-            if (arr[mid] == target) { result = mid; lo = mid + 1; }
-            else if (arr[mid] < target) lo = mid + 1;
+            if(arr[mid] == target) { result = mid; lo = mid + 1; }
+            else if(arr[mid] < target) lo = mid + 1;
             else hi = mid - 1;
         }
         return result;
@@ -75,7 +75,7 @@ public class BinarySearchBasic {
 
     public static int countOccurrences(int[] arr, int target) {
         int first = firstOccurrence(arr, target);
-        if (first == -1) return 0;
+        if(first == -1) return 0;
         return lastOccurrence(arr, target) - first + 1;
     }
 
@@ -85,15 +85,15 @@ public class BinarySearchBasic {
 
     public static int searchRotated(int[] arr, int target) {
         int lo = 0, hi = arr.length - 1;
-        while (lo <= hi) {
+        while(lo <= hi) {
             int mid = lo + (hi - lo) / 2;
-            if (arr[mid] == target) return mid;
+            if(arr[mid] == target) return mid;
             // left half sorted
-            if (arr[lo] <= arr[mid]) {
-                if (target >= arr[lo] && target < arr[mid]) hi = mid - 1;
+            if(arr[lo] <= arr[mid]) {
+                if(target >= arr[lo] && target < arr[mid]) hi = mid - 1;
                 else lo = mid + 1;
             } else {  // right half sorted
-                if (target > arr[mid] && target <= arr[hi]) lo = mid + 1;
+                if(target > arr[mid] && target <= arr[hi]) lo = mid + 1;
                 else hi = mid - 1;
             }
         }
@@ -103,15 +103,15 @@ public class BinarySearchBasic {
     /** With duplicates – O(log n) avg, O(n) worst */
     public static boolean searchRotatedWithDups(int[] arr, int target) {
         int lo = 0, hi = arr.length - 1;
-        while (lo <= hi) {
+        while(lo <= hi) {
             int mid = lo + (hi - lo) / 2;
-            if (arr[mid] == target) return true;
-            if (arr[lo] == arr[mid] && arr[mid] == arr[hi]) { lo++; hi--; continue; }
-            if (arr[lo] <= arr[mid]) {
-                if (target >= arr[lo] && target < arr[mid]) hi = mid - 1;
+            if(arr[mid] == target) return true;
+            if(arr[lo] == arr[mid] && arr[mid] == arr[hi]) { lo++; hi--; continue; }
+            if(arr[lo] <= arr[mid]) {
+                if(target >= arr[lo] && target < arr[mid]) hi = mid - 1;
                 else lo = mid + 1;
             } else {
-                if (target > arr[mid] && target <= arr[hi]) lo = mid + 1;
+                if(target > arr[mid] && target <= arr[hi]) lo = mid + 1;
                 else hi = mid - 1;
             }
         }
@@ -124,9 +124,9 @@ public class BinarySearchBasic {
 
     public static int findMin(int[] arr) {
         int lo = 0, hi = arr.length - 1;
-        while (lo < hi) {
+        while(lo < hi) {
             int mid = lo + (hi - lo) / 2;
-            if (arr[mid] > arr[hi]) lo = mid + 1;
+            if(arr[mid] > arr[hi]) lo = mid + 1;
             else hi = mid;
         }
         return arr[lo];
@@ -138,11 +138,11 @@ public class BinarySearchBasic {
 
     /** Start from top-right; O(m+n) */
     public static boolean searchMatrix(int[][] mat, int target) {
-        if (mat.length == 0) return false;
+        if(mat.length == 0) return false;
         int r = 0, c = mat[0].length - 1;
-        while (r < mat.length && c >= 0) {
-            if (mat[r][c] == target) return true;
-            if (mat[r][c] > target)  c--;
+        while(r < mat.length && c >= 0) {
+            if(mat[r][c] == target) return true;
+            if(mat[r][c] > target)  c--;
             else r++;
         }
         return false;
@@ -152,11 +152,11 @@ public class BinarySearchBasic {
     public static boolean searchMatrix2(int[][] mat, int target) {
         int m = mat.length, n = mat[0].length;
         int lo = 0, hi = m * n - 1;
-        while (lo <= hi) {
+        while(lo <= hi) {
             int mid = lo + (hi - lo) / 2;
             int val = mat[mid / n][mid % n];
-            if (val == target) return true;
-            if (val < target)  lo = mid + 1;
+            if(val == target) return true;
+            if(val < target)  lo = mid + 1;
             else hi = mid - 1;
         }
         return false;
@@ -168,9 +168,9 @@ public class BinarySearchBasic {
 
     public static int findPeakElement(int[] arr) {
         int lo = 0, hi = arr.length - 1;
-        while (lo < hi) {
+        while(lo < hi) {
             int mid = lo + (hi - lo) / 2;
-            if (arr[mid] > arr[mid + 1]) hi = mid;
+            if(arr[mid] > arr[mid + 1]) hi = mid;
             else lo = mid + 1;
         }
         return lo;
@@ -181,11 +181,11 @@ public class BinarySearchBasic {
     // =========================================================================
 
     public static int mySqrt(int x) {
-        if (x < 2) return x;
+        if(x < 2) return x;
         int lo = 1, hi = x / 2, ans = 1;
-        while (lo <= hi) {
+        while(lo <= hi) {
             int mid = lo + (hi - lo) / 2;
-            if ((long) mid * mid <= x) { ans = mid; lo = mid + 1; }
+            if((long) mid * mid <= x) { ans = mid; lo = mid + 1; }
             else hi = mid - 1;
         }
         return ans;

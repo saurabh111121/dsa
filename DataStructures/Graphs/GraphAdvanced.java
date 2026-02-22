@@ -29,22 +29,22 @@ public class GraphAdvanced {
             parent = new int[n];
             rank = new int[n];
             components = n;
-            for (int i = 0; i < n; i++) parent[i] = i;
+            for(int i = 0; i < n; i++) parent[i] = i;
         }
 
         // Find with path compression
         public int find(int x) {
-            if (parent[x] != x) parent[x] = find(parent[x]);
+            if(parent[x] != x) parent[x] = find(parent[x]);
             return parent[x];
         }
 
         // Union by rank
         public boolean union(int x, int y) {
             int px = find(x), py = find(y);
-            if (px == py) return false; // already same component
-            if (rank[px] < rank[py]) { int t = px; px = py; py = t; }
+            if(px == py) return false; // already same component
+            if(rank[px] < rank[py]) { int t = px; px = py; py = t; }
             parent[py] = px;
-            if (rank[px] == rank[py]) rank[px]++;
+            if(rank[px] == rank[py]) rank[px]++;
             components--;
             return true;
         }
@@ -62,10 +62,10 @@ public class GraphAdvanced {
         UnionFind uf = new UnionFind(n);
         List<int[]> mst = new ArrayList<>();
 
-        for (int[] edge : edges) {
-            if (uf.union(edge[0], edge[1])) {
+        for(int[] edge : edges) {
+            if(uf.union(edge[0], edge[1])) {
                 mst.add(edge);
-                if (mst.size() == n - 1) break;
+                if(mst.size() == n - 1) break;
             }
         }
         return mst.toArray(new int[0][]);
@@ -81,14 +81,14 @@ public class GraphAdvanced {
         pq.offer(new int[]{0, 0});
         int totalCost = 0;
 
-        while (!pq.isEmpty()) {
+        while(!pq.isEmpty()) {
             int[] curr = pq.poll();
             int w = curr[0], u = curr[1];
-            if (visited[u]) continue;
+            if(visited[u]) continue;
             visited[u] = true;
             totalCost += w;
-            for (int[] neighbor : graph.get(u)) {
-                if (!visited[neighbor[0]]) pq.offer(new int[]{neighbor[1], neighbor[0]});
+            for(int[] neighbor : graph.get(u)) {
+                if(!visited[neighbor[0]]) pq.offer(new int[]{neighbor[1], neighbor[0]});
             }
         }
         return totalCost;
@@ -98,12 +98,12 @@ public class GraphAdvanced {
     // 4️⃣ NUMBER OF ISLANDS - DFS
     // =====================================================
     public static int numIslandsDFS(char[][] grid) {
-        if (grid == null || grid.length == 0) return 0;
+        if(grid == null || grid.length == 0) return 0;
         int rows = grid.length, cols = grid[0].length, count = 0;
 
-        for (int i = 0; i < rows; i++) {
-            for (int j = 0; j < cols; j++) {
-                if (grid[i][j] == '1') {
+        for(int i = 0; i < rows; i++) {
+            for(int j = 0; j < cols; j++) {
+                if(grid[i][j] == '1') {
                     count++;
                     dfsIsland(grid, i, j);
                 }
@@ -113,7 +113,7 @@ public class GraphAdvanced {
     }
 
     private static void dfsIsland(char[][] grid, int i, int j) {
-        if (i < 0 || i >= grid.length || j < 0 || j >= grid[0].length || grid[i][j] != '1') return;
+        if(i < 0 || i >= grid.length || j < 0 || j >= grid[0].length || grid[i][j] != '1') return;
         grid[i][j] = '#'; // mark visited
         dfsIsland(grid, i+1, j); dfsIsland(grid, i-1, j);
         dfsIsland(grid, i, j+1); dfsIsland(grid, i, j-1);
@@ -123,22 +123,22 @@ public class GraphAdvanced {
     // 5️⃣ NUMBER OF ISLANDS - BFS
     // =====================================================
     public static int numIslandsBFS(char[][] grid) {
-        if (grid == null || grid.length == 0) return 0;
+        if(grid == null || grid.length == 0) return 0;
         int rows = grid.length, cols = grid[0].length, count = 0;
         int[][] dirs = {{1,0},{-1,0},{0,1},{0,-1}};
 
-        for (int i = 0; i < rows; i++) {
-            for (int j = 0; j < cols; j++) {
-                if (grid[i][j] == '1') {
+        for(int i = 0; i < rows; i++) {
+            for(int j = 0; j < cols; j++) {
+                if(grid[i][j] == '1') {
                     count++;
                     Queue<int[]> queue = new LinkedList<>();
                     queue.offer(new int[]{i, j});
                     grid[i][j] = '#';
-                    while (!queue.isEmpty()) {
+                    while(!queue.isEmpty()) {
                         int[] pos = queue.poll();
-                        for (int[] d : dirs) {
+                        for(int[] d : dirs) {
                             int ni = pos[0]+d[0], nj = pos[1]+d[1];
-                            if (ni>=0 && ni<rows && nj>=0 && nj<cols && grid[ni][nj]=='1') {
+                            if(ni>=0 && ni<rows && nj>=0 && nj<cols && grid[ni][nj]=='1') {
                                 grid[ni][nj] = '#';
                                 queue.offer(new int[]{ni, nj});
                             }
@@ -156,16 +156,16 @@ public class GraphAdvanced {
     public static boolean isBipartiteBFS(List<List<Integer>> graph) {
         int n = graph.size();
         int[] color = new int[n]; // 0=uncolored, 1=red, -1=blue
-        for (int start = 0; start < n; start++) {
-            if (color[start] != 0) continue;
+        for(int start = 0; start < n; start++) {
+            if(color[start] != 0) continue;
             Queue<Integer> queue = new LinkedList<>();
             queue.offer(start);
             color[start] = 1;
-            while (!queue.isEmpty()) {
+            while(!queue.isEmpty()) {
                 int node = queue.poll();
-                for (int nb : graph.get(node)) {
-                    if (color[nb] == 0) { color[nb] = -color[node]; queue.offer(nb); }
-                    else if (color[nb] == color[node]) return false;
+                for(int nb : graph.get(node)) {
+                    if(color[nb] == 0) { color[nb] = -color[node]; queue.offer(nb); }
+                    else if(color[nb] == color[node]) return false;
                 }
             }
         }
@@ -177,17 +177,17 @@ public class GraphAdvanced {
     // =====================================================
     public static boolean isBipartiteDFS(List<List<Integer>> graph) {
         int[] color = new int[graph.size()];
-        for (int i = 0; i < graph.size(); i++) {
-            if (color[i] == 0 && !dfsBipartite(graph, i, 1, color)) return false;
+        for(int i = 0; i < graph.size(); i++) {
+            if(color[i] == 0 && !dfsBipartite(graph, i, 1, color)) return false;
         }
         return true;
     }
 
     private static boolean dfsBipartite(List<List<Integer>> graph, int node, int c, int[] color) {
         color[node] = c;
-        for (int nb : graph.get(node)) {
-            if (color[nb] == 0 && !dfsBipartite(graph, nb, -c, color)) return false;
-            else if (color[nb] == c) return false;
+        for(int nb : graph.get(node)) {
+            if(color[nb] == 0 && !dfsBipartite(graph, nb, -c, color)) return false;
+            else if(color[nb] == c) return false;
         }
         return true;
     }
@@ -210,13 +210,13 @@ public class GraphAdvanced {
         int[][] mst = kruskalMST(4, edges);
         int totalW = 0;
         System.out.println("MST edges:");
-        for (int[] e : mst) { System.out.println("  "+e[0]+"--"+e[2]+"--"+e[1]); totalW+=e[2]; }
+        for(int[] e : mst) { System.out.println("  "+e[0]+"--"+e[2]+"--"+e[1]); totalW+=e[2]; }
         System.out.println("Total weight: " + totalW);
 
         // Prim
         System.out.println("\n=== Prim MST ===");
         List<List<int[]>> g = new ArrayList<>();
-        for (int i = 0; i < 4; i++) g.add(new ArrayList<>());
+        for(int i = 0; i < 4; i++) g.add(new ArrayList<>());
         g.get(0).add(new int[]{1,1}); g.get(1).add(new int[]{0,1});
         g.get(0).add(new int[]{2,4}); g.get(2).add(new int[]{0,4});
         g.get(1).add(new int[]{2,2}); g.get(2).add(new int[]{1,2});
@@ -234,7 +234,7 @@ public class GraphAdvanced {
         // Bipartite
         System.out.println("\n=== Bipartite Check ===");
         List<List<Integer>> bg = new ArrayList<>();
-        for (int i = 0; i < 4; i++) bg.add(new ArrayList<>());
+        for(int i = 0; i < 4; i++) bg.add(new ArrayList<>());
         bg.get(0).add(1); bg.get(1).add(0); bg.get(0).add(3); bg.get(3).add(0);
         bg.get(1).add(2); bg.get(2).add(1); bg.get(2).add(3); bg.get(3).add(2);
         System.out.println("Is bipartite (BFS): " + isBipartiteBFS(bg));

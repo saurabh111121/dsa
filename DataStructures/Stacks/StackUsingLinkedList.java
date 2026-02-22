@@ -59,7 +59,7 @@ public class StackUsingLinkedList {
         // 2️⃣ POP - O(1)
         // =====================================================
         public int pop() {
-            if (isEmpty()) throw new RuntimeException("Stack underflow");
+            if(isEmpty()) throw new RuntimeException("Stack underflow");
             int val = top.val;
             top = top.next;
             size--;
@@ -70,7 +70,7 @@ public class StackUsingLinkedList {
         // 3️⃣ PEEK - O(1)
         // =====================================================
         public int peek() {
-            if (isEmpty()) throw new RuntimeException("Stack is empty");
+            if(isEmpty()) throw new RuntimeException("Stack is empty");
             return top.val;
         }
 
@@ -95,8 +95,8 @@ public class StackUsingLinkedList {
             Node current = top;
             int pos = 1;
 
-            while (current != null) {
-                if (current.val == val) return pos;
+            while(current != null) {
+                if(current.val == val) return pos;
                 current = current.next;
                 pos++;
             }
@@ -110,7 +110,7 @@ public class StackUsingLinkedList {
         public void print() {
             System.out.print("Stack (top -> bottom): ");
             Node current = top;
-            while (current != null) {
+            while(current != null) {
                 System.out.print(current.val + (current.next != null ? " -> " : ""));
                 current = current.next;
             }
@@ -140,7 +140,7 @@ public class StackUsingLinkedList {
         System.out.println("Search 99: position " + stack.search(99));
 
         // Pop all
-        while (!stack.isEmpty()) {
+        while(!stack.isEmpty()) {
             System.out.print("Popped: " + stack.pop() + "  ");
         }
         System.out.println("\nStack empty: " + stack.isEmpty());

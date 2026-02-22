@@ -30,7 +30,7 @@ public class SubarrayOperations {
         int maxCurrent = arr[0];
         int maxGlobal = arr[0];
 
-        for (int i = 1; i < arr.length; i++) {
+        for(int i = 1; i < arr.length; i++) {
             maxCurrent = Math.max(arr[i], maxCurrent + arr[i]);
             maxGlobal = Math.max(maxGlobal, maxCurrent);
         }
@@ -43,15 +43,15 @@ public class SubarrayOperations {
         int maxCurrent = arr[0], maxGlobal = arr[0];
         int start = 0, end = 0, s = 0;
 
-        for (int i = 1; i < arr.length; i++) {
-            if (arr[i] > maxCurrent + arr[i]) {
+        for(int i = 1; i < arr.length; i++) {
+            if(arr[i] > maxCurrent + arr[i]) {
                 maxCurrent = arr[i];
                 s = i;
             } else {
                 maxCurrent += arr[i];
             }
 
-            if (maxCurrent > maxGlobal) {
+            if(maxCurrent > maxGlobal) {
                 maxGlobal = maxCurrent;
                 start = s;
                 end = i;

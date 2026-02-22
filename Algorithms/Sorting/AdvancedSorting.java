@@ -23,7 +23,7 @@ public class AdvancedSorting {
 
     /** Recursive merge sort */
     public static void mergeSort(int[] arr, int left, int right) {
-        if (left >= right) return;
+        if(left >= right) return;
         int mid = left + (right - left) / 2;
         mergeSort(arr, left, mid);
         mergeSort(arr, mid + 1, right);
@@ -33,17 +33,17 @@ public class AdvancedSorting {
     private static void merge(int[] arr, int l, int m, int r) {
         int[] tmp = Arrays.copyOfRange(arr, l, r + 1);
         int i = 0, j = m - l + 1, k = l;
-        while (i <= m - l && j <= r - l)
+        while(i <= m - l && j <= r - l)
             arr[k++] = tmp[i] <= tmp[j] ? tmp[i++] : tmp[j++];
-        while (i <= m - l) arr[k++] = tmp[i++];
-        while (j <= r - l)  arr[k++] = tmp[j++];
+        while(i <= m - l) arr[k++] = tmp[i++];
+        while(j <= r - l)  arr[k++] = tmp[j++];
     }
 
     /** Bottom-up iterative merge sort – no recursion stack */
     public static void mergeSortIterative(int[] arr) {
         int n = arr.length;
-        for (int size = 1; size < n; size *= 2)
-            for (int left = 0; left < n - size; left += 2 * size) {
+        for(int size = 1; size < n; size *= 2)
+            for(int left = 0; left < n - size; left += 2 * size) {
                 int mid   = left + size - 1;
                 int right = Math.min(left + 2 * size - 1, n - 1);
                 merge(arr, left, mid, right);
@@ -56,7 +56,7 @@ public class AdvancedSorting {
 
     /** Classic quick sort with last-element pivot */
     public static void quickSort(int[] arr, int low, int high) {
-        if (low >= high) return;
+        if(low >= high) return;
         int pi = partition(arr, low, high);
         quickSort(arr, low, pi - 1);
         quickSort(arr, pi + 1, high);
@@ -64,15 +64,15 @@ public class AdvancedSorting {
 
     private static int partition(int[] arr, int low, int high) {
         int pivot = arr[high], i = low - 1;
-        for (int j = low; j < high; j++)
-            if (arr[j] <= pivot) swap(arr, ++i, j);
+        for(int j = low; j < high; j++)
+            if(arr[j] <= pivot) swap(arr, ++i, j);
         swap(arr, i + 1, high);
         return i + 1;
     }
 
     /** Randomized quick sort – avoids worst case on sorted input */
     public static void quickSortRandom(int[] arr, int low, int high) {
-        if (low >= high) return;
+        if(low >= high) return;
         int rand = low + (int)(Math.random() * (high - low + 1));
         swap(arr, rand, high);
         int pi = partition(arr, low, high);
@@ -82,12 +82,12 @@ public class AdvancedSorting {
 
     /** 3-way quick sort (Dutch National Flag) – O(n) on many duplicates */
     public static void quickSort3Way(int[] arr, int low, int high) {
-        if (low >= high) return;
+        if(low >= high) return;
         int lt = low, gt = high, i = low + 1;
         int pivot = arr[low];
-        while (i <= gt) {
+        while(i <= gt) {
             if      (arr[i] < pivot) swap(arr, lt++, i++);
-            else if (arr[i] > pivot) swap(arr, i, gt--);
+            else if(arr[i] > pivot) swap(arr, i, gt--);
             else                     i++;
         }
         quickSort3Way(arr, low, lt - 1);
@@ -99,9 +99,9 @@ public class AdvancedSorting {
         Deque<Integer> stack = new ArrayDeque<>();
         stack.push(low);
         stack.push(high);
-        while (!stack.isEmpty()) {
+        while(!stack.isEmpty()) {
             int h = stack.pop(), l = stack.pop();
-            if (l >= h) continue;
+            if(l >= h) continue;
             int pi = partition(arr, l, h);
             stack.push(l);  stack.push(pi - 1);
             stack.push(pi + 1); stack.push(h);
@@ -115,9 +115,9 @@ public class AdvancedSorting {
     public static void heapSort(int[] arr) {
         int n = arr.length;
         // Build max-heap O(n)
-        for (int i = n / 2 - 1; i >= 0; i--) heapify(arr, n, i);
+        for(int i = n / 2 - 1; i >= 0; i--) heapify(arr, n, i);
         // Extract one by one
-        for (int i = n - 1; i > 0; i--) {
+        for(int i = n - 1; i > 0; i--) {
             swap(arr, 0, i);
             heapify(arr, i, 0);
         }
@@ -125,9 +125,9 @@ public class AdvancedSorting {
 
     private static void heapify(int[] arr, int n, int i) {
         int largest = i, l = 2*i+1, r = 2*i+2;
-        if (l < n && arr[l] > arr[largest]) largest = l;
-        if (r < n && arr[r] > arr[largest]) largest = r;
-        if (largest != i) { swap(arr, i, largest); heapify(arr, n, largest); }
+        if(l < n && arr[l] > arr[largest]) largest = l;
+        if(r < n && arr[r] > arr[largest]) largest = r;
+        if(largest != i) { swap(arr, i, largest); heapify(arr, n, largest); }
     }
 
     // =========================================================================
@@ -140,21 +140,21 @@ public class AdvancedSorting {
     public static void timSort(int[] arr) {
         int n = arr.length;
         // Sort small runs with insertion sort
-        for (int i = 0; i < n; i += RUN)
+        for(int i = 0; i < n; i += RUN)
             insertionSortRange(arr, i, Math.min(i + RUN - 1, n - 1));
         // Merge runs
-        for (int size = RUN; size < n; size *= 2)
-            for (int left = 0; left < n; left += 2 * size) {
+        for(int size = RUN; size < n; size *= 2)
+            for(int left = 0; left < n; left += 2 * size) {
                 int mid   = Math.min(left + size - 1, n - 1);
                 int right = Math.min(left + 2 * size - 1, n - 1);
-                if (mid < right) merge(arr, left, mid, right);
+                if(mid < right) merge(arr, left, mid, right);
             }
     }
 
     private static void insertionSortRange(int[] arr, int left, int right) {
-        for (int i = left + 1; i <= right; i++) {
+        for(int i = left + 1; i <= right; i++) {
             int key = arr[i], j = i - 1;
-            while (j >= left && arr[j] > key) { arr[j + 1] = arr[j]; j--; }
+            while(j >= left && arr[j] > key) { arr[j + 1] = arr[j]; j--; }
             arr[j + 1] = key;
         }
     }
@@ -165,16 +165,16 @@ public class AdvancedSorting {
 
     public static void cycleSort(int[] arr) {
         int n = arr.length, writes = 0;
-        for (int cycleStart = 0; cycleStart < n - 1; cycleStart++) {
+        for(int cycleStart = 0; cycleStart < n - 1; cycleStart++) {
             int item = arr[cycleStart], pos = cycleStart;
-            for (int i = cycleStart + 1; i < n; i++) if (arr[i] < item) pos++;
-            if (pos == cycleStart) continue;
-            while (item == arr[pos]) pos++;
+            for(int i = cycleStart + 1; i < n; i++) if(arr[i] < item) pos++;
+            if(pos == cycleStart) continue;
+            while(item == arr[pos]) pos++;
             swap2(arr, pos, cycleStart); writes++;
-            while (pos != cycleStart) {
+            while(pos != cycleStart) {
                 pos = cycleStart;
-                for (int i = cycleStart + 1; i < n; i++) if (arr[i] < arr[cycleStart]) pos++;
-                while (arr[cycleStart] == arr[pos]) pos++;
+                for(int i = cycleStart + 1; i < n; i++) if(arr[i] < arr[cycleStart]) pos++;
+                while(arr[cycleStart] == arr[pos]) pos++;
                 swap2(arr, pos, cycleStart); writes++;
             }
         }

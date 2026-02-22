@@ -34,23 +34,23 @@ public class QueueUsingArray {
 
         // ENQUEUE - add to rear
         public void enqueue(int val) {
-            if (isFull()) throw new RuntimeException("Queue is full");
+            if(isFull()) throw new RuntimeException("Queue is full");
             data[++rear] = val;
         }
 
         // DEQUEUE - remove from front (shifts all elements - O(n))
         public int dequeue() {
-            if (isEmpty()) throw new RuntimeException("Queue is empty");
+            if(isEmpty()) throw new RuntimeException("Queue is empty");
             int val = data[front];
             // Shift elements left
-            for (int i = 0; i < rear; i++) data[i] = data[i + 1];
+            for(int i = 0; i < rear; i++) data[i] = data[i + 1];
             rear--;
             return val;
         }
 
         // PEEK - front element
         public int peek() {
-            if (isEmpty()) throw new RuntimeException("Queue is empty");
+            if(isEmpty()) throw new RuntimeException("Queue is empty");
             return data[front];
         }
 
@@ -62,7 +62,7 @@ public class QueueUsingArray {
 
         public void print() {
             System.out.print("Queue (front -> rear): ");
-            for (int i = front; i <= rear; i++) {
+            for(int i = front; i <= rear; i++) {
                 System.out.print(data[i] + (i < rear ? " -> " : ""));
             }
             System.out.println();
@@ -89,7 +89,7 @@ public class QueueUsingArray {
 
         // ENQUEUE - O(1)
         public void enqueue(int val) {
-            if (isFull()) throw new RuntimeException("Queue is full");
+            if(isFull()) throw new RuntimeException("Queue is full");
             rear = (rear + 1) % capacity;
             data[rear] = val;
             size++;
@@ -97,7 +97,7 @@ public class QueueUsingArray {
 
         // DEQUEUE - O(1)
         public int dequeue() {
-            if (isEmpty()) throw new RuntimeException("Queue is empty");
+            if(isEmpty()) throw new RuntimeException("Queue is empty");
             int val = data[front];
             front = (front + 1) % capacity;
             size--;
@@ -106,7 +106,7 @@ public class QueueUsingArray {
 
         // PEEK - front element
         public int peek() {
-            if (isEmpty()) throw new RuntimeException("Queue is empty");
+            if(isEmpty()) throw new RuntimeException("Queue is empty");
             return data[front];
         }
 
@@ -118,9 +118,9 @@ public class QueueUsingArray {
 
         public void print() {
             System.out.print("CircularQueue (front -> rear): ");
-            for (int i = 0; i < size; i++) {
+            for(int i = 0; i < size; i++) {
                 System.out.print(data[(front + i) % capacity]);
-                if (i < size - 1) System.out.print(" -> ");
+                if(i < size - 1) System.out.print(" -> ");
             }
             System.out.println();
         }

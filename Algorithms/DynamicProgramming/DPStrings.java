@@ -23,15 +23,15 @@ public class DPStrings {
     /** Memoization */
     public static int editDistanceMemo(String a, String b) {
         int[][] dp = new int[a.length()][b.length()];
-        for (int[] row : dp) java.util.Arrays.fill(row, -1);
+        for(int[] row : dp) java.util.Arrays.fill(row, -1);
         return edHelper(a, b, a.length() - 1, b.length() - 1, dp);
     }
 
     private static int edHelper(String a, String b, int i, int j, int[][] dp) {
-        if (i < 0) return j + 1;   // insert all remaining of b
-        if (j < 0) return i + 1;   // delete all remaining of a
-        if (dp[i][j] != -1) return dp[i][j];
-        if (a.charAt(i) == b.charAt(j))
+        if(i < 0) return j + 1;   // insert all remaining of b
+        if(j < 0) return i + 1;   // delete all remaining of a
+        if(dp[i][j] != -1) return dp[i][j];
+        if(a.charAt(i) == b.charAt(j))
             return dp[i][j] = edHelper(a, b, i - 1, j - 1, dp);
         return dp[i][j] = 1 + Math.min(
                 edHelper(a, b, i - 1, j - 1, dp),  // replace
@@ -45,11 +45,11 @@ public class DPStrings {
     public static int editDistanceTab(String a, String b) {
         int m = a.length(), n = b.length();
         int[][] dp = new int[m + 1][n + 1];
-        for (int i = 0; i <= m; i++) dp[i][0] = i;
-        for (int j = 0; j <= n; j++) dp[0][j] = j;
-        for (int i = 1; i <= m; i++) {
-            for (int j = 1; j <= n; j++) {
-                if (a.charAt(i - 1) == b.charAt(j - 1))
+        for(int i = 0; i <= m; i++) dp[i][0] = i;
+        for(int j = 0; j <= n; j++) dp[0][j] = j;
+        for(int i = 1; i <= m; i++) {
+            for(int j = 1; j <= n; j++) {
+                if(a.charAt(i - 1) == b.charAt(j - 1))
                     dp[i][j] = dp[i - 1][j - 1];
                 else
                     dp[i][j] = 1 + Math.min(dp[i - 1][j - 1],
@@ -63,11 +63,11 @@ public class DPStrings {
     public static int editDistanceOpt(String a, String b) {
         int m = a.length(), n = b.length();
         int[] prev = new int[n + 1], curr = new int[n + 1];
-        for (int j = 0; j <= n; j++) prev[j] = j;
-        for (int i = 1; i <= m; i++) {
+        for(int j = 0; j <= n; j++) prev[j] = j;
+        for(int i = 1; i <= m; i++) {
             curr[0] = i;
-            for (int j = 1; j <= n; j++) {
-                if (a.charAt(i - 1) == b.charAt(j - 1))
+            for(int j = 1; j <= n; j++) {
+                if(a.charAt(i - 1) == b.charAt(j - 1))
                     curr[j] = prev[j - 1];
                 else
                     curr[j] = 1 + Math.min(prev[j - 1], Math.min(prev[j], curr[j - 1]));
@@ -90,18 +90,18 @@ public class DPStrings {
     }
 
     private static boolean wcHelper(String s, String p, int i, int j, Boolean[][] dp) {
-        if (i == 0 && j == 0) return true;
-        if (j == 0) return false;
-        if (i == 0) {
-            for (int k = 1; k <= j; k++) if (p.charAt(k - 1) != '*') return false;
+        if(i == 0 && j == 0) return true;
+        if(j == 0) return false;
+        if(i == 0) {
+            for(int k = 1; k <= j; k++) if(p.charAt(k - 1) != '*') return false;
             return true;
         }
-        if (dp[i][j] != null) return dp[i][j];
+        if(dp[i][j] != null) return dp[i][j];
         char pc = p.charAt(j - 1), sc = s.charAt(i - 1);
         boolean res;
-        if (pc == '*')
+        if(pc == '*')
             res = wcHelper(s, p, i - 1, j, dp) || wcHelper(s, p, i, j - 1, dp);
-        else if (pc == '?' || pc == sc)
+        else if(pc == '?' || pc == sc)
             res = wcHelper(s, p, i - 1, j - 1, dp);
         else
             res = false;
@@ -113,13 +113,13 @@ public class DPStrings {
         int m = s.length(), n = p.length();
         boolean[][] dp = new boolean[m + 1][n + 1];
         dp[0][0] = true;
-        for (int j = 1; j <= n; j++) dp[0][j] = dp[0][j - 1] && p.charAt(j - 1) == '*';
-        for (int i = 1; i <= m; i++) {
-            for (int j = 1; j <= n; j++) {
+        for(int j = 1; j <= n; j++) dp[0][j] = dp[0][j - 1] && p.charAt(j - 1) == '*';
+        for(int i = 1; i <= m; i++) {
+            for(int j = 1; j <= n; j++) {
                 char pc = p.charAt(j - 1);
-                if (pc == '*')
+                if(pc == '*')
                     dp[i][j] = dp[i - 1][j] || dp[i][j - 1];
-                else if (pc == '?' || pc == s.charAt(i - 1))
+                else if(pc == '?' || pc == s.charAt(i - 1))
                     dp[i][j] = dp[i - 1][j - 1];
             }
         }
@@ -137,19 +137,19 @@ public class DPStrings {
         boolean[][] dp = new boolean[m + 1][n + 1];
         dp[0][0] = true;
         // patterns like a*, a*b*, a*b*c* can match empty string
-        for (int j = 2; j <= n; j += 2)
-            if (p.charAt(j - 1) == '*') dp[0][j] = dp[0][j - 2];
-        for (int i = 1; i <= m; i++) {
-            for (int j = 1; j <= n; j++) {
+        for(int j = 2; j <= n; j += 2)
+            if(p.charAt(j - 1) == '*') dp[0][j] = dp[0][j - 2];
+        for(int i = 1; i <= m; i++) {
+            for(int j = 1; j <= n; j++) {
                 char pc = p.charAt(j - 1), sc = s.charAt(i - 1);
-                if (pc == '*') {
+                if(pc == '*') {
                     char prev = p.charAt(j - 2);
                     // zero occurrences of prev
                     dp[i][j] = dp[i][j - 2];
                     // one or more occurrences
-                    if (prev == '.' || prev == sc)
+                    if(prev == '.' || prev == sc)
                         dp[i][j] = dp[i][j] || dp[i - 1][j];
-                } else if (pc == '.' || pc == sc) {
+                } else if(pc == '.' || pc == sc) {
                     dp[i][j] = dp[i - 1][j - 1];
                 }
             }
@@ -165,13 +165,13 @@ public class DPStrings {
     /** Tabulation */
     public static boolean isInterleave(String s1, String s2, String s3) {
         int m = s1.length(), n = s2.length();
-        if (m + n != s3.length()) return false;
+        if(m + n != s3.length()) return false;
         boolean[][] dp = new boolean[m + 1][n + 1];
         dp[0][0] = true;
-        for (int i = 1; i <= m; i++) dp[i][0] = dp[i - 1][0] && s1.charAt(i - 1) == s3.charAt(i - 1);
-        for (int j = 1; j <= n; j++) dp[0][j] = dp[0][j - 1] && s2.charAt(j - 1) == s3.charAt(j - 1);
-        for (int i = 1; i <= m; i++) {
-            for (int j = 1; j <= n; j++) {
+        for(int i = 1; i <= m; i++) dp[i][0] = dp[i - 1][0] && s1.charAt(i - 1) == s3.charAt(i - 1);
+        for(int j = 1; j <= n; j++) dp[0][j] = dp[0][j - 1] && s2.charAt(j - 1) == s3.charAt(j - 1);
+        for(int i = 1; i <= m; i++) {
+            for(int j = 1; j <= n; j++) {
                 char c = s3.charAt(i + j - 1);
                 dp[i][j] = (dp[i - 1][j] && s1.charAt(i - 1) == c)
                          || (dp[i][j - 1] && s2.charAt(j - 1) == c);
@@ -183,13 +183,13 @@ public class DPStrings {
     /** Space-Optimized O(n) */
     public static boolean isInterleaveOpt(String s1, String s2, String s3) {
         int m = s1.length(), n = s2.length();
-        if (m + n != s3.length()) return false;
+        if(m + n != s3.length()) return false;
         boolean[] dp = new boolean[n + 1];
         dp[0] = true;
-        for (int j = 1; j <= n; j++) dp[j] = dp[j - 1] && s2.charAt(j - 1) == s3.charAt(j - 1);
-        for (int i = 1; i <= m; i++) {
+        for(int j = 1; j <= n; j++) dp[j] = dp[j - 1] && s2.charAt(j - 1) == s3.charAt(j - 1);
+        for(int i = 1; i <= m; i++) {
             dp[0] = dp[0] && s1.charAt(i - 1) == s3.charAt(i - 1);
-            for (int j = 1; j <= n; j++) {
+            for(int j = 1; j <= n; j++) {
                 char c = s3.charAt(i + j - 1);
                 dp[j] = (dp[j] && s1.charAt(i - 1) == c)
                       || (dp[j - 1] && s2.charAt(j - 1) == c);
@@ -207,11 +207,11 @@ public class DPStrings {
     public static long distinctSubseq(String s, String t) {
         int m = s.length(), n = t.length();
         long[][] dp = new long[m + 1][n + 1];
-        for (int i = 0; i <= m; i++) dp[i][0] = 1; // empty t matches any prefix
-        for (int i = 1; i <= m; i++) {
-            for (int j = 1; j <= n; j++) {
+        for(int i = 0; i <= m; i++) dp[i][0] = 1; // empty t matches any prefix
+        for(int i = 1; i <= m; i++) {
+            for(int j = 1; j <= n; j++) {
                 dp[i][j] = dp[i - 1][j]; // skip s[i]
-                if (s.charAt(i - 1) == t.charAt(j - 1))
+                if(s.charAt(i - 1) == t.charAt(j - 1))
                     dp[i][j] += dp[i - 1][j - 1];
             }
         }
@@ -223,9 +223,9 @@ public class DPStrings {
         int n = t.length();
         long[] dp = new long[n + 1];
         dp[0] = 1;
-        for (char sc : s.toCharArray()) {
-            for (int j = n; j >= 1; j--) {
-                if (sc == t.charAt(j - 1)) dp[j] += dp[j - 1];
+        for(char sc : s.toCharArray()) {
+            for(int j = n; j >= 1; j--) {
+                if(sc == t.charAt(j - 1)) dp[j] += dp[j - 1];
             }
         }
         return dp[n];
@@ -239,26 +239,26 @@ public class DPStrings {
     private static java.util.Map<String, Boolean> scrMemo = new java.util.HashMap<>();
 
     public static boolean isScramble(String s1, String s2) {
-        if (s1.equals(s2)) return true;
-        if (s1.length() != s2.length()) return false;
+        if(s1.equals(s2)) return true;
+        if(s1.length() != s2.length()) return false;
         // prune: same char frequency
         int[] freq = new int[26];
-        for (char c : s1.toCharArray()) freq[c - 'a']++;
-        for (char c : s2.toCharArray()) freq[c - 'a']--;
-        for (int f : freq) if (f != 0) return false;
+        for(char c : s1.toCharArray()) freq[c - 'a']++;
+        for(char c : s2.toCharArray()) freq[c - 'a']--;
+        for(int f : freq) if(f != 0) return false;
 
         String key = s1 + "#" + s2;
-        if (scrMemo.containsKey(key)) return scrMemo.get(key);
+        if(scrMemo.containsKey(key)) return scrMemo.get(key);
 
         int n = s1.length();
-        for (int len = 1; len < n; len++) {
+        for(int len = 1; len < n; len++) {
             // no swap
-            if (isScramble(s1.substring(0, len), s2.substring(0, len)) &&
+            if(isScramble(s1.substring(0, len), s2.substring(0, len)) &&
                 isScramble(s1.substring(len), s2.substring(len))) {
                 scrMemo.put(key, true); return true;
             }
             // swap
-            if (isScramble(s1.substring(0, len), s2.substring(n - len)) &&
+            if(isScramble(s1.substring(0, len), s2.substring(n - len)) &&
                 isScramble(s1.substring(len), s2.substring(0, n - len))) {
                 scrMemo.put(key, true); return true;
             }
@@ -270,20 +270,20 @@ public class DPStrings {
     /** 3-D Tabulation dp[len][i][j] = is s1[i..i+len-1] scramble of s2[j..j+len-1] */
     public static boolean isScrambleTab(String s1, String s2) {
         int n = s1.length();
-        if (n != s2.length()) return false;
+        if(n != s2.length()) return false;
         boolean[][][] dp = new boolean[n + 1][n][n];
         // base: length 1
-        for (int i = 0; i < n; i++)
-            for (int j = 0; j < n; j++)
+        for(int i = 0; i < n; i++)
+            for(int j = 0; j < n; j++)
                 dp[1][i][j] = s1.charAt(i) == s2.charAt(j);
-        for (int len = 2; len <= n; len++) {
-            for (int i = 0; i <= n - len; i++) {
-                for (int j = 0; j <= n - len; j++) {
-                    for (int k = 1; k < len; k++) {
+        for(int len = 2; len <= n; len++) {
+            for(int i = 0; i <= n - len; i++) {
+                for(int j = 0; j <= n - len; j++) {
+                    for(int k = 1; k < len; k++) {
                         // no swap
-                        if (dp[k][i][j] && dp[len - k][i + k][j + k]) { dp[len][i][j] = true; break; }
+                        if(dp[k][i][j] && dp[len - k][i + k][j + k]) { dp[len][i][j] = true; break; }
                         // swap
-                        if (dp[k][i][j + len - k] && dp[len - k][i + k][j]) { dp[len][i][j] = true; break; }
+                        if(dp[k][i][j + len - k] && dp[len - k][i + k][j]) { dp[len][i][j] = true; break; }
                     }
                 }
             }

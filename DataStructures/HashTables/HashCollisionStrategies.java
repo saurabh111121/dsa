@@ -45,8 +45,8 @@ public class HashCollisionStrategies {
         public void put(int key, int val) {
             int idx = hash(key);
             Node curr = buckets[idx];
-            while (curr != null) {
-                if (curr.key == key) { curr.val = val; return; }
+            while(curr != null) {
+                if(curr.key == key) { curr.val = val; return; }
                 curr = curr.next;
             }
             Node newNode = new Node(key, val);
@@ -57,8 +57,8 @@ public class HashCollisionStrategies {
         public int get(int key) {
             int idx = hash(key);
             Node curr = buckets[idx];
-            while (curr != null) {
-                if (curr.key == key) return curr.val;
+            while(curr != null) {
+                if(curr.key == key) return curr.val;
                 curr = curr.next;
             }
             return -1;
@@ -66,13 +66,13 @@ public class HashCollisionStrategies {
 
         public void print() {
             System.out.println("Separate Chaining:");
-            for (int i = 0; i < capacity; i++) {
-                if (buckets[i] != null) {
+            for(int i = 0; i < capacity; i++) {
+                if(buckets[i] != null) {
                     System.out.print("  [" + i + "]: ");
                     Node curr = buckets[i];
-                    while (curr != null) {
+                    while(curr != null) {
                         System.out.print("(" + curr.key + "," + curr.val + ")");
-                        if (curr.next != null) System.out.print(" -> ");
+                        if(curr.next != null) System.out.print(" -> ");
                         curr = curr.next;
                     }
                     System.out.println();
@@ -105,10 +105,10 @@ public class HashCollisionStrategies {
 
         public void put(int key, int val) {
             int idx = hash(key);
-            while (occupied[idx] && !deleted[idx] && keys[idx] != key) {
+            while(occupied[idx] && !deleted[idx] && keys[idx] != key) {
                 idx = (idx + 1) % capacity;
             }
-            if (!occupied[idx] || deleted[idx]) size++;
+            if(!occupied[idx] || deleted[idx]) size++;
             keys[idx] = key;
             vals[idx] = val;
             occupied[idx] = true;
@@ -118,10 +118,10 @@ public class HashCollisionStrategies {
         public int get(int key) {
             int idx = hash(key);
             int start = idx;
-            while (occupied[idx]) {
-                if (!deleted[idx] && keys[idx] == key) return vals[idx];
+            while(occupied[idx]) {
+                if(!deleted[idx] && keys[idx] == key) return vals[idx];
                 idx = (idx + 1) % capacity;
-                if (idx == start) break;
+                if(idx == start) break;
             }
             return -1;
         }
@@ -129,21 +129,21 @@ public class HashCollisionStrategies {
         public void remove(int key) {
             int idx = hash(key);
             int start = idx;
-            while (occupied[idx]) {
-                if (!deleted[idx] && keys[idx] == key) {
+            while(occupied[idx]) {
+                if(!deleted[idx] && keys[idx] == key) {
                     deleted[idx] = true;
                     size--;
                     return;
                 }
                 idx = (idx + 1) % capacity;
-                if (idx == start) break;
+                if(idx == start) break;
             }
         }
 
         public void print() {
             System.out.println("Linear Probing:");
-            for (int i = 0; i < capacity; i++) {
-                if (occupied[i] && !deleted[i]) {
+            for(int i = 0; i < capacity; i++) {
+                if(occupied[i] && !deleted[i]) {
                     System.out.println("  [" + i + "]: (" + keys[i] + "," + vals[i] + ")");
                 }
             }
@@ -174,7 +174,7 @@ public class HashCollisionStrategies {
             int base = hash(key);
             int i = 0;
             int idx = base;
-            while (occupied[idx] && !deleted[idx] && keys[idx] != key) {
+            while(occupied[idx] && !deleted[idx] && keys[idx] != key) {
                 i++;
                 idx = (base + i * i) % capacity;
             }
@@ -188,19 +188,19 @@ public class HashCollisionStrategies {
             int base = hash(key);
             int i = 0;
             int idx = base;
-            while (occupied[idx]) {
-                if (!deleted[idx] && keys[idx] == key) return vals[idx];
+            while(occupied[idx]) {
+                if(!deleted[idx] && keys[idx] == key) return vals[idx];
                 i++;
                 idx = (base + i * i) % capacity;
-                if (i >= capacity) break;
+                if(i >= capacity) break;
             }
             return -1;
         }
 
         public void print() {
             System.out.println("Quadratic Probing:");
-            for (int i = 0; i < capacity; i++) {
-                if (occupied[i] && !deleted[i]) {
+            for(int i = 0; i < capacity; i++) {
+                if(occupied[i] && !deleted[i]) {
                     System.out.println("  [" + i + "]: (" + keys[i] + "," + vals[i] + ")");
                 }
             }
@@ -234,13 +234,13 @@ public class HashCollisionStrategies {
 
         private int getLargerPrime(int cap) {
             int p = cap - 1;
-            while (!isPrime(p)) p--;
+            while(!isPrime(p)) p--;
             return p;
         }
 
         private boolean isPrime(int n) {
-            if (n < 2) return false;
-            for (int i = 2; i * i <= n; i++) if (n % i == 0) return false;
+            if(n < 2) return false;
+            for(int i = 2; i * i <= n; i++) if(n % i == 0) return false;
             return true;
         }
 
@@ -250,7 +250,7 @@ public class HashCollisionStrategies {
             int i = 0;
             int idx = h1;
 
-            while (occupied[idx] && !deleted[idx] && keys[idx] != key) {
+            while(occupied[idx] && !deleted[idx] && keys[idx] != key) {
                 i++;
                 idx = (h1 + i * h2) % capacity;
             }
@@ -266,19 +266,19 @@ public class HashCollisionStrategies {
             int i = 0;
             int idx = h1;
 
-            while (occupied[idx]) {
-                if (!deleted[idx] && keys[idx] == key) return vals[idx];
+            while(occupied[idx]) {
+                if(!deleted[idx] && keys[idx] == key) return vals[idx];
                 i++;
                 idx = (h1 + i * h2) % capacity;
-                if (i >= capacity) break;
+                if(i >= capacity) break;
             }
             return -1;
         }
 
         public void print() {
             System.out.println("Double Hashing (prime=" + prime + "):");
-            for (int i = 0; i < capacity; i++) {
-                if (occupied[i] && !deleted[i]) {
+            for(int i = 0; i < capacity; i++) {
+                if(occupied[i] && !deleted[i]) {
                     System.out.println("  [" + i + "]: (" + keys[i] + "," + vals[i] + ")");
                 }
             }

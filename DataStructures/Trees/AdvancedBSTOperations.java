@@ -33,10 +33,10 @@ public class AdvancedBSTOperations {
     // INSERT BST (RECURSIVE)
     // =====================================================
     public static TreeNode insertBST(TreeNode root, int val) {
-        if (root == null) return new TreeNode(val);
+        if(root == null) return new TreeNode(val);
 
-        if (val < root.val) root.left = insertBST(root.left, val);
-        else if (val > root.val) root.right = insertBST(root.right, val);
+        if(val < root.val) root.left = insertBST(root.left, val);
+        else if(val > root.val) root.right = insertBST(root.right, val);
 
         return root;
     }
@@ -45,7 +45,7 @@ public class AdvancedBSTOperations {
     // INORDER (for testing)
     // =====================================================
     public static void inorder(TreeNode root) {
-        if (root == null) return;
+        if(root == null) return;
         inorder(root.left);
         System.out.print(root.val + " ");
         inorder(root.right);
@@ -56,8 +56,8 @@ public class AdvancedBSTOperations {
     // =====================================================
     public static TreeNode inorderSuccessor(TreeNode root, int key) {
         TreeNode succ = null;
-        while (root != null) {
-            if (key < root.val) {
+        while(root != null) {
+            if(key < root.val) {
                 succ = root;
                 root = root.left;
             } else {
@@ -72,8 +72,8 @@ public class AdvancedBSTOperations {
     // =====================================================
     public static TreeNode inorderPredecessor(TreeNode root, int key) {
         TreeNode pred = null;
-        while (root != null) {
-            if (key > root.val) {
+        while(root != null) {
+            if(key > root.val) {
                 pred = root;
                 root = root.right;
             } else {
@@ -88,9 +88,9 @@ public class AdvancedBSTOperations {
     // =====================================================
     public static TreeNode floor(TreeNode root, int key) {
         TreeNode floor = null;
-        while (root != null) {
-            if (root.val == key) return root;
-            if (root.val > key) root = root.left;
+        while(root != null) {
+            if(root.val == key) return root;
+            if(root.val > key) root = root.left;
             else {
                 floor = root;
                 root = root.right;
@@ -104,9 +104,9 @@ public class AdvancedBSTOperations {
     // =====================================================
     public static TreeNode ceiling(TreeNode root, int key) {
         TreeNode ceil = null;
-        while (root != null) {
-            if (root.val == key) return root;
-            if (root.val < key) root = root.right;
+        while(root != null) {
+            if(root.val == key) return root;
+            if(root.val < key) root = root.right;
             else {
                 ceil = root;
                 root = root.left;
@@ -125,11 +125,11 @@ public class AdvancedBSTOperations {
     }
 
     private static void rangeQueryHelper(TreeNode node, int low, int high, List<Integer> result) {
-        if (node == null) return;
+        if(node == null) return;
 
-        if (node.val > low) rangeQueryHelper(node.left, low, high, result);
-        if (node.val >= low && node.val <= high) result.add(node.val);
-        if (node.val < high) rangeQueryHelper(node.right, low, high, result);
+        if(node.val > low) rangeQueryHelper(node.left, low, high, result);
+        if(node.val >= low && node.val <= high) result.add(node.val);
+        if(node.val < high) rangeQueryHelper(node.right, low, high, result);
     }
 
     // =====================================================
@@ -138,7 +138,7 @@ public class AdvancedBSTOperations {
     public static void main(String[] args) {
         int[] values = {20, 10, 30, 5, 15, 25, 35};
         TreeNode bst = null;
-        for (int val : values) bst = insertBST(bst, val);
+        for(int val : values) bst = insertBST(bst, val);
 
         System.out.println("BST Inorder:");
         inorder(bst);

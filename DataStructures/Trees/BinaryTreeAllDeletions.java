@@ -43,16 +43,16 @@ public class BinaryTreeAllDeletions {
     // 1️⃣ BST DELETION - RECURSIVE
     // =====================================================
     public static TreeNode deleteBSTRecursive(TreeNode root, int val) {
-        if (root == null) return null;
+        if(root == null) return null;
 
-        if (val < root.val) {
+        if(val < root.val) {
             root.left = deleteBSTRecursive(root.left, val);
-        } else if (val > root.val) {
+        } else if(val > root.val) {
             root.right = deleteBSTRecursive(root.right, val);
         } else {
             // Node found
-            if (root.left == null) return root.right;
-            if (root.right == null) return root.left;
+            if(root.left == null) return root.right;
+            if(root.right == null) return root.left;
 
             // Node with 2 children: get inorder successor
             TreeNode successor = findMin(root.right);
@@ -63,7 +63,7 @@ public class BinaryTreeAllDeletions {
     }
 
     private static TreeNode findMin(TreeNode root) {
-        while (root.left != null) root = root.left;
+        while(root.left != null) root = root.left;
         return root;
     }
 
@@ -75,19 +75,19 @@ public class BinaryTreeAllDeletions {
         TreeNode current = root;
 
         // Find node to delete
-        while (current != null && current.val != val) {
+        while(current != null && current.val != val) {
             parent = current;
-            if (val < current.val) current = current.left;
+            if(val < current.val) current = current.left;
             else current = current.right;
         }
 
-        if (current == null) return root; // Not found
+        if(current == null) return root; // Not found
 
         // Node with two children
-        if (current.left != null && current.right != null) {
+        if(current.left != null && current.right != null) {
             TreeNode successorParent = current;
             TreeNode successor = current.right;
-            while (successor.left != null) {
+            while(successor.left != null) {
                 successorParent = successor;
                 successor = successor.left;
             }
@@ -99,9 +99,9 @@ public class BinaryTreeAllDeletions {
         // Node with 0 or 1 child
         TreeNode child = (current.left != null) ? current.left : current.right;
 
-        if (parent == null) {
+        if(parent == null) {
             return child; // deleting root
-        } else if (parent.left == current) {
+        } else if(parent.left == current) {
             parent.left = child;
         } else {
             parent.right = child;
@@ -114,8 +114,8 @@ public class BinaryTreeAllDeletions {
     // 3️⃣ NORMAL BINARY TREE DELETION (LEVEL ORDER)
     // =====================================================
     public static TreeNode deleteLevelOrder(TreeNode root, int val) {
-        if (root == null) return null;
-        if (root.left == null && root.right == null) {
+        if(root == null) return null;
+        if(root.left == null && root.right == null) {
             return (root.val == val) ? null : root;
         }
 
@@ -124,16 +124,16 @@ public class BinaryTreeAllDeletions {
         TreeNode keyNode = null;
         TreeNode last = null;
 
-        while (!queue.isEmpty()) {
+        while(!queue.isEmpty()) {
             last = queue.poll();
 
-            if (last.val == val) keyNode = last;
+            if(last.val == val) keyNode = last;
 
-            if (last.left != null) queue.offer(last.left);
-            if (last.right != null) queue.offer(last.right);
+            if(last.left != null) queue.offer(last.left);
+            if(last.right != null) queue.offer(last.right);
         }
 
-        if (keyNode != null) {
+        if(keyNode != null) {
             keyNode.val = last.val; // Replace with last node
             deleteDeepest(root, last);
         }
@@ -145,16 +145,16 @@ public class BinaryTreeAllDeletions {
         Queue<TreeNode> queue = new LinkedList<>();
         queue.offer(root);
 
-        while (!queue.isEmpty()) {
+        while(!queue.isEmpty()) {
             TreeNode temp = queue.poll();
-            if (temp.left != null) {
-                if (temp.left == delNode) {
+            if(temp.left != null) {
+                if(temp.left == delNode) {
                     temp.left = null;
                     return;
                 } else queue.offer(temp.left);
             }
-            if (temp.right != null) {
-                if (temp.right == delNode) {
+            if(temp.right != null) {
+                if(temp.right == delNode) {
                     temp.right = null;
                     return;
                 } else queue.offer(temp.right);
@@ -166,9 +166,9 @@ public class BinaryTreeAllDeletions {
     // 4️⃣ DELETE LEFT CHILD OF GIVEN NODE
     // =====================================================
     public static boolean deleteLeft(TreeNode root, int parentVal) {
-        if (root == null) return false;
+        if(root == null) return false;
 
-        if (root.val == parentVal && root.left != null) {
+        if(root.val == parentVal && root.left != null) {
             root.left = null;
             return true;
         }
@@ -180,9 +180,9 @@ public class BinaryTreeAllDeletions {
     // 5️⃣ DELETE RIGHT CHILD OF GIVEN NODE
     // =====================================================
     public static boolean deleteRight(TreeNode root, int parentVal) {
-        if (root == null) return false;
+        if(root == null) return false;
 
-        if (root.val == parentVal && root.right != null) {
+        if(root.val == parentVal && root.right != null) {
             root.right = null;
             return true;
         }
@@ -194,9 +194,9 @@ public class BinaryTreeAllDeletions {
     // 6️⃣ DELETE ROOT
     // =====================================================
     public static TreeNode deleteRoot(TreeNode root) {
-        if (root == null) return null;
-        if (root.left == null) return root.right;
-        if (root.right == null) return root.left;
+        if(root == null) return null;
+        if(root.left == null) return root.right;
+        if(root.right == null) return root.left;
 
         // Replace root with inorder successor
         TreeNode successor = findMin(root.right);
@@ -209,11 +209,11 @@ public class BinaryTreeAllDeletions {
     // 7️⃣ DELETE AT SPECIFIC LEVEL
     // =====================================================
     public static void deleteAtLevel(TreeNode root, int level) {
-        if (root == null || level < 1) return;
+        if(root == null || level < 1) return;
 
-        if (level == 1) {
-            if (root.left != null) root.left = null;
-            if (root.right != null) root.right = null;
+        if(level == 1) {
+            if(root.left != null) root.left = null;
+            if(root.right != null) root.right = null;
         } else {
             deleteAtLevel(root.left, level - 1);
             deleteAtLevel(root.right, level - 1);
@@ -224,7 +224,7 @@ public class BinaryTreeAllDeletions {
     // INORDER TRAVERSAL
     // =====================================================
     public static void inorder(TreeNode root) {
-        if (root == null) return;
+        if(root == null) return;
         inorder(root.left);
         System.out.print(root.val + " ");
         inorder(root.right);
@@ -234,16 +234,16 @@ public class BinaryTreeAllDeletions {
     // LEVEL ORDER TRAVERSAL
     // =====================================================
     public static void levelOrder(TreeNode root) {
-        if (root == null) return;
+        if(root == null) return;
 
         Queue<TreeNode> queue = new LinkedList<>();
         queue.offer(root);
 
-        while (!queue.isEmpty()) {
+        while(!queue.isEmpty()) {
             TreeNode temp = queue.poll();
             System.out.print(temp.val + " ");
-            if (temp.left != null) queue.offer(temp.left);
-            if (temp.right != null) queue.offer(temp.right);
+            if(temp.left != null) queue.offer(temp.left);
+            if(temp.right != null) queue.offer(temp.right);
         }
     }
 
@@ -254,8 +254,8 @@ public class BinaryTreeAllDeletions {
         // ====== BST Recursive Deletion ======
         TreeNode bstRec = null;
         int[] bstValues = {50, 30, 70, 20, 40, 60, 80};
-        for (int val : bstValues) bstRec = new TreeNode(val);
-        for (int val : bstValues) bstRec = deleteBSTRecursive(bstRec, val); // test deletion
+        for(int val : bstValues) bstRec = new TreeNode(val);
+        for(int val : bstValues) bstRec = deleteBSTRecursive(bstRec, val); // test deletion
 
         System.out.println("BST Recursive Deletion (Inorder):");
         inorder(bstRec);
@@ -264,7 +264,7 @@ public class BinaryTreeAllDeletions {
         // ====== Normal Binary Tree Deletion ======
         TreeNode normalTree = null;
         int[] values = {1,2,3,4,5};
-        for (int val : values) normalTree = new TreeNode(val);
+        for(int val : values) normalTree = new TreeNode(val);
 
         normalTree = deleteLevelOrder(normalTree, 3);
         System.out.println("Normal Binary Tree After Level Order Deletion:");

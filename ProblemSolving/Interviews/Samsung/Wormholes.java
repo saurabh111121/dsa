@@ -50,7 +50,7 @@ class Wormholes {
         points.add(D); // Add destination point D
 
         // Add entry and exit points of all wormholes
-        for (int[] wormhole : wormholes) {
+        for(int[] wormhole : wormholes) {
             points.add(new Point(wormhole[0], wormhole[1])); // Entry point of wormhole
             points.add(new Point(wormhole[2], wormhole[3])); // Exit point of wormhole
         }
@@ -71,29 +71,29 @@ class Wormholes {
         pq.offer(new int[]{0, 0}); // Add source S to the priority queue
 
         // Process nodes in the priority queue
-        while (!pq.isEmpty()) {
+        while(!pq.isEmpty()) {
             int[] current = pq.poll(); // Get the node with the smallest distance
             int node = current[0], d = current[1]; // Extract node index and current distance
 
             // Skip if the distance is already greater than the recorded distance
-            if (d > dist[node]) continue;
+            if(d > dist[node]) continue;
 
             Point currentPoint = points.get(node); // Get the current point from the list
 
             // Check direct connections to all other points
-            for (int i = 0; i < points.size(); i++) {
-                if (i == node) continue; // Skip the current node itself
+            for(int i = 0; i < points.size(); i++) {
+                if(i == node) continue; // Skip the current node itself
                 // Calculate Manhattan distance between current node and other node
                 int distance = Math.abs(currentPoint.x - points.get(i).x) + Math.abs(currentPoint.y - points.get(i).y);
                 // Update distance if a shorter path is found
-                if (dist[node] + distance < dist[i]) {
+                if(dist[node] + distance < dist[i]) {
                     dist[i] = dist[node] + distance; // Update the distance
                     pq.offer(new int[]{i, dist[i]}); // Add the updated node to the priority queue
                 }
             }
 
             // Check wormhole connections if the current node is a wormhole endpoint
-            if (node >= 2) { // Wormhole endpoints start from index 2
+            if(node >= 2) { // Wormhole endpoints start from index 2
                 int wormholeIndex = (node - 2) / 2; // Identify the wormhole index
                 int entry = 2 + 2 * wormholeIndex; // Entry point of the wormhole
                 int exit = 3 + 2 * wormholeIndex; // Exit point of the wormhole
@@ -102,7 +102,7 @@ class Wormholes {
                 // Determine the target node (entry or exit) of the wormhole
                 int target = (node == entry) ? exit : entry; // Connect to the other end of the wormhole
                 // Update distance if using the wormhole provides a shorter path
-                if (dist[node] + wormholeTime < dist[target]) {
+                if(dist[node] + wormholeTime < dist[target]) {
                     dist[target] = dist[node] + wormholeTime; // Update the distance
                     pq.offer(new int[]{target, dist[target]}); // Add the updated node to the priority queue
                 }
@@ -122,7 +122,7 @@ class Wormholes {
         int n = scanner.nextInt();
         List<int[]> wormholes = new ArrayList<>();
 
-        for (int i = 0; i < n; i++) {
+        for(int i = 0; i < n; i++) {
             wormholes.add(new int[]{scanner.nextInt(), scanner.nextInt(), scanner.nextInt(), scanner.nextInt(), scanner.nextInt()});
         }
 

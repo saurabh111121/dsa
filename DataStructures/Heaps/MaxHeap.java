@@ -52,7 +52,7 @@ public class MaxHeap {
     // 1️⃣ INSERT - O(log n)
     // =====================================================
     public void insert(int val) {
-        if (size == capacity) throw new RuntimeException("Heap is full");
+        if(size == capacity) throw new RuntimeException("Heap is full");
         data[size++] = val;
         heapifyUpIterative(size - 1);
     }
@@ -61,7 +61,7 @@ public class MaxHeap {
     // 2️⃣ HEAPIFY UP - ITERATIVE
     // =====================================================
     private void heapifyUpIterative(int i) {
-        while (i > 0 && data[parent(i)] < data[i]) {
+        while(i > 0 && data[parent(i)] < data[i]) {
             swap(i, parent(i));
             i = parent(i);
         }
@@ -71,9 +71,9 @@ public class MaxHeap {
     // 3️⃣ HEAPIFY UP - RECURSIVE
     // =====================================================
     private void heapifyUpRecursive(int i) {
-        if (i == 0) return;
+        if(i == 0) return;
         int p = parent(i);
-        if (data[p] < data[i]) {
+        if(data[p] < data[i]) {
             swap(i, p);
             heapifyUpRecursive(p);
         }
@@ -83,7 +83,7 @@ public class MaxHeap {
     // 4️⃣ EXTRACT MAX - O(log n)
     // =====================================================
     public int extractMax() {
-        if (size == 0) throw new RuntimeException("Heap is empty");
+        if(size == 0) throw new RuntimeException("Heap is empty");
         int max = data[0];
         data[0] = data[--size];
         heapifyDownIterative(0);
@@ -94,11 +94,11 @@ public class MaxHeap {
     // 5️⃣ HEAPIFY DOWN - ITERATIVE
     // =====================================================
     private void heapifyDownIterative(int i) {
-        while (true) {
+        while(true) {
             int largest = i, l = leftChild(i), r = rightChild(i);
-            if (l < size && data[l] > data[largest]) largest = l;
-            if (r < size && data[r] > data[largest]) largest = r;
-            if (largest == i) break;
+            if(l < size && data[l] > data[largest]) largest = l;
+            if(r < size && data[r] > data[largest]) largest = r;
+            if(largest == i) break;
             swap(i, largest);
             i = largest;
         }
@@ -109,9 +109,9 @@ public class MaxHeap {
     // =====================================================
     private void heapifyDownRecursive(int i) {
         int largest = i, l = leftChild(i), r = rightChild(i);
-        if (l < size && data[l] > data[largest]) largest = l;
-        if (r < size && data[r] > data[largest]) largest = r;
-        if (largest != i) {
+        if(l < size && data[l] > data[largest]) largest = l;
+        if(r < size && data[r] > data[largest]) largest = r;
+        if(largest != i) {
             swap(i, largest);
             heapifyDownRecursive(largest);
         }
@@ -121,7 +121,7 @@ public class MaxHeap {
     // 7️⃣ PEEK MAX - O(1)
     // =====================================================
     public int peekMax() {
-        if (size == 0) throw new RuntimeException("Heap is empty");
+        if(size == 0) throw new RuntimeException("Heap is empty");
         return data[0];
     }
 
@@ -129,7 +129,7 @@ public class MaxHeap {
     // 8️⃣ BUILD HEAP FROM ARRAY - O(n)
     // =====================================================
     public void buildHeap() {
-        for (int i = (size / 2) - 1; i >= 0; i--) {
+        for(int i = (size / 2) - 1; i >= 0; i--) {
             heapifyDownIterative(i);
         }
     }
@@ -138,7 +138,7 @@ public class MaxHeap {
     // 9️⃣ INCREASE KEY
     // =====================================================
     public void increaseKey(int index, int newVal) {
-        if (newVal < data[index]) throw new RuntimeException("New value is smaller");
+        if(newVal < data[index]) throw new RuntimeException("New value is smaller");
         data[index] = newVal;
         heapifyUpIterative(index);
     }
@@ -149,9 +149,9 @@ public class MaxHeap {
     public static int[] heapSortAscending(int[] arr) {
         int n = arr.length;
         // Build max heap
-        for (int i = n / 2 - 1; i >= 0; i--) siftDown(arr, i, n);
+        for(int i = n / 2 - 1; i >= 0; i--) siftDown(arr, i, n);
         // Extract elements one by one
-        for (int i = n - 1; i > 0; i--) {
+        for(int i = n - 1; i > 0; i--) {
             int t = arr[0]; arr[0] = arr[i]; arr[i] = t;
             siftDown(arr, 0, i);
         }
@@ -159,11 +159,11 @@ public class MaxHeap {
     }
 
     private static void siftDown(int[] arr, int i, int n) {
-        while (true) {
+        while(true) {
             int largest = i, l = 2*i+1, r = 2*i+2;
-            if (l < n && arr[l] > arr[largest]) largest = l;
-            if (r < n && arr[r] > arr[largest]) largest = r;
-            if (largest == i) break;
+            if(l < n && arr[l] > arr[largest]) largest = l;
+            if(r < n && arr[r] > arr[largest]) largest = r;
+            if(largest == i) break;
             int t = arr[i]; arr[i] = arr[largest]; arr[largest] = t;
             i = largest;
         }
@@ -174,7 +174,7 @@ public class MaxHeap {
 
     public void print() {
         System.out.print("MaxHeap: [");
-        for (int i = 0; i < size; i++) System.out.print(data[i] + (i < size-1 ? ", " : ""));
+        for(int i = 0; i < size; i++) System.out.print(data[i] + (i < size-1 ? ", " : ""));
         System.out.println("]");
     }
 
@@ -202,7 +202,7 @@ public class MaxHeap {
         // Heap Sort ascending
         int[] toSort = {4, 10, 3, 5, 1};
         System.out.print("HeapSort ascending: ");
-        for (int v : heapSortAscending(toSort)) System.out.print(v + " ");
+        for(int v : heapSortAscending(toSort)) System.out.print(v + " ");
         System.out.println();
     }
 }

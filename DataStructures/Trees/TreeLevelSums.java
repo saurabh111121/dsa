@@ -33,20 +33,20 @@ public class TreeLevelSums {
     // =====================================================
     public static TreeNode insertLevelOrder(TreeNode root, int val) {
         TreeNode newNode = new TreeNode(val);
-        if (root == null) return newNode;
+        if(root == null) return newNode;
 
         Queue<TreeNode> queue = new LinkedList<>();
         queue.offer(root);
 
-        while (!queue.isEmpty()) {
+        while(!queue.isEmpty()) {
             TreeNode temp = queue.poll();
 
-            if (temp.left == null) {
+            if(temp.left == null) {
                 temp.left = newNode;
                 return root;
             } else queue.offer(temp.left);
 
-            if (temp.right == null) {
+            if(temp.right == null) {
                 temp.right = newNode;
                 return root;
             } else queue.offer(temp.right);
@@ -59,7 +59,7 @@ public class TreeLevelSums {
     // Inorder Traversal (for verification)
     // =====================================================
     public static void inorder(TreeNode root) {
-        if (root == null) return;
+        if(root == null) return;
         inorder(root.left);
         System.out.print(root.val + " ");
         inorder(root.right);
@@ -70,21 +70,21 @@ public class TreeLevelSums {
     // =====================================================
     public static List<Integer> horizontalSum(TreeNode root) {
         List<Integer> result = new ArrayList<>();
-        if (root == null) return result;
+        if(root == null) return result;
 
         Queue<TreeNode> queue = new LinkedList<>();
         queue.offer(root);
 
-        while (!queue.isEmpty()) {
+        while(!queue.isEmpty()) {
             int size = queue.size();
             int sum = 0;
 
-            for (int i = 0; i < size; i++) {
+            for(int i = 0; i < size; i++) {
                 TreeNode node = queue.poll();
                 sum += node.val;
 
-                if (node.left != null) queue.offer(node.left);
-                if (node.right != null) queue.offer(node.right);
+                if(node.left != null) queue.offer(node.left);
+                if(node.right != null) queue.offer(node.right);
             }
 
             result.add(sum);
@@ -103,7 +103,7 @@ public class TreeLevelSums {
     }
 
     private static void verticalSumHelper(TreeNode node, int hd, Map<Integer, Integer> map) {
-        if (node == null) return;
+        if(node == null) return;
 
         map.put(hd, map.getOrDefault(hd, 0) + node.val);
         verticalSumHelper(node.left, hd - 1, map);
@@ -117,7 +117,7 @@ public class TreeLevelSums {
         TreeNode root = null;
         int[] values = {1, 2, 3, 4, 5, 6, 7};
 
-        for (int val : values) root = insertLevelOrder(root, val);
+        for(int val : values) root = insertLevelOrder(root, val);
 
         System.out.println("Inorder Traversal:");
         inorder(root);
@@ -129,7 +129,7 @@ public class TreeLevelSums {
 
         System.out.println("\nVertical Sum:");
         Map<Integer, Integer> vSum = verticalSum(root);
-        for (Map.Entry<Integer, Integer> entry : vSum.entrySet()) {
+        for(Map.Entry<Integer, Integer> entry : vSum.entrySet()) {
             System.out.println("HD " + entry.getKey() + " : " + entry.getValue());
         }
     }

@@ -31,10 +31,10 @@ public class TwoPointers {
     /** Returns indices of pair summing to target; arr must be sorted */
     public static int[] twoSum(int[] arr, int target) {
         int lo = 0, hi = arr.length - 1;
-        while (lo < hi) {
+        while(lo < hi) {
             int sum = arr[lo] + arr[hi];
-            if (sum == target) return new int[]{lo, hi};
-            if (sum < target)  lo++;
+            if(sum == target) return new int[]{lo, hi};
+            if(sum < target)  lo++;
             else               hi--;
         }
         return new int[]{-1, -1};
@@ -47,17 +47,17 @@ public class TwoPointers {
     public static List<List<Integer>> threeSum(int[] nums) {
         Arrays.sort(nums);
         List<List<Integer>> result = new ArrayList<>();
-        for (int i = 0; i < nums.length - 2; i++) {
-            if (i > 0 && nums[i] == nums[i-1]) continue;  // skip duplicates
+        for(int i = 0; i < nums.length - 2; i++) {
+            if(i > 0 && nums[i] == nums[i-1]) continue;  // skip duplicates
             int lo = i + 1, hi = nums.length - 1;
-            while (lo < hi) {
+            while(lo < hi) {
                 int sum = nums[i] + nums[lo] + nums[hi];
-                if (sum == 0) {
+                if(sum == 0) {
                     result.add(Arrays.asList(nums[i], nums[lo], nums[hi]));
-                    while (lo < hi && nums[lo] == nums[lo+1]) lo++;
-                    while (lo < hi && nums[hi] == nums[hi-1]) hi--;
+                    while(lo < hi && nums[lo] == nums[lo+1]) lo++;
+                    while(lo < hi && nums[hi] == nums[hi-1]) hi--;
                     lo++; hi--;
-                } else if (sum < 0) lo++;
+                } else if(sum < 0) lo++;
                 else hi--;
             }
         }
@@ -72,19 +72,19 @@ public class TwoPointers {
         Arrays.sort(nums);
         List<List<Integer>> result = new ArrayList<>();
         int n = nums.length;
-        for (int i = 0; i < n - 3; i++) {
-            if (i > 0 && nums[i] == nums[i-1]) continue;
-            for (int j = i + 1; j < n - 2; j++) {
-                if (j > i+1 && nums[j] == nums[j-1]) continue;
+        for(int i = 0; i < n - 3; i++) {
+            if(i > 0 && nums[i] == nums[i-1]) continue;
+            for(int j = i + 1; j < n - 2; j++) {
+                if(j > i+1 && nums[j] == nums[j-1]) continue;
                 int lo = j + 1, hi = n - 1;
-                while (lo < hi) {
+                while(lo < hi) {
                     long sum = (long)nums[i] + nums[j] + nums[lo] + nums[hi];
-                    if (sum == target) {
+                    if(sum == target) {
                         result.add(Arrays.asList(nums[i], nums[j], nums[lo], nums[hi]));
-                        while (lo < hi && nums[lo] == nums[lo+1]) lo++;
-                        while (lo < hi && nums[hi] == nums[hi-1]) hi--;
+                        while(lo < hi && nums[lo] == nums[lo+1]) lo++;
+                        while(lo < hi && nums[hi] == nums[hi-1]) hi--;
                         lo++; hi--;
-                    } else if (sum < target) lo++;
+                    } else if(sum < target) lo++;
                     else hi--;
                 }
             }
@@ -98,10 +98,10 @@ public class TwoPointers {
 
     /** Returns new length, modifies in-place */
     public static int removeDuplicates(int[] nums) {
-        if (nums.length == 0) return 0;
+        if(nums.length == 0) return 0;
         int slow = 0;
-        for (int fast = 1; fast < nums.length; fast++)
-            if (nums[fast] != nums[slow]) nums[++slow] = nums[fast];
+        for(int fast = 1; fast < nums.length; fast++)
+            if(nums[fast] != nums[slow]) nums[++slow] = nums[fast];
         return slow + 1;
     }
 
@@ -111,9 +111,9 @@ public class TwoPointers {
 
     public static void moveZeroes(int[] nums) {
         int slow = 0;
-        for (int fast = 0; fast < nums.length; fast++)
-            if (nums[fast] != 0) nums[slow++] = nums[fast];
-        while (slow < nums.length) nums[slow++] = 0;
+        for(int fast = 0; fast < nums.length; fast++)
+            if(nums[fast] != 0) nums[slow++] = nums[fast];
+        while(slow < nums.length) nums[slow++] = 0;
     }
 
     // =========================================================================
@@ -122,9 +122,9 @@ public class TwoPointers {
 
     public static int maxArea(int[] height) {
         int lo = 0, hi = height.length - 1, maxWater = 0;
-        while (lo < hi) {
+        while(lo < hi) {
             maxWater = Math.max(maxWater, Math.min(height[lo], height[hi]) * (hi - lo));
-            if (height[lo] < height[hi]) lo++;
+            if(height[lo] < height[hi]) lo++;
             else hi--;
         }
         return maxWater;
@@ -137,13 +137,13 @@ public class TwoPointers {
     public static int trap(int[] height) {
         int lo = 0, hi = height.length - 1, water = 0;
         int maxLeft = 0, maxRight = 0;
-        while (lo < hi) {
-            if (height[lo] < height[hi]) {
-                if (height[lo] >= maxLeft) maxLeft = height[lo];
+        while(lo < hi) {
+            if(height[lo] < height[hi]) {
+                if(height[lo] >= maxLeft) maxLeft = height[lo];
                 else water += maxLeft - height[lo];
                 lo++;
             } else {
-                if (height[hi] >= maxRight) maxRight = height[hi];
+                if(height[hi] >= maxRight) maxRight = height[hi];
                 else water += maxRight - height[hi];
                 hi--;
             }
@@ -157,10 +157,10 @@ public class TwoPointers {
 
     public static boolean isPalindrome(String s) {
         int lo = 0, hi = s.length() - 1;
-        while (lo < hi) {
-            while (lo < hi && !Character.isLetterOrDigit(s.charAt(lo))) lo++;
-            while (lo < hi && !Character.isLetterOrDigit(s.charAt(hi))) hi--;
-            if (Character.toLowerCase(s.charAt(lo)) != Character.toLowerCase(s.charAt(hi)))
+        while(lo < hi) {
+            while(lo < hi && !Character.isLetterOrDigit(s.charAt(lo))) lo++;
+            while(lo < hi && !Character.isLetterOrDigit(s.charAt(hi))) hi--;
+            if(Character.toLowerCase(s.charAt(lo)) != Character.toLowerCase(s.charAt(hi)))
                 return false;
             lo++; hi--;
         }
@@ -173,7 +173,7 @@ public class TwoPointers {
 
     public static void reverseArray(int[] arr) {
         int lo = 0, hi = arr.length - 1;
-        while (lo < hi) { int t = arr[lo]; arr[lo++] = arr[hi]; arr[hi--] = t; }
+        while(lo < hi) { int t = arr[lo]; arr[lo++] = arr[hi]; arr[hi--] = t; }
     }
 
     // =========================================================================
@@ -182,9 +182,9 @@ public class TwoPointers {
 
     public static void sortColors(int[] nums) {
         int lo = 0, mid = 0, hi = nums.length - 1;
-        while (mid <= hi) {
+        while(mid <= hi) {
             if      (nums[mid] == 0) { swap(nums, lo++, mid++); }
-            else if (nums[mid] == 1) { mid++; }
+            else if(nums[mid] == 1) { mid++; }
             else                     { swap(nums, mid, hi--); }
         }
     }
@@ -195,9 +195,9 @@ public class TwoPointers {
 
     public static void mergeSorted(int[] nums1, int m, int[] nums2, int n) {
         int i = m - 1, j = n - 1, k = m + n - 1;
-        while (i >= 0 && j >= 0)
+        while(i >= 0 && j >= 0)
             nums1[k--] = (nums1[i] > nums2[j]) ? nums1[i--] : nums2[j--];
-        while (j >= 0) nums1[k--] = nums2[j--];
+        while(j >= 0) nums1[k--] = nums2[j--];
     }
 
     // ── helper ───────────────────────────────────────────────────────────────

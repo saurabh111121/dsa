@@ -43,7 +43,7 @@ public class MatrixAdvancedOperations {
 
     // Print matrix
     public static void printMatrix(int[][] matrix) {
-        for (int[] row : matrix) {
+        for(int[] row : matrix) {
             System.out.println(Arrays.toString(row));
         }
     }
@@ -53,8 +53,8 @@ public class MatrixAdvancedOperations {
         int n = matrix.length;
         int m = matrix[0].length;
         int[][] transposed = new int[m][n];
-        for (int i = 0; i < n; i++) {
-            for (int j = 0; j < m; j++) {
+        for(int i = 0; i < n; i++) {
+            for(int j = 0; j < m; j++) {
                 transposed[j][i] = matrix[i][j];
             }
         }
@@ -64,7 +64,7 @@ public class MatrixAdvancedOperations {
     // Sum of main diagonal
     public static int sumMainDiagonal(int[][] matrix) {
         int sum = 0;
-        for (int i = 0; i < matrix.length; i++) {
+        for(int i = 0; i < matrix.length; i++) {
             sum += matrix[i][i];
         }
         return sum;
@@ -74,7 +74,7 @@ public class MatrixAdvancedOperations {
     public static int sumSecondaryDiagonal(int[][] matrix) {
         int n = matrix.length;
         int sum = 0;
-        for (int i = 0; i < n; i++) {
+        for(int i = 0; i < n; i++) {
             sum += matrix[i][n - 1 - i];
         }
         return sum;
@@ -85,21 +85,21 @@ public class MatrixAdvancedOperations {
         int top = 0, bottom = matrix.length - 1;
         int left = 0, right = matrix[0].length - 1;
 
-        while (top <= bottom && left <= right) {
+        while(top <= bottom && left <= right) {
             // Traverse top row
-            for (int j = left; j <= right; j++) System.out.print(matrix[top][j] + " ");
+            for(int j = left; j <= right; j++) System.out.print(matrix[top][j] + " ");
             top++;
             // Traverse right column
-            for (int i = top; i <= bottom; i++) System.out.print(matrix[i][right] + " ");
+            for(int i = top; i <= bottom; i++) System.out.print(matrix[i][right] + " ");
             right--;
             // Traverse bottom row
-            if (top <= bottom) {
-                for (int j = right; j >= left; j--) System.out.print(matrix[bottom][j] + " ");
+            if(top <= bottom) {
+                for(int j = right; j >= left; j--) System.out.print(matrix[bottom][j] + " ");
                 bottom--;
             }
             // Traverse left column
-            if (left <= right) {
-                for (int i = bottom; i >= top; i--) System.out.print(matrix[i][left] + " ");
+            if(left <= right) {
+                for(int i = bottom; i >= top; i--) System.out.print(matrix[i][left] + " ");
                 left++;
             }
         }

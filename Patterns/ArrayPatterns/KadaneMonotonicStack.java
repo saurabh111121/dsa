@@ -22,7 +22,7 @@ public class KadaneMonotonicStack {
     // ─────────────────────────────────────────────────────────────
     public static int maxSubarraySum(int[] arr) {
         int maxSum = arr[0], cur = arr[0];
-        for (int i = 1; i < arr.length; i++) {
+        for(int i = 1; i < arr.length; i++) {
             cur = Math.max(arr[i], cur + arr[i]);
             maxSum = Math.max(maxSum, cur);
         }
@@ -33,10 +33,10 @@ public class KadaneMonotonicStack {
     public static int[] maxSubarrayWithIndices(int[] arr) {
         int maxSum = arr[0], cur = arr[0];
         int start = 0, end = 0, tempStart = 0;
-        for (int i = 1; i < arr.length; i++) {
-            if (arr[i] > cur + arr[i]) { cur = arr[i]; tempStart = i; }
+        for(int i = 1; i < arr.length; i++) {
+            if(arr[i] > cur + arr[i]) { cur = arr[i]; tempStart = i; }
             else cur += arr[i];
-            if (cur > maxSum) { maxSum = cur; start = tempStart; end = i; }
+            if(cur > maxSum) { maxSum = cur; start = tempStart; end = i; }
         }
         return new int[]{maxSum, start, end};
     }
@@ -46,8 +46,8 @@ public class KadaneMonotonicStack {
     // ─────────────────────────────────────────────────────────────
     public static int maxProductSubarray(int[] arr) {
         int maxP = arr[0], minP = arr[0], res = arr[0];
-        for (int i = 1; i < arr.length; i++) {
-            if (arr[i] < 0) { int tmp = maxP; maxP = minP; minP = tmp; }
+        for(int i = 1; i < arr.length; i++) {
+            if(arr[i] < 0) { int tmp = maxP; maxP = minP; minP = tmp; }
             maxP = Math.max(arr[i], maxP * arr[i]);
             minP = Math.min(arr[i], minP * arr[i]);
             res  = Math.max(res, maxP);
@@ -63,8 +63,8 @@ public class KadaneMonotonicStack {
         int[] res = new int[n];
         Arrays.fill(res, -1);
         Deque<Integer> stack = new ArrayDeque<>();
-        for (int i = 0; i < n; i++) {
-            while (!stack.isEmpty() && arr[stack.peek()] < arr[i])
+        for(int i = 0; i < n; i++) {
+            while(!stack.isEmpty() && arr[stack.peek()] < arr[i])
                 res[stack.pop()] = arr[i];
             stack.push(i);
         }
@@ -77,11 +77,11 @@ public class KadaneMonotonicStack {
         int[] res = new int[n];
         Arrays.fill(res, -1);
         Deque<Integer> stack = new ArrayDeque<>();
-        for (int i = 0; i < 2 * n; i++) {
+        for(int i = 0; i < 2 * n; i++) {
             int idx = i % n;
-            while (!stack.isEmpty() && arr[stack.peek()] < arr[idx])
+            while(!stack.isEmpty() && arr[stack.peek()] < arr[idx])
                 res[stack.pop()] = arr[idx];
-            if (i < n) stack.push(idx);
+            if(i < n) stack.push(idx);
         }
         return res;
     }
@@ -94,8 +94,8 @@ public class KadaneMonotonicStack {
         int[] res = new int[n];
         Arrays.fill(res, -1);
         Deque<Integer> stack = new ArrayDeque<>();
-        for (int i = 0; i < n; i++) {
-            while (!stack.isEmpty() && arr[stack.peek()] > arr[i])
+        for(int i = 0; i < n; i++) {
+            while(!stack.isEmpty() && arr[stack.peek()] > arr[i])
                 res[stack.pop()] = arr[i];
             stack.push(i);
         }
@@ -108,9 +108,9 @@ public class KadaneMonotonicStack {
     public static int largestRectangleHistogram(int[] heights) {
         int n = heights.length, maxArea = 0;
         Deque<Integer> stack = new ArrayDeque<>();
-        for (int i = 0; i <= n; i++) {
+        for(int i = 0; i <= n; i++) {
             int h = (i == n) ? 0 : heights[i];
-            while (!stack.isEmpty() && heights[stack.peek()] > h) {
+            while(!stack.isEmpty() && heights[stack.peek()] > h) {
                 int height = heights[stack.pop()];
                 int width  = stack.isEmpty() ? i : i - stack.peek() - 1;
                 maxArea = Math.max(maxArea, height * width);
@@ -124,11 +124,11 @@ public class KadaneMonotonicStack {
     // 6️⃣  MAXIMAL RECTANGLE IN BINARY MATRIX  (LeetCode 85)
     // ─────────────────────────────────────────────────────────────
     public static int maximalRectangle(char[][] matrix) {
-        if (matrix.length == 0) return 0;
+        if(matrix.length == 0) return 0;
         int n = matrix[0].length, maxArea = 0;
         int[] heights = new int[n];
-        for (char[] row : matrix) {
-            for (int j = 0; j < n; j++)
+        for(char[] row : matrix) {
+            for(int j = 0; j < n; j++)
                 heights[j] = row[j] == '0' ? 0 : heights[j] + 1;
             maxArea = Math.max(maxArea, largestRectangleHistogram(heights));
         }
@@ -144,19 +144,19 @@ public class KadaneMonotonicStack {
         int[] left = new int[n], right = new int[n];
         Deque<Integer> stack = new ArrayDeque<>();
         // distance to previous less element
-        for (int i = 0; i < n; i++) {
-            while (!stack.isEmpty() && arr[stack.peek()] >= arr[i]) stack.pop();
+        for(int i = 0; i < n; i++) {
+            while(!stack.isEmpty() && arr[stack.peek()] >= arr[i]) stack.pop();
             left[i] = stack.isEmpty() ? i + 1 : i - stack.peek();
             stack.push(i);
         }
         stack.clear();
         // distance to next less or equal element
-        for (int i = n - 1; i >= 0; i--) {
-            while (!stack.isEmpty() && arr[stack.peek()] > arr[i]) stack.pop();
+        for(int i = n - 1; i >= 0; i--) {
+            while(!stack.isEmpty() && arr[stack.peek()] > arr[i]) stack.pop();
             right[i] = stack.isEmpty() ? n - i : stack.peek() - i;
             stack.push(i);
         }
-        for (int i = 0; i < n; i++)
+        for(int i = 0; i < n; i++)
             res = (res + (long) arr[i] * left[i] * right[i]) % MOD;
         return (int) res;
     }
@@ -168,8 +168,8 @@ public class KadaneMonotonicStack {
         int n = prices.length;
         int[] span = new int[n];
         Deque<Integer> stack = new ArrayDeque<>();
-        for (int i = 0; i < n; i++) {
-            while (!stack.isEmpty() && prices[stack.peek()] <= prices[i]) stack.pop();
+        for(int i = 0; i < n; i++) {
+            while(!stack.isEmpty() && prices[stack.peek()] <= prices[i]) stack.pop();
             span[i] = stack.isEmpty() ? i + 1 : i - stack.peek();
             stack.push(i);
         }

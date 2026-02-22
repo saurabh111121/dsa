@@ -30,15 +30,15 @@ public class GraphShortestPath {
         PriorityQueue<int[]> pq = new PriorityQueue<>((a, b) -> a[0] - b[0]);
         pq.offer(new int[]{0, src});
 
-        while (!pq.isEmpty()) {
+        while(!pq.isEmpty()) {
             int[] curr = pq.poll();
             int d = curr[0], u = curr[1];
 
-            if (d > dist[u]) continue; // stale entry
+            if(d > dist[u]) continue; // stale entry
 
-            for (int[] neighbor : graph.get(u)) {
+            for(int[] neighbor : graph.get(u)) {
                 int v = neighbor[0], w = neighbor[1];
-                if (dist[u] + w < dist[v]) {
+                if(dist[u] + w < dist[v]) {
                     dist[v] = dist[u] + w;
                     pq.offer(new int[]{dist[v], v});
                 }
@@ -62,10 +62,10 @@ public class GraphShortestPath {
         dist[src] = 0;
 
         // Relax edges V-1 times
-        for (int i = 0; i < n - 1; i++) {
-            for (int[] edge : edges) {
+        for(int i = 0; i < n - 1; i++) {
+            for(int[] edge : edges) {
                 int u = edge[0], v = edge[1], w = edge[2];
-                if (dist[u] != Integer.MAX_VALUE && dist[u] + w < dist[v]) {
+                if(dist[u] != Integer.MAX_VALUE && dist[u] + w < dist[v]) {
                     dist[v] = dist[u] + w;
                 }
             }
@@ -76,9 +76,9 @@ public class GraphShortestPath {
         result.dist = dist;
         result.hasNegCycle = false;
 
-        for (int[] edge : edges) {
+        for(int[] edge : edges) {
             int u = edge[0], v = edge[1], w = edge[2];
-            if (dist[u] != Integer.MAX_VALUE && dist[u] + w < dist[v]) {
+            if(dist[u] != Integer.MAX_VALUE && dist[u] + w < dist[v]) {
                 result.hasNegCycle = true;
                 break;
             }
@@ -99,10 +99,10 @@ public class GraphShortestPath {
         Queue<Integer> queue = new LinkedList<>();
         queue.offer(src);
 
-        while (!queue.isEmpty()) {
+        while(!queue.isEmpty()) {
             int node = queue.poll();
-            for (int neighbor : graph.get(node)) {
-                if (dist[neighbor] == -1) {
+            for(int neighbor : graph.get(node)) {
+                if(dist[neighbor] == -1) {
                     dist[neighbor] = dist[node] + 1;
                     queue.offer(neighbor);
                 }
@@ -118,18 +118,18 @@ public class GraphShortestPath {
         int n = graph.size();
         int[] inDegree = new int[n];
 
-        for (int u = 0; u < n; u++)
-            for (int v : graph.get(u)) inDegree[v]++;
+        for(int u = 0; u < n; u++)
+            for(int v : graph.get(u)) inDegree[v]++;
 
         Queue<Integer> queue = new LinkedList<>();
-        for (int i = 0; i < n; i++) if (inDegree[i] == 0) queue.offer(i);
+        for(int i = 0; i < n; i++) if(inDegree[i] == 0) queue.offer(i);
 
         List<Integer> order = new ArrayList<>();
-        while (!queue.isEmpty()) {
+        while(!queue.isEmpty()) {
             int node = queue.poll();
             order.add(node);
-            for (int v : graph.get(node)) {
-                if (--inDegree[v] == 0) queue.offer(v);
+            for(int v : graph.get(node)) {
+                if(--inDegree[v] == 0) queue.offer(v);
             }
         }
         return order.size() == n ? order : Collections.emptyList(); // empty = has cycle
@@ -143,19 +143,19 @@ public class GraphShortestPath {
         boolean[] visited = new boolean[n];
         Stack<Integer> stack = new Stack<>();
 
-        for (int i = 0; i < n; i++) {
-            if (!visited[i]) dfsTopoHelper(graph, i, visited, stack);
+        for(int i = 0; i < n; i++) {
+            if(!visited[i]) dfsTopoHelper(graph, i, visited, stack);
         }
 
         List<Integer> order = new ArrayList<>();
-        while (!stack.isEmpty()) order.add(stack.pop());
+        while(!stack.isEmpty()) order.add(stack.pop());
         return order;
     }
 
     private static void dfsTopoHelper(List<List<Integer>> graph, int node, boolean[] visited, Stack<Integer> stack) {
         visited[node] = true;
-        for (int neighbor : graph.get(node)) {
-            if (!visited[neighbor]) dfsTopoHelper(graph, neighbor, visited, stack);
+        for(int neighbor : graph.get(node)) {
+            if(!visited[neighbor]) dfsTopoHelper(graph, neighbor, visited, stack);
         }
         stack.push(node);
     }
@@ -165,8 +165,8 @@ public class GraphShortestPath {
     // =====================================================
     public static List<List<int[]>> buildWeighted(int n, int[][] edges) {
         List<List<int[]>> g = new ArrayList<>();
-        for (int i = 0; i < n; i++) g.add(new ArrayList<>());
-        for (int[] e : edges) {
+        for(int i = 0; i < n; i++) g.add(new ArrayList<>());
+        for(int[] e : edges) {
             g.get(e[0]).add(new int[]{e[1], e[2]});
             g.get(e[1]).add(new int[]{e[0], e[2]});
         }
@@ -175,8 +175,8 @@ public class GraphShortestPath {
 
     public static List<List<Integer>> buildDirected(int n, int[][] edges) {
         List<List<Integer>> g = new ArrayList<>();
-        for (int i = 0; i < n; i++) g.add(new ArrayList<>());
-        for (int[] e : edges) g.get(e[0]).add(e[1]);
+        for(int i = 0; i < n; i++) g.add(new ArrayList<>());
+        for(int[] e : edges) g.get(e[0]).add(e[1]);
         return g;
     }
 

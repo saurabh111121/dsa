@@ -43,7 +43,7 @@ public class ArrayAdvancedOperations {
     // Reverse array
     public static void reverseArray(int[] arr) {
         int left = 0, right = arr.length - 1;
-        while (left < right) {
+        while(left < right) {
             int temp = arr[left];
             arr[left] = arr[right];
             arr[right] = temp;
@@ -69,7 +69,7 @@ public class ArrayAdvancedOperations {
     }
 
     private static void reverseSubArray(int[] arr, int start, int end) {
-        while (start < end) {
+        while(start < end) {
             int temp = arr[start];
             arr[start] = arr[end];
             arr[end] = temp;
@@ -81,8 +81,8 @@ public class ArrayAdvancedOperations {
     // Find maximum
     public static int findMax(int[] arr) {
         int max = arr[0];
-        for (int val : arr) {
-            if (val > max) max = val;
+        for(int val : arr) {
+            if(val > max) max = val;
         }
         return max;
     }
@@ -90,8 +90,8 @@ public class ArrayAdvancedOperations {
     // Find minimum
     public static int findMin(int[] arr) {
         int min = arr[0];
-        for (int val : arr) {
-            if (val < min) min = val;
+        for(int val : arr) {
+            if(val < min) min = val;
         }
         return min;
     }
@@ -99,7 +99,7 @@ public class ArrayAdvancedOperations {
     // Calculate sum
     public static int calculateSum(int[] arr) {
         int sum = 0;
-        for (int val : arr) sum += val;
+        for(int val : arr) sum += val;
         return sum;
     }
 }

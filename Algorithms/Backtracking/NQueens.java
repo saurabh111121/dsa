@@ -22,18 +22,18 @@ public class NQueens {
     public static List<List<String>> solveNQueens(int n) {
         List<List<String>> result = new ArrayList<>();
         char[][] board = new char[n][n];
-        for (char[] row : board) Arrays.fill(row, '.');
+        for(char[] row : board) Arrays.fill(row, '.');
         nQueensHelper(board, 0, result);
         return result;
     }
 
     private static void nQueensHelper(char[][] board, int row, List<List<String>> result) {
-        if (row == board.length) {
+        if(row == board.length) {
             result.add(boardToList(board));
             return;
         }
-        for (int col = 0; col < board.length; col++) {
-            if (isSafe(board, row, col)) {
+        for(int col = 0; col < board.length; col++) {
+            if(isSafe(board, row, col)) {
                 board[row][col] = 'Q';
                 nQueensHelper(board, row + 1, result);
                 board[row][col] = '.';
@@ -44,13 +44,13 @@ public class NQueens {
     private static boolean isSafe(char[][] board, int row, int col) {
         int n = board.length;
         // check column above
-        for (int i = 0; i < row; i++) if (board[i][col] == 'Q') return false;
+        for(int i = 0; i < row; i++) if(board[i][col] == 'Q') return false;
         // check upper-left diagonal
-        for (int i = row-1, j = col-1; i >= 0 && j >= 0; i--, j--)
-            if (board[i][j] == 'Q') return false;
+        for(int i = row-1, j = col-1; i >= 0 && j >= 0; i--, j--)
+            if(board[i][j] == 'Q') return false;
         // check upper-right diagonal
-        for (int i = row-1, j = col+1; i >= 0 && j < n; i--, j++)
-            if (board[i][j] == 'Q') return false;
+        for(int i = row-1, j = col+1; i >= 0 && j < n; i--, j++)
+            if(board[i][j] == 'Q') return false;
         return true;
     }
 
@@ -66,9 +66,9 @@ public class NQueens {
     private static void solveBitmask(int[] queens, int n, int row,
                                       int cols, int diag1, int diag2,
                                       List<List<String>> result) {
-        if (row == n) { result.add(queensToBoard(queens, n)); return; }
+        if(row == n) { result.add(queensToBoard(queens, n)); return; }
         int available = ((1 << n) - 1) & ~(cols | diag1 | diag2);
-        while (available != 0) {
+        while(available != 0) {
             int bit = available & (-available);
             available -= bit;
             int col = Integer.numberOfTrailingZeros(bit);
@@ -88,10 +88,10 @@ public class NQueens {
     }
 
     private static int countQueens(int n, int row, int cols, int diag1, int diag2) {
-        if (row == n) return 1;
+        if(row == n) return 1;
         int count = 0;
         int available = ((1 << n) - 1) & ~(cols | diag1 | diag2);
-        while (available != 0) {
+        while(available != 0) {
             int bit = available & (-available);
             available -= bit;
             count += countQueens(n, row + 1, cols | bit, (diag1 | bit) << 1, (diag2 | bit) >> 1);
@@ -108,13 +108,13 @@ public class NQueens {
     }
 
     private static boolean solve(char[][] board) {
-        for (int r = 0; r < 9; r++) {
-            for (int c = 0; c < 9; c++) {
-                if (board[r][c] != '.') continue;
-                for (char ch = '1'; ch <= '9'; ch++) {
-                    if (isValidSudoku(board, r, c, ch)) {
+        for(int r = 0; r < 9; r++) {
+            for(int c = 0; c < 9; c++) {
+                if(board[r][c] != '.') continue;
+                for(char ch = '1'; ch <= '9'; ch++) {
+                    if(isValidSudoku(board, r, c, ch)) {
                         board[r][c] = ch;
-                        if (solve(board)) return true;
+                        if(solve(board)) return true;
                         board[r][c] = '.';
                     }
                 }
@@ -125,12 +125,12 @@ public class NQueens {
     }
 
     private static boolean isValidSudoku(char[][] board, int row, int col, char ch) {
-        for (int i = 0; i < 9; i++) {
-            if (board[row][i] == ch) return false;          // row check
-            if (board[i][col] == ch) return false;          // col check
+        for(int i = 0; i < 9; i++) {
+            if(board[row][i] == ch) return false;          // row check
+            if(board[i][col] == ch) return false;          // col check
             // 3x3 box check
             int br = 3*(row/3) + i/3, bc = 3*(col/3) + i%3;
-            if (board[br][bc] == ch) return false;
+            if(board[br][bc] == ch) return false;
         }
         return true;
     }
@@ -138,13 +138,13 @@ public class NQueens {
     // ── helpers ──────────────────────────────────────────────────────────────
     private static List<String> boardToList(char[][] board) {
         List<String> list = new ArrayList<>();
-        for (char[] row : board) list.add(new String(row));
+        for(char[] row : board) list.add(new String(row));
         return list;
     }
 
     private static List<String> queensToBoard(int[] queens, int n) {
         List<String> board = new ArrayList<>();
-        for (int q : queens) {
+        for(int q : queens) {
             char[] row = new char[n];
             Arrays.fill(row, '.');
             row[q] = 'Q';
@@ -176,7 +176,7 @@ public class NQueens {
             {'.','.','.','.','8','.','.','7','9'}
         };
         solveSudoku(board);
-        for (char[] row : board) System.out.println(Arrays.toString(row));
+        for(char[] row : board) System.out.println(Arrays.toString(row));
     }
 }
 

@@ -44,7 +44,7 @@ public class BinaryTreeProperties {
     }
 
     private static int checkBalanced(TreeNode root, Height height) {
-        if (root == null) {
+        if(root == null) {
             height.h = 0;
             return 0;
         }
@@ -57,8 +57,8 @@ public class BinaryTreeProperties {
 
         height.h = Math.max(leftHeight.h, rightHeight.h) + 1;
 
-        if (left == -1 || right == -1) return -1;
-        if (Math.abs(leftHeight.h - rightHeight.h) > 1) return -1;
+        if(left == -1 || right == -1) return -1;
+        if(Math.abs(leftHeight.h - rightHeight.h) > 1) return -1;
 
         return 1; // balanced
     }
@@ -67,18 +67,18 @@ public class BinaryTreeProperties {
     // 2️⃣ CHECK COMPLETE BINARY TREE
     // =====================================================
     public static boolean isComplete(TreeNode root) {
-        if (root == null) return true;
+        if(root == null) return true;
 
         Queue<TreeNode> queue = new LinkedList<>();
         queue.offer(root);
         boolean end = false;
 
-        while (!queue.isEmpty()) {
+        while(!queue.isEmpty()) {
             TreeNode node = queue.poll();
-            if (node == null) {
+            if(node == null) {
                 end = true;
             } else {
-                if (end) return false;
+                if(end) return false;
                 queue.offer(node.left);
                 queue.offer(node.right);
             }
@@ -92,8 +92,8 @@ public class BinaryTreeProperties {
     // =====================================================
     // Every node has either 0 or 2 children
     public static boolean isFull(TreeNode root) {
-        if (root == null) return true;
-        if ((root.left == null && root.right != null) || (root.left != null && root.right == null))
+        if(root == null) return true;
+        if((root.left == null && root.right != null) || (root.left != null && root.right == null))
             return false;
 
         return isFull(root.left) && isFull(root.right);
@@ -110,7 +110,7 @@ public class BinaryTreeProperties {
 
     private static int findDepth(TreeNode node) {
         int depth = 0;
-        while (node != null) {
+        while(node != null) {
             depth++;
             node = node.left;
         }
@@ -118,9 +118,9 @@ public class BinaryTreeProperties {
     }
 
     private static boolean isPerfectUtil(TreeNode root, int depth, int level) {
-        if (root == null) return true;
-        if (root.left == null && root.right == null) return (depth == level + 1);
-        if (root.left == null || root.right == null) return false;
+        if(root == null) return true;
+        if(root.left == null && root.right == null) return (depth == level + 1);
+        if(root.left == null || root.right == null) return false;
         return isPerfectUtil(root.left, depth, level + 1) &&
                isPerfectUtil(root.right, depth, level + 1);
     }
@@ -129,7 +129,7 @@ public class BinaryTreeProperties {
     // INORDER (for testing tree structure)
     // =====================================================
     public static void inorder(TreeNode root) {
-        if (root == null) return;
+        if(root == null) return;
         inorder(root.left);
         System.out.print(root.val + " ");
         inorder(root.right);

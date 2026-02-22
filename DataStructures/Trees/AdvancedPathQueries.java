@@ -32,20 +32,20 @@ public class AdvancedPathQueries {
     // =====================================================
     public static TreeNode insertLevelOrder(TreeNode root, int val) {
         TreeNode newNode = new TreeNode(val);
-        if (root == null) return newNode;
+        if(root == null) return newNode;
 
         Queue<TreeNode> queue = new LinkedList<>();
         queue.offer(root);
 
-        while (!queue.isEmpty()) {
+        while(!queue.isEmpty()) {
             TreeNode temp = queue.poll();
 
-            if (temp.left == null) {
+            if(temp.left == null) {
                 temp.left = newNode;
                 return root;
             } else queue.offer(temp.left);
 
-            if (temp.right == null) {
+            if(temp.right == null) {
                 temp.right = newNode;
                 return root;
             } else queue.offer(temp.right);
@@ -58,7 +58,7 @@ public class AdvancedPathQueries {
     // Inorder Traversal (for verification)
     // =====================================================
     public static void inorder(TreeNode root) {
-        if (root == null) return;
+        if(root == null) return;
         inorder(root.left);
         System.out.print(root.val + " ");
         inorder(root.right);
@@ -74,13 +74,13 @@ public class AdvancedPathQueries {
     }
 
     private static void dfs(TreeNode node, int target, List<Integer> path, List<List<Integer>> result) {
-        if (node == null) return;
+        if(node == null) return;
 
         path.add(node.val);
         target -= node.val;
 
         // Check if leaf and sum matches
-        if (node.left == null && node.right == null && target == 0) {
+        if(node.left == null && node.right == null && target == 0) {
             result.add(new ArrayList<>(path));
         } else {
             dfs(node.left, target, path, result);
@@ -100,15 +100,15 @@ public class AdvancedPathQueries {
     }
 
     private static void findPathsAnywhereHelper(TreeNode node, int target, List<Integer> path, List<List<Integer>> result) {
-        if (node == null) return;
+        if(node == null) return;
 
         path.add(node.val);
 
         int sum = 0;
         // Check all sub-paths ending at current node
-        for (int i = path.size() - 1; i >= 0; i--) {
+        for(int i = path.size() - 1; i >= 0; i--) {
             sum += path.get(i);
-            if (sum == target) {
+            if(sum == target) {
                 result.add(new ArrayList<>(path.subList(i, path.size())));
             }
         }
@@ -126,7 +126,7 @@ public class AdvancedPathQueries {
         TreeNode root = null;
         int[] values = {10, 5, -3, 3, 2, 11, 3, -2, 1};
 
-        for (int val : values) root = insertLevelOrder(root, val);
+        for(int val : values) root = insertLevelOrder(root, val);
 
         System.out.println("Inorder Traversal of Tree:");
         inorder(root);
@@ -136,13 +136,13 @@ public class AdvancedPathQueries {
 
         System.out.println("Root-to-Leaf Paths with Sum " + target + ":");
         List<List<Integer>> paths = findPathsWithSum(root, target);
-        for (List<Integer> path : paths) {
+        for(List<Integer> path : paths) {
             System.out.println(path);
         }
 
         System.out.println("\nPaths Anywhere with Sum " + target + ":");
         List<List<Integer>> pathsAny = findPathsAnywhere(root, target);
-        for (List<Integer> path : pathsAny) {
+        for(List<Integer> path : pathsAny) {
             System.out.println(path);
         }
     }

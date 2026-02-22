@@ -59,7 +59,7 @@ public class DequeOperations {
         // =====================================================
         public void addFirst(int val) {
             Node newNode = new Node(val);
-            if (front == null) {
+            if(front == null) {
                 front = rear = newNode;
             } else {
                 newNode.next = front;
@@ -74,7 +74,7 @@ public class DequeOperations {
         // =====================================================
         public void addLast(int val) {
             Node newNode = new Node(val);
-            if (rear == null) {
+            if(rear == null) {
                 front = rear = newNode;
             } else {
                 rear.next = newNode;
@@ -88,10 +88,10 @@ public class DequeOperations {
         // 3️⃣ REMOVE FIRST - O(1)
         // =====================================================
         public int removeFirst() {
-            if (isEmpty()) throw new RuntimeException("Deque is empty");
+            if(isEmpty()) throw new RuntimeException("Deque is empty");
             int val = front.val;
             front = front.next;
-            if (front != null) front.prev = null;
+            if(front != null) front.prev = null;
             else rear = null;
             size--;
             return val;
@@ -101,10 +101,10 @@ public class DequeOperations {
         // 4️⃣ REMOVE LAST - O(1)
         // =====================================================
         public int removeLast() {
-            if (isEmpty()) throw new RuntimeException("Deque is empty");
+            if(isEmpty()) throw new RuntimeException("Deque is empty");
             int val = rear.val;
             rear = rear.prev;
-            if (rear != null) rear.next = null;
+            if(rear != null) rear.next = null;
             else front = null;
             size--;
             return val;
@@ -114,7 +114,7 @@ public class DequeOperations {
         // 5️⃣ PEEK FIRST
         // =====================================================
         public int peekFirst() {
-            if (isEmpty()) throw new RuntimeException("Deque is empty");
+            if(isEmpty()) throw new RuntimeException("Deque is empty");
             return front.val;
         }
 
@@ -122,7 +122,7 @@ public class DequeOperations {
         // 6️⃣ PEEK LAST
         // =====================================================
         public int peekLast() {
-            if (isEmpty()) throw new RuntimeException("Deque is empty");
+            if(isEmpty()) throw new RuntimeException("Deque is empty");
             return rear.val;
         }
 
@@ -139,7 +139,7 @@ public class DequeOperations {
         public void print() {
             System.out.print("Deque (front -> rear): ");
             Node current = front;
-            while (current != null) {
+            while(current != null) {
                 System.out.print(current.val + (current.next != null ? " <-> " : ""));
                 current = current.next;
             }
@@ -156,21 +156,21 @@ public class DequeOperations {
         int[] result = new int[n - k + 1];
         java.util.ArrayDeque<Integer> deque = new java.util.ArrayDeque<>(); // stores indices
 
-        for (int i = 0; i < n; i++) {
+        for(int i = 0; i < n; i++) {
             // Remove elements outside window
-            while (!deque.isEmpty() && deque.peekFirst() < i - k + 1) {
+            while(!deque.isEmpty() && deque.peekFirst() < i - k + 1) {
                 deque.pollFirst();
             }
 
             // Remove smaller elements from rear (they can never be max)
-            while (!deque.isEmpty() && nums[deque.peekLast()] < nums[i]) {
+            while(!deque.isEmpty() && nums[deque.peekLast()] < nums[i]) {
                 deque.pollLast();
             }
 
             deque.addLast(i);
 
             // Start adding to result once first window is complete
-            if (i >= k - 1) {
+            if(i >= k - 1) {
                 result[i - k + 1] = nums[deque.peekFirst()];
             }
         }
@@ -183,10 +183,10 @@ public class DequeOperations {
     // =====================================================
     public static boolean isPalindromeDeque(String s) {
         java.util.ArrayDeque<Character> deque = new java.util.ArrayDeque<>();
-        for (char c : s.toCharArray()) deque.addLast(c);
+        for(char c : s.toCharArray()) deque.addLast(c);
 
-        while (deque.size() > 1) {
-            if (!deque.pollFirst().equals(deque.pollLast())) return false;
+        while(deque.size() > 1) {
+            if(!deque.pollFirst().equals(deque.pollLast())) return false;
         }
 
         return true;
@@ -219,7 +219,7 @@ public class DequeOperations {
         int k = 3;
         int[] result = slidingWindowMax(nums, k);
         System.out.print("Input: [1,3,-1,-3,5,3,6,7], k=3 => Max: [");
-        for (int i = 0; i < result.length; i++) {
+        for(int i = 0; i < result.length; i++) {
             System.out.print(result[i] + (i < result.length - 1 ? ", " : ""));
         }
         System.out.println("]");

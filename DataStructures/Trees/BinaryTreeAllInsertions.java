@@ -43,11 +43,11 @@ public class BinaryTreeAllInsertions {
     // 1️⃣ BST INSERTION - RECURSIVE
     // =====================================================
     public static TreeNode insertBSTRecursive(TreeNode root, int val) {
-        if (root == null) return new TreeNode(val);
+        if(root == null) return new TreeNode(val);
 
-        if (val < root.val)
+        if(val < root.val)
             root.left = insertBSTRecursive(root.left, val);
-        else if (val > root.val)
+        else if(val > root.val)
             root.right = insertBSTRecursive(root.right, val);
 
         return root;
@@ -59,22 +59,22 @@ public class BinaryTreeAllInsertions {
     public static TreeNode insertBSTIterative(TreeNode root, int val) {
         TreeNode newNode = new TreeNode(val);
 
-        if (root == null) return newNode;
+        if(root == null) return newNode;
 
         TreeNode current = root;
         TreeNode parent = null;
 
-        while (current != null) {
+        while(current != null) {
             parent = current;
-            if (val < current.val)
+            if(val < current.val)
                 current = current.left;
-            else if (val > current.val)
+            else if(val > current.val)
                 current = current.right;
             else
                 return root; // ignore duplicates
         }
 
-        if (val < parent.val)
+        if(val < parent.val)
             parent.left = newNode;
         else
             parent.right = newNode;
@@ -87,20 +87,20 @@ public class BinaryTreeAllInsertions {
     // =====================================================
     public static TreeNode insertLevelOrder(TreeNode root, int val) {
         TreeNode newNode = new TreeNode(val);
-        if (root == null) return newNode;
+        if(root == null) return newNode;
 
         Queue<TreeNode> queue = new LinkedList<>();
         queue.offer(root);
 
-        while (!queue.isEmpty()) {
+        while(!queue.isEmpty()) {
             TreeNode temp = queue.poll();
 
-            if (temp.left == null) {
+            if(temp.left == null) {
                 temp.left = newNode;
                 return root;
             } else queue.offer(temp.left);
 
-            if (temp.right == null) {
+            if(temp.right == null) {
                 temp.right = newNode;
                 return root;
             } else queue.offer(temp.right);
@@ -113,9 +113,9 @@ public class BinaryTreeAllInsertions {
     // 4️⃣ INSERT AS LEFT CHILD OF GIVEN NODE
     // =====================================================
     public static boolean insertLeft(TreeNode root, int parentVal, int newVal) {
-        if (root == null) return false;
+        if(root == null) return false;
 
-        if (root.val == parentVal) {
+        if(root.val == parentVal) {
             TreeNode newNode = new TreeNode(newVal);
             newNode.left = root.left;
             root.left = newNode;
@@ -130,9 +130,9 @@ public class BinaryTreeAllInsertions {
     // 5️⃣ INSERT AS RIGHT CHILD OF GIVEN NODE
     // =====================================================
     public static boolean insertRight(TreeNode root, int parentVal, int newVal) {
-        if (root == null) return false;
+        if(root == null) return false;
 
-        if (root.val == parentVal) {
+        if(root.val == parentVal) {
             TreeNode newNode = new TreeNode(newVal);
             newNode.right = root.right;
             root.right = newNode;
@@ -156,12 +156,12 @@ public class BinaryTreeAllInsertions {
     // 7️⃣ INSERT AT SPECIFIC LEVEL (RECURSIVE)
     // =====================================================
     public static void insertAtLevel(TreeNode root, int val, int level) {
-        if (root == null) return;
+        if(root == null) return;
 
-        if (level == 1) {
-            if (root.left == null)
+        if(level == 1) {
+            if(root.left == null)
                 root.left = new TreeNode(val);
-            else if (root.right == null)
+            else if(root.right == null)
                 root.right = new TreeNode(val);
         } else {
             insertAtLevel(root.left, val, level - 1);
@@ -173,7 +173,7 @@ public class BinaryTreeAllInsertions {
     // INORDER TRAVERSAL
     // =====================================================
     public static void inorder(TreeNode root) {
-        if (root == null) return;
+        if(root == null) return;
         inorder(root.left);
         System.out.print(root.val + " ");
         inorder(root.right);
@@ -183,16 +183,16 @@ public class BinaryTreeAllInsertions {
     // LEVEL ORDER TRAVERSAL
     // =====================================================
     public static void levelOrder(TreeNode root) {
-        if (root == null) return;
+        if(root == null) return;
 
         Queue<TreeNode> queue = new LinkedList<>();
         queue.offer(root);
 
-        while (!queue.isEmpty()) {
+        while(!queue.isEmpty()) {
             TreeNode temp = queue.poll();
             System.out.print(temp.val + " ");
-            if (temp.left != null) queue.offer(temp.left);
-            if (temp.right != null) queue.offer(temp.right);
+            if(temp.left != null) queue.offer(temp.left);
+            if(temp.right != null) queue.offer(temp.right);
         }
     }
 
@@ -207,7 +207,7 @@ public class BinaryTreeAllInsertions {
         TreeNode bstRec = null;
         int[] bstValues = {50, 30, 70, 20, 40, 60, 80};
 
-        for (int val : bstValues)
+        for(int val : bstValues)
             bstRec = insertBSTRecursive(bstRec, val);
 
         System.out.println("BST Recursive (Inorder):");
@@ -218,7 +218,7 @@ public class BinaryTreeAllInsertions {
         // BST Iterative Test
         // ======================
         TreeNode bstItr = null;
-        for (int val : bstValues)
+        for(int val : bstValues)
             bstItr = insertBSTIterative(bstItr, val);
 
         System.out.println("BST Iterative (Inorder):");
@@ -231,7 +231,7 @@ public class BinaryTreeAllInsertions {
         TreeNode normalTree = null;
         int[] values = {1, 2, 3, 4, 5};
 
-        for (int val : values)
+        for(int val : values)
             normalTree = insertLevelOrder(normalTree, val);
 
         System.out.println("Normal Binary Tree (Level Order):");

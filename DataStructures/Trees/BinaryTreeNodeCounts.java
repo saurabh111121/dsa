@@ -42,7 +42,7 @@ public class BinaryTreeNodeCounts {
     // 1️⃣ COUNT TOTAL NODES - RECURSIVE
     // =====================================================
     public static int countNodesRecursive(TreeNode root) {
-        if (root == null) return 0;
+        if(root == null) return 0;
         return 1 + countNodesRecursive(root.left) + countNodesRecursive(root.right);
     }
 
@@ -50,17 +50,17 @@ public class BinaryTreeNodeCounts {
     // 2️⃣ COUNT TOTAL NODES - ITERATIVE (LEVEL ORDER)
     // =====================================================
     public static int countNodesIterative(TreeNode root) {
-        if (root == null) return 0;
+        if(root == null) return 0;
 
         Queue<TreeNode> queue = new LinkedList<>();
         queue.offer(root);
         int count = 0;
 
-        while (!queue.isEmpty()) {
+        while(!queue.isEmpty()) {
             TreeNode node = queue.poll();
             count++;
-            if (node.left != null) queue.offer(node.left);
-            if (node.right != null) queue.offer(node.right);
+            if(node.left != null) queue.offer(node.left);
+            if(node.right != null) queue.offer(node.right);
         }
 
         return count;
@@ -70,8 +70,8 @@ public class BinaryTreeNodeCounts {
     // 3️⃣ COUNT LEAF NODES - RECURSIVE
     // =====================================================
     public static int countLeafNodesRecursive(TreeNode root) {
-        if (root == null) return 0;
-        if (root.left == null && root.right == null) return 1;
+        if(root == null) return 0;
+        if(root.left == null && root.right == null) return 1;
         return countLeafNodesRecursive(root.left) + countLeafNodesRecursive(root.right);
     }
 
@@ -79,17 +79,17 @@ public class BinaryTreeNodeCounts {
     // 4️⃣ COUNT LEAF NODES - ITERATIVE
     // =====================================================
     public static int countLeafNodesIterative(TreeNode root) {
-        if (root == null) return 0;
+        if(root == null) return 0;
 
         Queue<TreeNode> queue = new LinkedList<>();
         queue.offer(root);
         int count = 0;
 
-        while (!queue.isEmpty()) {
+        while(!queue.isEmpty()) {
             TreeNode node = queue.poll();
-            if (node.left == null && node.right == null) count++;
-            if (node.left != null) queue.offer(node.left);
-            if (node.right != null) queue.offer(node.right);
+            if(node.left == null && node.right == null) count++;
+            if(node.left != null) queue.offer(node.left);
+            if(node.right != null) queue.offer(node.right);
         }
 
         return count;
@@ -99,7 +99,7 @@ public class BinaryTreeNodeCounts {
     // 5️⃣ COUNT NON-LEAF / INTERNAL NODES - RECURSIVE
     // =====================================================
     public static int countNonLeafNodesRecursive(TreeNode root) {
-        if (root == null || (root.left == null && root.right == null)) return 0;
+        if(root == null || (root.left == null && root.right == null)) return 0;
         return 1 + countNonLeafNodesRecursive(root.left) + countNonLeafNodesRecursive(root.right);
     }
 
@@ -107,17 +107,17 @@ public class BinaryTreeNodeCounts {
     // 6️⃣ COUNT NON-LEAF / INTERNAL NODES - ITERATIVE
     // =====================================================
     public static int countNonLeafNodesIterative(TreeNode root) {
-        if (root == null) return 0;
+        if(root == null) return 0;
 
         Queue<TreeNode> queue = new LinkedList<>();
         queue.offer(root);
         int count = 0;
 
-        while (!queue.isEmpty()) {
+        while(!queue.isEmpty()) {
             TreeNode node = queue.poll();
-            if (node.left != null || node.right != null) count++;
-            if (node.left != null) queue.offer(node.left);
-            if (node.right != null) queue.offer(node.right);
+            if(node.left != null || node.right != null) count++;
+            if(node.left != null) queue.offer(node.left);
+            if(node.right != null) queue.offer(node.right);
         }
 
         return count;
@@ -127,7 +127,7 @@ public class BinaryTreeNodeCounts {
     // INORDER (for testing tree structure)
     // =====================================================
     public static void inorder(TreeNode root) {
-        if (root == null) return;
+        if(root == null) return;
         inorder(root.left);
         System.out.print(root.val + " ");
         inorder(root.right);

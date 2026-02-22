@@ -26,19 +26,19 @@ public class BasicSorting {
     /** Standard iterative bubble sort */
     public static void bubbleSort(int[] arr) {
         int n = arr.length;
-        for (int i = 0; i < n - 1; i++)
-            for (int j = 0; j < n - i - 1; j++)
-                if (arr[j] > arr[j + 1]) swap(arr, j, j + 1);
+        for(int i = 0; i < n - 1; i++)
+            for(int j = 0; j < n - i - 1; j++)
+                if(arr[j] > arr[j + 1]) swap(arr, j, j + 1);
     }
 
     /** Optimized: stop early if no swaps in a pass */
     public static void bubbleSortOptimized(int[] arr) {
         int n = arr.length;
-        for (int i = 0; i < n - 1; i++) {
+        for(int i = 0; i < n - 1; i++) {
             boolean swapped = false;
-            for (int j = 0; j < n - i - 1; j++)
-                if (arr[j] > arr[j + 1]) { swap(arr, j, j + 1); swapped = true; }
-            if (!swapped) break;   // already sorted
+            for(int j = 0; j < n - i - 1; j++)
+                if(arr[j] > arr[j + 1]) { swap(arr, j, j + 1); swapped = true; }
+            if(!swapped) break;   // already sorted
         }
     }
 
@@ -48,10 +48,10 @@ public class BasicSorting {
 
     public static void selectionSort(int[] arr) {
         int n = arr.length;
-        for (int i = 0; i < n - 1; i++) {
+        for(int i = 0; i < n - 1; i++) {
             int minIdx = i;
-            for (int j = i + 1; j < n; j++)
-                if (arr[j] < arr[minIdx]) minIdx = j;
+            for(int j = i + 1; j < n; j++)
+                if(arr[j] < arr[minIdx]) minIdx = j;
             swap(arr, i, minIdx);
         }
     }
@@ -62,21 +62,21 @@ public class BasicSorting {
 
     /** Iterative insertion sort */
     public static void insertionSort(int[] arr) {
-        for (int i = 1; i < arr.length; i++) {
+        for(int i = 1; i < arr.length; i++) {
             int key = arr[i];
             int j = i - 1;
-            while (j >= 0 && arr[j] > key) { arr[j + 1] = arr[j]; j--; }
+            while(j >= 0 && arr[j] > key) { arr[j + 1] = arr[j]; j--; }
             arr[j + 1] = key;
         }
     }
 
     /** Recursive insertion sort */
     public static void insertionSortRecursive(int[] arr, int n) {
-        if (n <= 1) return;
+        if(n <= 1) return;
         insertionSortRecursive(arr, n - 1);
         int last = arr[n - 1];
         int j = n - 2;
-        while (j >= 0 && arr[j] > last) { arr[j + 1] = arr[j]; j--; }
+        while(j >= 0 && arr[j] > last) { arr[j + 1] = arr[j]; j--; }
         arr[j + 1] = last;
     }
 
@@ -88,12 +88,12 @@ public class BasicSorting {
         int n = arr.length;
         // Knuth sequence: 1, 4, 13, 40, ...
         int gap = 1;
-        while (gap < n / 3) gap = 3 * gap + 1;
-        while (gap >= 1) {
-            for (int i = gap; i < n; i++) {
+        while(gap < n / 3) gap = 3 * gap + 1;
+        while(gap >= 1) {
+            for(int i = gap; i < n; i++) {
                 int key = arr[i];
                 int j = i - gap;
-                while (j >= 0 && arr[j] > key) { arr[j + gap] = arr[j]; j -= gap; }
+                while(j >= 0 && arr[j] > key) { arr[j + gap] = arr[j]; j -= gap; }
                 arr[j + gap] = key;
             }
             gap /= 3;
@@ -106,11 +106,11 @@ public class BasicSorting {
 
     public static int[] countingSort(int[] arr, int maxVal) {
         int[] count = new int[maxVal + 1];
-        for (int v : arr) count[v]++;
+        for(int v : arr) count[v]++;
         // prefix sums for stability
-        for (int i = 1; i <= maxVal; i++) count[i] += count[i - 1];
+        for(int i = 1; i <= maxVal; i++) count[i] += count[i - 1];
         int[] output = new int[arr.length];
-        for (int i = arr.length - 1; i >= 0; i--) output[--count[arr[i]]] = arr[i];
+        for(int i = arr.length - 1; i >= 0; i--) output[--count[arr[i]]] = arr[i];
         return output;
     }
 
@@ -120,7 +120,7 @@ public class BasicSorting {
 
     public static void radixSort(int[] arr) {
         int max = Arrays.stream(arr).max().getAsInt();
-        for (int exp = 1; max / exp > 0; exp *= 10)
+        for(int exp = 1; max / exp > 0; exp *= 10)
             countingSortByDigit(arr, exp);
     }
 
@@ -128,9 +128,9 @@ public class BasicSorting {
         int n = arr.length;
         int[] output = new int[n];
         int[] count = new int[10];
-        for (int v : arr) count[(v / exp) % 10]++;
-        for (int i = 1; i < 10; i++) count[i] += count[i - 1];
-        for (int i = n - 1; i >= 0; i--) output[--count[(arr[i] / exp) % 10]] = arr[i];
+        for(int v : arr) count[(v / exp) % 10]++;
+        for(int i = 1; i < 10; i++) count[i] += count[i - 1];
+        for(int i = n - 1; i >= 0; i--) output[--count[(arr[i] / exp) % 10]] = arr[i];
         System.arraycopy(output, 0, arr, 0, n);
     }
 
@@ -142,17 +142,17 @@ public class BasicSorting {
         int n = arr.length;
         @SuppressWarnings("unchecked")
         List<Double>[] buckets = new ArrayList[n];
-        for (int i = 0; i < n; i++) buckets[i] = new ArrayList<>();
-        for (double v : arr) {
+        for(int i = 0; i < n; i++) buckets[i] = new ArrayList<>();
+        for(double v : arr) {
             int idx = (int)(v * n);
-            if (idx >= n) idx = n - 1;
+            if(idx >= n) idx = n - 1;
             buckets[idx].add(v);
         }
-        for (List<Double> b : buckets) Collections.sort(b);
+        for(List<Double> b : buckets) Collections.sort(b);
         double[] result = new double[n];
         int k = 0;
-        for (List<Double> b : buckets)
-            for (double v : b) result[k++] = v;
+        for(List<Double> b : buckets)
+            for(double v : b) result[k++] = v;
         return result;
     }
 

@@ -34,7 +34,7 @@ public class TreePatterns {
         preorderHelper(root, res); return res;
     }
     private static void preorderHelper(TreeNode n, List<Integer> res) {
-        if (n == null) return;
+        if(n == null) return;
         res.add(n.val); preorderHelper(n.left, res); preorderHelper(n.right, res);
     }
 
@@ -43,7 +43,7 @@ public class TreePatterns {
         inorderHelper(root, res); return res;
     }
     private static void inorderHelper(TreeNode n, List<Integer> res) {
-        if (n == null) return;
+        if(n == null) return;
         inorderHelper(n.left, res); res.add(n.val); inorderHelper(n.right, res);
     }
 
@@ -52,7 +52,7 @@ public class TreePatterns {
         postorderHelper(root, res); return res;
     }
     private static void postorderHelper(TreeNode n, List<Integer> res) {
-        if (n == null) return;
+        if(n == null) return;
         postorderHelper(n.left, res); postorderHelper(n.right, res); res.add(n.val);
     }
 
@@ -60,12 +60,12 @@ public class TreePatterns {
     public static List<Integer> morrisInorder(TreeNode root) {
         List<Integer> res = new ArrayList<>();
         TreeNode cur = root;
-        while (cur != null) {
-            if (cur.left == null) { res.add(cur.val); cur = cur.right; }
+        while(cur != null) {
+            if(cur.left == null) { res.add(cur.val); cur = cur.right; }
             else {
                 TreeNode pred = cur.left;
-                while (pred.right != null && pred.right != cur) pred = pred.right;
-                if (pred.right == null) { pred.right = cur; cur = cur.left; }
+                while(pred.right != null && pred.right != cur) pred = pred.right;
+                if(pred.right == null) { pred.right = cur; cur = cur.left; }
                 else { pred.right = null; res.add(cur.val); cur = cur.right; }
             }
         }
@@ -77,14 +77,14 @@ public class TreePatterns {
     // ─────────────────────────────────────────────────────────────
     public static List<List<Integer>> levelOrder(TreeNode root) {
         List<List<Integer>> result = new ArrayList<>();
-        if (root == null) return result;
+        if(root == null) return result;
         Queue<TreeNode> q = new LinkedList<>(); q.add(root);
-        while (!q.isEmpty()) {
+        while(!q.isEmpty()) {
             List<Integer> level = new ArrayList<>();
-            for (int sz = q.size(); sz > 0; sz--) {
+            for(int sz = q.size(); sz > 0; sz--) {
                 TreeNode n = q.poll(); level.add(n.val);
-                if (n.left != null) q.add(n.left);
-                if (n.right != null) q.add(n.right);
+                if(n.left != null) q.add(n.left);
+                if(n.right != null) q.add(n.right);
             }
             result.add(level);
         }
@@ -94,18 +94,18 @@ public class TreePatterns {
     /** Zigzag level order */
     public static List<List<Integer>> zigzagLevelOrder(TreeNode root) {
         List<List<Integer>> result = new ArrayList<>();
-        if (root == null) return result;
+        if(root == null) return result;
         Queue<TreeNode> q = new LinkedList<>(); q.add(root); boolean leftToRight = true;
-        while (!q.isEmpty()) {
+        while(!q.isEmpty()) {
             int sz = q.size(); int[] level = new int[sz];
-            for (int i = 0; i < sz; i++) {
+            for(int i = 0; i < sz; i++) {
                 TreeNode n = q.poll();
                 level[leftToRight ? i : sz - 1 - i] = n.val;
-                if (n.left != null) q.add(n.left);
-                if (n.right != null) q.add(n.right);
+                if(n.left != null) q.add(n.left);
+                if(n.right != null) q.add(n.right);
             }
             List<Integer> levelList = new ArrayList<>();
-            for (int v : level) levelList.add(v);
+            for(int v : level) levelList.add(v);
             result.add(levelList); leftToRight = !leftToRight;
         }
         return result;
@@ -116,8 +116,8 @@ public class TreePatterns {
     // ─────────────────────────────────────────────────────────────
     /** Has root-to-leaf path summing to target? */
     public static boolean hasPathSum(TreeNode root, int target) {
-        if (root == null) return false;
-        if (root.left == null && root.right == null) return root.val == target;
+        if(root == null) return false;
+        if(root.left == null && root.right == null) return root.val == target;
         return hasPathSum(root.left, target - root.val) || hasPathSum(root.right, target - root.val);
     }
 
@@ -128,9 +128,9 @@ public class TreePatterns {
         return result;
     }
     private static void pathDfs(TreeNode n, int rem, List<Integer> path, List<List<Integer>> res) {
-        if (n == null) return;
+        if(n == null) return;
         path.add(n.val);
-        if (n.left == null && n.right == null && rem == n.val) res.add(new ArrayList<>(path));
+        if(n.left == null && n.right == null && rem == n.val) res.add(new ArrayList<>(path));
         pathDfs(n.left, rem - n.val, path, res);
         pathDfs(n.right, rem - n.val, path, res);
         path.remove(path.size() - 1);
@@ -144,7 +144,7 @@ public class TreePatterns {
         return maxPathAns;
     }
     private static int maxPathGain(TreeNode n) {
-        if (n == null) return 0;
+        if(n == null) return 0;
         int left  = Math.max(maxPathGain(n.left),  0);
         int right = Math.max(maxPathGain(n.right), 0);
         maxPathAns = Math.max(maxPathAns, n.val + left + right);
@@ -159,7 +159,7 @@ public class TreePatterns {
         diameterAns = 0; diameterDfs(root); return diameterAns;
     }
     private static int diameterDfs(TreeNode n) {
-        if (n == null) return 0;
+        if(n == null) return 0;
         int l = diameterDfs(n.left), r = diameterDfs(n.right);
         diameterAns = Math.max(diameterAns, l + r);
         return 1 + Math.max(l, r);
@@ -170,7 +170,7 @@ public class TreePatterns {
         univalAns = 0; univalDfs(root); return univalAns;
     }
     private static int univalDfs(TreeNode n) {
-        if (n == null) return 0;
+        if(n == null) return 0;
         int l = univalDfs(n.left), r = univalDfs(n.right);
         int pl = (n.left  != null && n.left.val  == n.val) ? l + 1 : 0;
         int pr = (n.right != null && n.right.val == n.val) ? r + 1 : 0;
@@ -182,10 +182,10 @@ public class TreePatterns {
     // 5️⃣  LCA (lowest common ancestor) – O(n) per query
     // ─────────────────────────────────────────────────────────────
     public static TreeNode lca(TreeNode root, TreeNode p, TreeNode q) {
-        if (root == null || root == p || root == q) return root;
+        if(root == null || root == p || root == q) return root;
         TreeNode left  = lca(root.left,  p, q);
         TreeNode right = lca(root.right, p, q);
-        if (left != null && right != null) return root;
+        if(left != null && right != null) return root;
         return left != null ? left : right;
     }
 
@@ -196,19 +196,19 @@ public class TreePatterns {
         return root == null || symCheck(root.left, root.right);
     }
     private static boolean symCheck(TreeNode a, TreeNode b) {
-        if (a == null && b == null) return true;
-        if (a == null || b == null) return false;
+        if(a == null && b == null) return true;
+        if(a == null || b == null) return false;
         return a.val == b.val && symCheck(a.left, b.right) && symCheck(a.right, b.left);
     }
 
     public static boolean isSubtree(TreeNode root, TreeNode sub) {
-        if (root == null) return false;
-        if (isSameTree(root, sub)) return true;
+        if(root == null) return false;
+        if(isSameTree(root, sub)) return true;
         return isSubtree(root.left, sub) || isSubtree(root.right, sub);
     }
     private static boolean isSameTree(TreeNode a, TreeNode b) {
-        if (a == null && b == null) return true;
-        if (a == null || b == null) return false;
+        if(a == null && b == null) return true;
+        if(a == null || b == null) return false;
         return a.val == b.val && isSameTree(a.left, b.left) && isSameTree(a.right, b.right);
     }
 
@@ -216,12 +216,12 @@ public class TreePatterns {
     // 7️⃣  SERIALIZE / DESERIALIZE (BFS)
     // ─────────────────────────────────────────────────────────────
     public static String serialize(TreeNode root) {
-        if (root == null) return "null";
+        if(root == null) return "null";
         StringBuilder sb = new StringBuilder();
         Queue<TreeNode> q = new LinkedList<>(); q.add(root);
-        while (!q.isEmpty()) {
+        while(!q.isEmpty()) {
             TreeNode n = q.poll();
-            if (n == null) { sb.append("null,"); continue; }
+            if(n == null) { sb.append("null,"); continue; }
             sb.append(n.val).append(",");
             q.add(n.left); q.add(n.right);
         }
@@ -230,15 +230,15 @@ public class TreePatterns {
 
     public static TreeNode deserialize(String data) {
         String[] vals = data.split(",");
-        if (vals[0].equals("null")) return null;
+        if(vals[0].equals("null")) return null;
         TreeNode root = new TreeNode(Integer.parseInt(vals[0]));
         Queue<TreeNode> q = new LinkedList<>(); q.add(root);
         int i = 1;
-        while (!q.isEmpty() && i < vals.length) {
+        while(!q.isEmpty() && i < vals.length) {
             TreeNode n = q.poll();
-            if (!vals[i].equals("null")) { n.left = new TreeNode(Integer.parseInt(vals[i])); q.add(n.left); }
+            if(!vals[i].equals("null")) { n.left = new TreeNode(Integer.parseInt(vals[i])); q.add(n.left); }
             i++;
-            if (i < vals.length && !vals[i].equals("null")) { n.right = new TreeNode(Integer.parseInt(vals[i])); q.add(n.right); }
+            if(i < vals.length && !vals[i].equals("null")) { n.right = new TreeNode(Integer.parseInt(vals[i])); q.add(n.right); }
             i++;
         }
         return root;
@@ -249,10 +249,10 @@ public class TreePatterns {
     // ─────────────────────────────────────────────────────────────
     public static void flatten(TreeNode root) {
         TreeNode cur = root;
-        while (cur != null) {
-            if (cur.left != null) {
+        while(cur != null) {
+            if(cur.left != null) {
                 TreeNode pred = cur.left;
-                while (pred.right != null) pred = pred.right;
+                while(pred.right != null) pred = pred.right;
                 pred.right = cur.right;
                 cur.right = cur.left;
                 cur.left = null;

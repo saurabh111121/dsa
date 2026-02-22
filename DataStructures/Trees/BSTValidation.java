@@ -32,9 +32,9 @@ public class BSTValidation {
     // 1️⃣ BST INSERT - RECURSIVE
     // =====================================================
     public static TreeNode insertBSTRecursive(TreeNode root, int val) {
-        if (root == null) return new TreeNode(val);
-        if (val < root.val) root.left = insertBSTRecursive(root.left, val);
-        else if (val > root.val) root.right = insertBSTRecursive(root.right, val);
+        if(root == null) return new TreeNode(val);
+        if(val < root.val) root.left = insertBSTRecursive(root.left, val);
+        else if(val > root.val) root.right = insertBSTRecursive(root.right, val);
         return root;
     }
 
@@ -42,7 +42,7 @@ public class BSTValidation {
     // 2️⃣ INORDER TRAVERSAL
     // =====================================================
     public static void inorder(TreeNode root) {
-        if (root == null) return;
+        if(root == null) return;
         inorder(root.left);
         System.out.print(root.val + " ");
         inorder(root.right);
@@ -56,9 +56,9 @@ public class BSTValidation {
     }
 
     private static boolean validate(TreeNode node, Integer min, Integer max) {
-        if (node == null) return true;
+        if(node == null) return true;
 
-        if ((min != null && node.val <= min) || (max != null && node.val >= max)) return false;
+        if((min != null && node.val <= min) || (max != null && node.val >= max)) return false;
 
         return validate(node.left, min, node.val) && validate(node.right, node.val, max);
     }
@@ -71,14 +71,14 @@ public class BSTValidation {
         TreeNode current = root;
         Integer prev = null;
 
-        while (!stack.isEmpty() || current != null) {
-            while (current != null) {
+        while(!stack.isEmpty() || current != null) {
+            while(current != null) {
                 stack.push(current);
                 current = current.left;
             }
 
             current = stack.pop();
-            if (prev != null && current.val <= prev) return false;
+            if(prev != null && current.val <= prev) return false;
             prev = current.val;
             current = current.right;
         }
@@ -93,7 +93,7 @@ public class BSTValidation {
         // Create a valid BST
         int[] values = {20, 10, 30, 5, 15, 25, 35};
         TreeNode bst = null;
-        for (int val : values) bst = insertBSTRecursive(bst, val);
+        for(int val : values) bst = insertBSTRecursive(bst, val);
 
         System.out.println("Inorder Traversal of BST:");
         inorder(bst);

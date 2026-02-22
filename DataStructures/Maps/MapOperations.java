@@ -59,7 +59,7 @@ public class MapOperations {
 
         // iterate
         System.out.print("Entries: ");
-        for (Map.Entry<String, Integer> e : map.entrySet()) {
+        for(Map.Entry<String, Integer> e : map.entrySet()) {
             System.out.print(e.getKey() + "=" + e.getValue() + " ");
         }
         System.out.println();
@@ -111,7 +111,7 @@ public class MapOperations {
     // =====================================================
     public static Map<Character, Integer> frequencyCount(String s) {
         Map<Character, Integer> freq = new HashMap<>();
-        for (char c : s.toCharArray()) {
+        for(char c : s.toCharArray()) {
             freq.merge(c, 1, Integer::sum);
         }
         return freq;
@@ -122,7 +122,7 @@ public class MapOperations {
     // =====================================================
     public static List<List<String>> groupAnagrams(String[] strs) {
         Map<String, List<String>> map = new HashMap<>();
-        for (String s : strs) {
+        for(String s : strs) {
             char[] chars = s.toCharArray();
             Arrays.sort(chars);
             String key = new String(chars);
@@ -136,7 +136,7 @@ public class MapOperations {
     // =====================================================
     public static Map<String, Integer> wordCount(String[] words) {
         Map<String, Integer> count = new HashMap<>();
-        for (String w : words) count.merge(w, 1, Integer::sum);
+        for(String w : words) count.merge(w, 1, Integer::sum);
         return count;
     }
 

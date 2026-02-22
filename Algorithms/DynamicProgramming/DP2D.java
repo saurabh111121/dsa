@@ -25,8 +25,8 @@ public class DP2D {
     public static int uniquePaths(int m, int n) {
         int[] dp = new int[n];
         java.util.Arrays.fill(dp, 1);
-        for (int i = 1; i < m; i++)
-            for (int j = 1; j < n; j++)
+        for(int i = 1; i < m; i++)
+            for(int j = 1; j < n; j++)
                 dp[j] += dp[j - 1];
         return dp[n - 1];
     }
@@ -39,10 +39,10 @@ public class DP2D {
         int m = grid.length, n = grid[0].length;
         int[] dp = new int[n];
         dp[0] = grid[0][0] == 1 ? 0 : 1;
-        for (int j = 1; j < n; j++) dp[j] = grid[0][j] == 1 ? 0 : dp[j-1];
-        for (int i = 1; i < m; i++) {
-            if (grid[i][0] == 1) dp[0] = 0;
-            for (int j = 1; j < n; j++)
+        for(int j = 1; j < n; j++) dp[j] = grid[0][j] == 1 ? 0 : dp[j-1];
+        for(int i = 1; i < m; i++) {
+            if(grid[i][0] == 1) dp[0] = 0;
+            for(int j = 1; j < n; j++)
                 dp[j] = grid[i][j] == 1 ? 0 : dp[j] + dp[j-1];
         }
         return dp[n - 1];
@@ -56,10 +56,10 @@ public class DP2D {
         int m = grid.length, n = grid[0].length;
         int[] dp = new int[n];
         dp[0] = grid[0][0];
-        for (int j = 1; j < n; j++) dp[j] = dp[j-1] + grid[0][j];
-        for (int i = 1; i < m; i++) {
+        for(int j = 1; j < n; j++) dp[j] = dp[j-1] + grid[0][j];
+        for(int i = 1; i < m; i++) {
             dp[0] += grid[i][0];
-            for (int j = 1; j < n; j++)
+            for(int j = 1; j < n; j++)
                 dp[j] = Math.min(dp[j], dp[j-1]) + grid[i][j];
         }
         return dp[n - 1];
@@ -73,11 +73,11 @@ public class DP2D {
         int m = dungeon.length, n = dungeon[0].length;
         int[][] dp = new int[m][n];
         dp[m-1][n-1] = Math.max(1 - dungeon[m-1][n-1], 1);
-        for (int j = n-2; j >= 0; j--)
+        for(int j = n-2; j >= 0; j--)
             dp[m-1][j] = Math.max(dp[m-1][j+1] - dungeon[m-1][j], 1);
-        for (int i = m-2; i >= 0; i--) {
+        for(int i = m-2; i >= 0; i--) {
             dp[i][n-1] = Math.max(dp[i+1][n-1] - dungeon[i][n-1], 1);
-            for (int j = n-2; j >= 0; j--)
+            for(int j = n-2; j >= 0; j--)
                 dp[i][j] = Math.max(Math.min(dp[i+1][j], dp[i][j+1]) - dungeon[i][j], 1);
         }
         return dp[0][0];
@@ -90,9 +90,9 @@ public class DP2D {
     public static int minimumTotal(java.util.List<java.util.List<Integer>> triangle) {
         int n = triangle.size();
         int[] dp = new int[n];
-        for (int i = 0; i < n; i++) dp[i] = triangle.get(n-1).get(i);
-        for (int i = n-2; i >= 0; i--)
-            for (int j = 0; j <= i; j++)
+        for(int i = 0; i < n; i++) dp[i] = triangle.get(n-1).get(i);
+        for(int i = n-2; i >= 0; i--)
+            for(int j = 0; j <= i; j++)
                 dp[j] = triangle.get(i).get(j) + Math.min(dp[j], dp[j+1]);
         return dp[0];
     }
@@ -105,10 +105,10 @@ public class DP2D {
         int m = matrix.length, n = matrix[0].length, maxSide = 0;
         int[] dp = new int[n + 1];
         int prev = 0;
-        for (int i = 1; i <= m; i++) {
-            for (int j = 1; j <= n; j++) {
+        for(int i = 1; i <= m; i++) {
+            for(int j = 1; j <= n; j++) {
                 int tmp = dp[j];
-                if (matrix[i-1][j-1] == '1') {
+                if(matrix[i-1][j-1] == '1') {
                     dp[j] = Math.min(Math.min(dp[j-1], dp[j]), prev) + 1;
                     maxSide = Math.max(maxSide, dp[j]);
                 } else dp[j] = 0;
@@ -124,9 +124,9 @@ public class DP2D {
 
     public static int countSquares(int[][] matrix) {
         int count = 0;
-        for (int i = 0; i < matrix.length; i++)
-            for (int j = 0; j < matrix[0].length; j++) {
-                if (matrix[i][j] > 0 && i > 0 && j > 0)
+        for(int i = 0; i < matrix.length; i++)
+            for(int j = 0; j < matrix[0].length; j++) {
+                if(matrix[i][j] > 0 && i > 0 && j > 0)
                     matrix[i][j] = Math.min(matrix[i-1][j-1],
                                    Math.min(matrix[i-1][j], matrix[i][j-1])) + 1;
                 count += matrix[i][j];

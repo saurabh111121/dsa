@@ -27,9 +27,9 @@ public class LCS_LIS {
     public static int lcs(String a, String b) {
         int m = a.length(), n = b.length();
         int[] dp = new int[n + 1];
-        for (int i = 1; i <= m; i++) {
+        for(int i = 1; i <= m; i++) {
             int prev = 0;
-            for (int j = 1; j <= n; j++) {
+            for(int j = 1; j <= n; j++) {
                 int tmp = dp[j];
                 dp[j] = a.charAt(i-1) == b.charAt(j-1) ? prev + 1 : Math.max(dp[j], dp[j-1]);
                 prev = tmp;
@@ -42,14 +42,14 @@ public class LCS_LIS {
     public static String printLCS(String a, String b) {
         int m = a.length(), n = b.length();
         int[][] dp = new int[m+1][n+1];
-        for (int i = 1; i <= m; i++)
-            for (int j = 1; j <= n; j++)
+        for(int i = 1; i <= m; i++)
+            for(int j = 1; j <= n; j++)
                 dp[i][j] = a.charAt(i-1) == b.charAt(j-1) ? dp[i-1][j-1]+1 : Math.max(dp[i-1][j], dp[i][j-1]);
         StringBuilder sb = new StringBuilder();
         int i = m, j = n;
-        while (i > 0 && j > 0) {
-            if (a.charAt(i-1) == b.charAt(j-1)) { sb.append(a.charAt(i-1)); i--; j--; }
-            else if (dp[i-1][j] > dp[i][j-1]) i--;
+        while(i > 0 && j > 0) {
+            if(a.charAt(i-1) == b.charAt(j-1)) { sb.append(a.charAt(i-1)); i--; j--; }
+            else if(dp[i-1][j] > dp[i][j-1]) i--;
             else j--;
         }
         return sb.reverse().toString();
@@ -72,9 +72,9 @@ public class LCS_LIS {
         int[] dp = new int[n];
         Arrays.fill(dp, 1);
         int maxLen = 1;
-        for (int i = 1; i < n; i++) {
-            for (int j = 0; j < i; j++)
-                if (nums[j] < nums[i]) dp[i] = Math.max(dp[i], dp[j] + 1);
+        for(int i = 1; i < n; i++) {
+            for(int j = 0; j < i; j++)
+                if(nums[j] < nums[i]) dp[i] = Math.max(dp[i], dp[j] + 1);
             maxLen = Math.max(maxLen, dp[i]);
         }
         return maxLen;
@@ -83,10 +83,10 @@ public class LCS_LIS {
     /** O(n log n) using patience sorting / binary search */
     public static int lisNLogN(int[] nums) {
         List<Integer> tails = new ArrayList<>();
-        for (int n : nums) {
+        for(int n : nums) {
             int lo = 0, hi = tails.size();
-            while (lo < hi) { int mid = (lo+hi)/2; if (tails.get(mid) < n) lo=mid+1; else hi=mid; }
-            if (lo == tails.size()) tails.add(n);
+            while(lo < hi) { int mid = (lo+hi)/2; if(tails.get(mid) < n) lo=mid+1; else hi=mid; }
+            if(lo == tails.size()) tails.add(n);
             else tails.set(lo, n);
         }
         return tails.size();
@@ -101,16 +101,16 @@ public class LCS_LIS {
         int[] len = new int[n], cnt = new int[n];
         Arrays.fill(len, 1); Arrays.fill(cnt, 1);
         int maxLen = 0;
-        for (int i = 1; i < n; i++) {
-            for (int j = 0; j < i; j++) {
-                if (nums[j] >= nums[i]) continue;
-                if (len[j] + 1 > len[i]) { len[i] = len[j]+1; cnt[i] = cnt[j]; }
-                else if (len[j] + 1 == len[i]) cnt[i] += cnt[j];
+        for(int i = 1; i < n; i++) {
+            for(int j = 0; j < i; j++) {
+                if(nums[j] >= nums[i]) continue;
+                if(len[j] + 1 > len[i]) { len[i] = len[j]+1; cnt[i] = cnt[j]; }
+                else if(len[j] + 1 == len[i]) cnt[i] += cnt[j];
             }
             maxLen = Math.max(maxLen, len[i]);
         }
         int result = 0;
-        for (int i = 0; i < n; i++) if (len[i] == maxLen) result += cnt[i];
+        for(int i = 0; i < n; i++) if(len[i] == maxLen) result += cnt[i];
         return result;
     }
 
@@ -121,7 +121,7 @@ public class LCS_LIS {
     public static int maxEnvelopes(int[][] env) {
         Arrays.sort(env, (a, b) -> a[0] != b[0] ? a[0]-b[0] : b[1]-a[1]);
         int[] heights = new int[env.length];
-        for (int i = 0; i < env.length; i++) heights[i] = env[i][1];
+        for(int i = 0; i < env.length; i++) heights[i] = env[i][1];
         return lisNLogN(heights);
     }
 
@@ -133,12 +133,12 @@ public class LCS_LIS {
         int n = nums.length;
         int[] inc = new int[n], dec = new int[n];
         Arrays.fill(inc, 1); Arrays.fill(dec, 1);
-        for (int i = 1; i < n; i++)
-            for (int j = 0; j < i; j++) if (nums[j] < nums[i]) inc[i] = Math.max(inc[i], inc[j]+1);
-        for (int i = n-2; i >= 0; i--)
-            for (int j = n-1; j > i; j--) if (nums[j] < nums[i]) dec[i] = Math.max(dec[i], dec[j]+1);
+        for(int i = 1; i < n; i++)
+            for(int j = 0; j < i; j++) if(nums[j] < nums[i]) inc[i] = Math.max(inc[i], inc[j]+1);
+        for(int i = n-2; i >= 0; i--)
+            for(int j = n-1; j > i; j--) if(nums[j] < nums[i]) dec[i] = Math.max(dec[i], dec[j]+1);
         int max = 0;
-        for (int i = 0; i < n; i++) if (inc[i] > 1 && dec[i] > 1) max = Math.max(max, inc[i]+dec[i]-1);
+        for(int i = 0; i < n; i++) if(inc[i] > 1 && dec[i] > 1) max = Math.max(max, inc[i]+dec[i]-1);
         return max;
     }
 

@@ -39,7 +39,7 @@ public class ArrayMergeSplit {
 
     // Split array at given index
     public static int[][] splitArray(int[] arr, int index) {
-        if (index < 0 || index > arr.length) {
+        if(index < 0 || index > arr.length) {
             throw new IllegalArgumentException("Index out of bounds");
         }
         int[] first = Arrays.copyOfRange(arr, 0, index);

@@ -25,15 +25,15 @@ public class SearchingAlgorithms {
 
     /** Iterative linear search – returns index or -1 */
     public static int linearSearch(int[] arr, int target) {
-        for (int i = 0; i < arr.length; i++)
-            if (arr[i] == target) return i;
+        for(int i = 0; i < arr.length; i++)
+            if(arr[i] == target) return i;
         return -1;
     }
 
     /** Recursive linear search */
     public static int linearSearchRecursive(int[] arr, int target, int idx) {
-        if (idx >= arr.length) return -1;
-        if (arr[idx] == target) return idx;
+        if(idx >= arr.length) return -1;
+        if(arr[idx] == target) return idx;
         return linearSearchRecursive(arr, target, idx + 1);
     }
 
@@ -46,9 +46,9 @@ public class SearchingAlgorithms {
         int last = arr[n - 1];
         arr[n - 1] = target;          // place sentinel
         int i = 0;
-        while (arr[i] != target) i++;
+        while(arr[i] != target) i++;
         arr[n - 1] = last;            // restore
-        if (i < n - 1 || arr[n - 1] == target) return i;
+        if(i < n - 1 || arr[n - 1] == target) return i;
         return -1;
     }
 
@@ -60,14 +60,14 @@ public class SearchingAlgorithms {
         int n = arr.length;
         int step = (int) Math.sqrt(n);
         int prev = 0;
-        while (arr[Math.min(step, n) - 1] < target) {
+        while(arr[Math.min(step, n) - 1] < target) {
             prev = step;
             step += (int) Math.sqrt(n);
-            if (prev >= n) return -1;
+            if(prev >= n) return -1;
         }
-        while (arr[prev] < target) {
+        while(arr[prev] < target) {
             prev++;
-            if (prev == Math.min(step, n)) return -1;
+            if(prev == Math.min(step, n)) return -1;
         }
         return arr[prev] == target ? prev : -1;
     }
@@ -78,11 +78,11 @@ public class SearchingAlgorithms {
 
     public static int interpolationSearch(int[] arr, int target) {
         int lo = 0, hi = arr.length - 1;
-        while (lo <= hi && target >= arr[lo] && target <= arr[hi]) {
-            if (lo == hi) return arr[lo] == target ? lo : -1;
+        while(lo <= hi && target >= arr[lo] && target <= arr[hi]) {
+            if(lo == hi) return arr[lo] == target ? lo : -1;
             int pos = lo + (int)(((long)(target - arr[lo]) * (hi - lo)) / (arr[hi] - arr[lo]));
-            if (arr[pos] == target) return pos;
-            if (arr[pos] < target)  lo = pos + 1;
+            if(arr[pos] == target) return pos;
+            if(arr[pos] < target)  lo = pos + 1;
             else                    hi = pos - 1;
         }
         return -1;
@@ -94,9 +94,9 @@ public class SearchingAlgorithms {
 
     public static int exponentialSearch(int[] arr, int target) {
         int n = arr.length;
-        if (arr[0] == target) return 0;
+        if(arr[0] == target) return 0;
         int i = 1;
-        while (i < n && arr[i] <= target) i *= 2;
+        while(i < n && arr[i] <= target) i *= 2;
         return binarySearch(arr, target, i / 2, Math.min(i, n - 1));
     }
 
@@ -107,15 +107,15 @@ public class SearchingAlgorithms {
     public static int fibonacciSearch(int[] arr, int target) {
         int n = arr.length;
         int fibMm2 = 0, fibMm1 = 1, fibM = 1;
-        while (fibM < n) { fibMm2 = fibMm1; fibMm1 = fibM; fibM = fibMm2 + fibMm1; }
+        while(fibM < n) { fibMm2 = fibMm1; fibMm1 = fibM; fibM = fibMm2 + fibMm1; }
         int offset = -1;
-        while (fibM > 1) {
+        while(fibM > 1) {
             int i = Math.min(offset + fibMm2, n - 1);
-            if (arr[i] < target)  { fibM = fibMm1; fibMm1 = fibMm2; fibMm2 = fibM - fibMm1; offset = i; }
-            else if (arr[i] > target) { fibM = fibMm2; fibMm1 -= fibMm2; fibMm2 = fibM - fibMm1; }
+            if(arr[i] < target)  { fibM = fibMm1; fibMm1 = fibMm2; fibMm2 = fibM - fibMm1; offset = i; }
+            else if(arr[i] > target) { fibM = fibMm2; fibMm1 -= fibMm2; fibMm2 = fibM - fibMm1; }
             else return i;
         }
-        if (fibMm1 == 1 && arr[offset + 1] == target) return offset + 1;
+        if(fibMm1 == 1 && arr[offset + 1] == target) return offset + 1;
         return -1;
     }
 
@@ -126,13 +126,13 @@ public class SearchingAlgorithms {
     /** Iterative ternary search on sorted array */
     public static int ternarySearch(int[] arr, int target) {
         int lo = 0, hi = arr.length - 1;
-        while (lo <= hi) {
+        while(lo <= hi) {
             int m1 = lo + (hi - lo) / 3;
             int m2 = hi - (hi - lo) / 3;
-            if (arr[m1] == target) return m1;
-            if (arr[m2] == target) return m2;
-            if (target < arr[m1])      hi = m1 - 1;
-            else if (target > arr[m2]) lo = m2 + 1;
+            if(arr[m1] == target) return m1;
+            if(arr[m2] == target) return m2;
+            if(target < arr[m1])      hi = m1 - 1;
+            else if(target > arr[m2]) lo = m2 + 1;
             else { lo = m1 + 1; hi = m2 - 1; }
         }
         return -1;
@@ -140,22 +140,22 @@ public class SearchingAlgorithms {
 
     /** Recursive ternary search */
     public static int ternarySearchRecursive(int[] arr, int lo, int hi, int target) {
-        if (lo > hi) return -1;
+        if(lo > hi) return -1;
         int m1 = lo + (hi - lo) / 3;
         int m2 = hi - (hi - lo) / 3;
-        if (arr[m1] == target) return m1;
-        if (arr[m2] == target) return m2;
-        if (target < arr[m1]) return ternarySearchRecursive(arr, lo, m1 - 1, target);
-        if (target > arr[m2]) return ternarySearchRecursive(arr, m2 + 1, hi, target);
+        if(arr[m1] == target) return m1;
+        if(arr[m2] == target) return m2;
+        if(target < arr[m1]) return ternarySearchRecursive(arr, lo, m1 - 1, target);
+        if(target > arr[m2]) return ternarySearchRecursive(arr, m2 + 1, hi, target);
         return ternarySearchRecursive(arr, m1 + 1, m2 - 1, target);
     }
 
     // ── shared helper ────────────────────────────────────────────────────────
     private static int binarySearch(int[] arr, int target, int lo, int hi) {
-        while (lo <= hi) {
+        while(lo <= hi) {
             int mid = lo + (hi - lo) / 2;
-            if (arr[mid] == target) return mid;
-            if (arr[mid] < target)  lo = mid + 1;
+            if(arr[mid] == target) return mid;
+            if(arr[mid] < target)  lo = mid + 1;
             else                    hi = mid - 1;
         }
         return -1;

@@ -30,9 +30,9 @@ public class BSTIterator {
     // BST Insert - Recursive
     // =====================================================
     public static TreeNode insertBSTRecursive(TreeNode root, int val) {
-        if (root == null) return new TreeNode(val);
-        if (val < root.val) root.left = insertBSTRecursive(root.left, val);
-        else if (val > root.val) root.right = insertBSTRecursive(root.right, val);
+        if(root == null) return new TreeNode(val);
+        if(val < root.val) root.left = insertBSTRecursive(root.left, val);
+        else if(val > root.val) root.right = insertBSTRecursive(root.right, val);
         return root;
     }
 
@@ -48,7 +48,7 @@ public class BSTIterator {
 
         // Push all left children of the node to the stack
         private void pushAllLeft(TreeNode node) {
-            while (node != null) {
+            while(node != null) {
                 stack.push(node);
                 node = node.left;
             }
@@ -57,7 +57,7 @@ public class BSTIterator {
         // Returns the next smallest element
         public int next() {
             TreeNode node = stack.pop();
-            if (node.right != null) pushAllLeft(node.right);
+            if(node.right != null) pushAllLeft(node.right);
             return node.val;
         }
 
@@ -73,11 +73,11 @@ public class BSTIterator {
     public static void main(String[] args) {
         int[] values = {7, 3, 15, 9, 20};
         TreeNode root = null;
-        for (int val : values) root = insertBSTRecursive(root, val);
+        for(int val : values) root = insertBSTRecursive(root, val);
 
         System.out.println("BST Iterator Traversal (Next Elements):");
         Iterator iterator = new Iterator(root);
-        while (iterator.hasNext()) {
+        while(iterator.hasNext()) {
             System.out.print(iterator.next() + " ");
         }
         System.out.println();

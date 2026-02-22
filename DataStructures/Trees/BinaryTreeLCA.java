@@ -31,14 +31,14 @@ public class BinaryTreeLCA {
     // 1️⃣ LCA IN BINARY TREE (RECURSIVE)
     // =====================================================
     public static TreeNode lcaBinaryTree(TreeNode root, int n1, int n2) {
-        if (root == null) return null;
+        if(root == null) return null;
 
-        if (root.val == n1 || root.val == n2) return root;
+        if(root.val == n1 || root.val == n2) return root;
 
         TreeNode leftLCA = lcaBinaryTree(root.left, n1, n2);
         TreeNode rightLCA = lcaBinaryTree(root.right, n1, n2);
 
-        if (leftLCA != null && rightLCA != null) return root;
+        if(leftLCA != null && rightLCA != null) return root;
 
         return (leftLCA != null) ? leftLCA : rightLCA;
     }
@@ -47,11 +47,11 @@ public class BinaryTreeLCA {
     // 2️⃣ LCA IN BST (RECURSIVE, OPTIMIZED)
     // =====================================================
     public static TreeNode lcaBST(TreeNode root, int n1, int n2) {
-        if (root == null) return null;
+        if(root == null) return null;
 
-        if (n1 < root.val && n2 < root.val)
+        if(n1 < root.val && n2 < root.val)
             return lcaBST(root.left, n1, n2);
-        else if (n1 > root.val && n2 > root.val)
+        else if(n1 > root.val && n2 > root.val)
             return lcaBST(root.right, n1, n2);
         else
             return root;
@@ -61,7 +61,7 @@ public class BinaryTreeLCA {
     // INORDER (for testing tree structure)
     // =====================================================
     public static void inorder(TreeNode root) {
-        if (root == null) return;
+        if(root == null) return;
         inorder(root.left);
         System.out.print(root.val + " ");
         inorder(root.right);

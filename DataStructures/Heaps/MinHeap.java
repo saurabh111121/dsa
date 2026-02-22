@@ -66,7 +66,7 @@ public class MinHeap {
     // 1️⃣ INSERT - O(log n)
     // =====================================================
     public void insert(int val) {
-        if (size == capacity) throw new RuntimeException("Heap is full");
+        if(size == capacity) throw new RuntimeException("Heap is full");
         data[size] = val;
         size++;
         heapifyUp(size - 1);
@@ -76,7 +76,7 @@ public class MinHeap {
     // 2️⃣ HEAPIFY UP - restore after insert
     // =====================================================
     private void heapifyUp(int i) {
-        while (i > 0 && data[parent(i)] > data[i]) {
+        while(i > 0 && data[parent(i)] > data[i]) {
             swap(i, parent(i));
             i = parent(i);
         }
@@ -86,7 +86,7 @@ public class MinHeap {
     // 3️⃣ EXTRACT MIN - O(log n)
     // =====================================================
     public int extractMin() {
-        if (size == 0) throw new RuntimeException("Heap is empty");
+        if(size == 0) throw new RuntimeException("Heap is empty");
 
         int min = data[0];
         data[0] = data[size - 1];
@@ -103,10 +103,10 @@ public class MinHeap {
         int left = leftChild(i);
         int right = rightChild(i);
 
-        if (left < size && data[left] < data[smallest])   smallest = left;
-        if (right < size && data[right] < data[smallest]) smallest = right;
+        if(left < size && data[left] < data[smallest])   smallest = left;
+        if(right < size && data[right] < data[smallest]) smallest = right;
 
-        if (smallest != i) {
+        if(smallest != i) {
             swap(i, smallest);
             heapifyDown(smallest);
         }
@@ -116,15 +116,15 @@ public class MinHeap {
     // 5️⃣ HEAPIFY DOWN - ITERATIVE
     // =====================================================
     private void heapifyDownIterative(int i) {
-        while (true) {
+        while(true) {
             int smallest = i;
             int left = leftChild(i);
             int right = rightChild(i);
 
-            if (left < size && data[left] < data[smallest])   smallest = left;
-            if (right < size && data[right] < data[smallest]) smallest = right;
+            if(left < size && data[left] < data[smallest])   smallest = left;
+            if(right < size && data[right] < data[smallest]) smallest = right;
 
-            if (smallest == i) break;
+            if(smallest == i) break;
             swap(i, smallest);
             i = smallest;
         }
@@ -134,7 +134,7 @@ public class MinHeap {
     // 6️⃣ PEEK MIN - O(1)
     // =====================================================
     public int peekMin() {
-        if (size == 0) throw new RuntimeException("Heap is empty");
+        if(size == 0) throw new RuntimeException("Heap is empty");
         return data[0];
     }
 
@@ -143,7 +143,7 @@ public class MinHeap {
     // =====================================================
     public void buildHeap() {
         // Start from last non-leaf node and heapify down
-        for (int i = (size / 2) - 1; i >= 0; i--) {
+        for(int i = (size / 2) - 1; i >= 0; i--) {
             heapifyDown(i);
         }
     }
@@ -152,7 +152,7 @@ public class MinHeap {
     // 8️⃣ DELETE AT INDEX
     // =====================================================
     public void deleteAt(int index) {
-        if (index >= size) throw new RuntimeException("Index out of bounds");
+        if(index >= size) throw new RuntimeException("Index out of bounds");
         data[index] = Integer.MIN_VALUE;
         heapifyUp(index);
         extractMin();
@@ -162,7 +162,7 @@ public class MinHeap {
     // 9️⃣ DECREASE KEY
     // =====================================================
     public void decreaseKey(int index, int newVal) {
-        if (newVal > data[index]) throw new RuntimeException("New value is greater than current");
+        if(newVal > data[index]) throw new RuntimeException("New value is greater than current");
         data[index] = newVal;
         heapifyUp(index);
     }
@@ -173,7 +173,7 @@ public class MinHeap {
     public static int[] heapSort(int[] arr) {
         int[] result = new int[arr.length];
         MinHeap heap = new MinHeap(arr);
-        for (int i = 0; i < result.length; i++) {
+        for(int i = 0; i < result.length; i++) {
             result[i] = heap.extractMin();
         }
         return result;
@@ -183,8 +183,8 @@ public class MinHeap {
     // CONTAINS
     // =====================================================
     public boolean contains(int val) {
-        for (int i = 0; i < size; i++) {
-            if (data[i] == val) return true;
+        for(int i = 0; i < size; i++) {
+            if(data[i] == val) return true;
         }
         return false;
     }
@@ -195,7 +195,7 @@ public class MinHeap {
 
     public void print() {
         System.out.print("MinHeap: [");
-        for (int i = 0; i < size; i++) {
+        for(int i = 0; i < size; i++) {
             System.out.print(data[i] + (i < size - 1 ? ", " : ""));
         }
         System.out.println("]");
@@ -244,7 +244,7 @@ public class MinHeap {
         int[] unsorted = {4, 10, 3, 5, 1};
         int[] sorted = heapSort(unsorted);
         System.out.print("Sorted: ");
-        for (int v : sorted) System.out.print(v + " ");
+        for(int v : sorted) System.out.print(v + " ");
         System.out.println();
     }
 }

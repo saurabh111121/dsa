@@ -33,7 +33,7 @@ public class BinaryTreeDiameter {
     // =====================================================
     // Diameter = max distance between any two nodes
     public static int diameterRecursive(TreeNode root) {
-        if (root == null) return 0;
+        if(root == null) return 0;
 
         int leftHeight = height(root.left);
         int rightHeight = height(root.right);
@@ -46,7 +46,7 @@ public class BinaryTreeDiameter {
     }
 
     private static int height(TreeNode root) {
-        if (root == null) return 0;
+        if(root == null) return 0;
         return Math.max(height(root.left), height(root.right)) + 1;
     }
 
@@ -62,7 +62,7 @@ public class BinaryTreeDiameter {
     }
 
     private static int diameterOptHelper(TreeNode root, Height height) {
-        if (root == null) {
+        if(root == null) {
             height.h = 0;
             return 0;
         }
@@ -84,7 +84,7 @@ public class BinaryTreeDiameter {
     // INORDER (for testing tree structure)
     // =====================================================
     public static void inorder(TreeNode root) {
-        if (root == null) return;
+        if(root == null) return;
         inorder(root.left);
         System.out.print(root.val + " ");
         inorder(root.right);

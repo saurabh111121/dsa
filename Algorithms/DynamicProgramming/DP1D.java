@@ -27,9 +27,9 @@ public class DP1D {
     // =========================================================================
 
     public static int climbStairs(int n) {
-        if (n <= 2) return n;
+        if(n <= 2) return n;
         int a = 1, b = 2;
-        for (int i = 3; i <= n; i++) { int c = a + b; a = b; b = c; }
+        for(int i = 3; i <= n; i++) { int c = a + b; a = b; b = c; }
         return b;
     }
 
@@ -39,7 +39,7 @@ public class DP1D {
 
     public static int rob(int[] nums) {
         int prev2 = 0, prev1 = 0;
-        for (int n : nums) { int cur = Math.max(prev1, prev2 + n); prev2 = prev1; prev1 = cur; }
+        for(int n : nums) { int cur = Math.max(prev1, prev2 + n); prev2 = prev1; prev1 = cur; }
         return prev1;
     }
 
@@ -48,13 +48,13 @@ public class DP1D {
     // =========================================================================
 
     public static int robII(int[] nums) {
-        if (nums.length == 1) return nums[0];
+        if(nums.length == 1) return nums[0];
         return Math.max(robRange(nums, 0, nums.length - 2), robRange(nums, 1, nums.length - 1));
     }
 
     private static int robRange(int[] nums, int lo, int hi) {
         int prev2 = 0, prev1 = 0;
-        for (int i = lo; i <= hi; i++) { int cur = Math.max(prev1, prev2 + nums[i]); prev2 = prev1; prev1 = cur; }
+        for(int i = lo; i <= hi; i++) { int cur = Math.max(prev1, prev2 + nums[i]); prev2 = prev1; prev1 = cur; }
         return prev1;
     }
 
@@ -65,7 +65,7 @@ public class DP1D {
     public static int minCostClimbingStairs(int[] cost) {
         int n = cost.length;
         int a = cost[0], b = cost[1];
-        for (int i = 2; i < n; i++) { int c = cost[i] + Math.min(a, b); a = b; b = c; }
+        for(int i = 2; i < n; i++) { int c = cost[i] + Math.min(a, b); a = b; b = c; }
         return Math.min(a, b);
     }
 
@@ -78,11 +78,11 @@ public class DP1D {
         int[] dp = new int[n + 1];
         dp[0] = 1;
         dp[1] = s.charAt(0) == '0' ? 0 : 1;
-        for (int i = 2; i <= n; i++) {
+        for(int i = 2; i <= n; i++) {
             int one = s.charAt(i-1) - '0';
             int two = Integer.parseInt(s.substring(i-2, i));
-            if (one != 0)          dp[i] += dp[i-1];
-            if (two >= 10 && two <= 26) dp[i] += dp[i-2];
+            if(one != 0)          dp[i] += dp[i-1];
+            if(two >= 10 && two <= 26) dp[i] += dp[i-2];
         }
         return dp[n];
     }
@@ -95,9 +95,9 @@ public class DP1D {
         int[] dp = new int[amount + 1];
         Arrays.fill(dp, amount + 1);
         dp[0] = 0;
-        for (int i = 1; i <= amount; i++)
-            for (int c : coins)
-                if (c <= i) dp[i] = Math.min(dp[i], dp[i - c] + 1);
+        for(int i = 1; i <= amount; i++)
+            for(int c : coins)
+                if(c <= i) dp[i] = Math.min(dp[i], dp[i - c] + 1);
         return dp[amount] > amount ? -1 : dp[amount];
     }
 
@@ -108,8 +108,8 @@ public class DP1D {
     public static int change(int amount, int[] coins) {
         int[] dp = new int[amount + 1];
         dp[0] = 1;
-        for (int c : coins)
-            for (int i = c; i <= amount; i++)
+        for(int c : coins)
+            for(int i = c; i <= amount; i++)
                 dp[i] += dp[i - c];
         return dp[amount];
     }
@@ -122,8 +122,8 @@ public class DP1D {
         int[] dp = new int[n + 1];
         Arrays.fill(dp, Integer.MAX_VALUE);
         dp[0] = 0;
-        for (int i = 1; i <= n; i++)
-            for (int j = 1; j * j <= i; j++)
+        for(int i = 1; i <= n; i++)
+            for(int j = 1; j * j <= i; j++)
                 dp[i] = Math.min(dp[i], dp[i - j*j] + 1);
         return dp[n];
     }
@@ -137,9 +137,9 @@ public class DP1D {
         int n = s.length();
         boolean[] dp = new boolean[n + 1];
         dp[0] = true;
-        for (int i = 1; i <= n; i++)
-            for (int j = 0; j < i; j++)
-                if (dp[j] && dict.contains(s.substring(j, i))) { dp[i] = true; break; }
+        for(int i = 1; i <= n; i++)
+            for(int j = 0; j < i; j++)
+                if(dp[j] && dict.contains(s.substring(j, i))) { dp[i] = true; break; }
         return dp[n];
     }
 

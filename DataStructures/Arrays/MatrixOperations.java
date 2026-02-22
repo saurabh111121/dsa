@@ -40,15 +40,15 @@ public class MatrixOperations {
 
     // Print matrix
     public static void printMatrix(int[][] matrix) {
-        for (int[] row : matrix) {
+        for(int[] row : matrix) {
             System.out.println(Arrays.toString(row));
         }
     }
 
     // Traverse matrix row-wise
     public static void traverseMatrix(int[][] matrix) {
-        for (int i = 0; i < matrix.length; i++) {
-            for (int j = 0; j < matrix[0].length; j++) {
+        for(int i = 0; i < matrix.length; i++) {
+            for(int j = 0; j < matrix[0].length; j++) {
                 System.out.print(matrix[i][j] + " ");
             }
             System.out.println();
@@ -58,8 +58,8 @@ public class MatrixOperations {
     // Sum of all elements
     public static int sumMatrix(int[][] matrix) {
         int sum = 0;
-        for (int[] row : matrix) {
-            for (int val : row) {
+        for(int[] row : matrix) {
+            for(int val : row) {
                 sum += val;
             }
         }
@@ -70,8 +70,8 @@ public class MatrixOperations {
     public static int[][] rotateMatrix90Clockwise(int[][] matrix) {
         int n = matrix.length;
         int[][] rotated = new int[n][n];
-        for (int i = 0; i < n; i++) {
-            for (int j = 0; j < n; j++) {
+        for(int i = 0; i < n; i++) {
+            for(int j = 0; j < n; j++) {
                 rotated[j][n - 1 - i] = matrix[i][j];
             }
         }

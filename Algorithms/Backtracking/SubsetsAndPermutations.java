@@ -32,7 +32,7 @@ public class SubsetsAndPermutations {
     private static void backtrack(int[] nums, int start,
                                    List<Integer> current, List<List<Integer>> result) {
         result.add(new ArrayList<>(current));
-        for (int i = start; i < nums.length; i++) {
+        for(int i = start; i < nums.length; i++) {
             current.add(nums[i]);
             backtrack(nums, i + 1, current, result);
             current.remove(current.size() - 1);
@@ -43,10 +43,10 @@ public class SubsetsAndPermutations {
     public static List<List<Integer>> subsetsIterative(int[] nums) {
         List<List<Integer>> result = new ArrayList<>();
         int total = 1 << nums.length;
-        for (int mask = 0; mask < total; mask++) {
+        for(int mask = 0; mask < total; mask++) {
             List<Integer> subset = new ArrayList<>();
-            for (int i = 0; i < nums.length; i++)
-                if ((mask >> i & 1) == 1) subset.add(nums[i]);
+            for(int i = 0; i < nums.length; i++)
+                if((mask >> i & 1) == 1) subset.add(nums[i]);
             result.add(subset);
         }
         return result;
@@ -66,8 +66,8 @@ public class SubsetsAndPermutations {
     private static void backtrackII(int[] nums, int start,
                                      List<Integer> current, List<List<Integer>> result) {
         result.add(new ArrayList<>(current));
-        for (int i = start; i < nums.length; i++) {
-            if (i > start && nums[i] == nums[i - 1]) continue;  // skip dup
+        for(int i = start; i < nums.length; i++) {
+            if(i > start && nums[i] == nums[i - 1]) continue;  // skip dup
             current.add(nums[i]);
             backtrackII(nums, i + 1, current, result);
             current.remove(current.size() - 1);
@@ -85,13 +85,13 @@ public class SubsetsAndPermutations {
     }
 
     private static void permuteHelper(int[] nums, int start, List<List<Integer>> result) {
-        if (start == nums.length) {
+        if(start == nums.length) {
             List<Integer> perm = new ArrayList<>();
-            for (int n : nums) perm.add(n);
+            for(int n : nums) perm.add(n);
             result.add(perm);
             return;
         }
-        for (int i = start; i < nums.length; i++) {
+        for(int i = start; i < nums.length; i++) {
             swap(nums, start, i);
             permuteHelper(nums, start + 1, result);
             swap(nums, start, i);
@@ -108,9 +108,9 @@ public class SubsetsAndPermutations {
 
     private static void permuteVisitedHelper(int[] nums, boolean[] visited,
                                               List<Integer> current, List<List<Integer>> result) {
-        if (current.size() == nums.length) { result.add(new ArrayList<>(current)); return; }
-        for (int i = 0; i < nums.length; i++) {
-            if (visited[i]) continue;
+        if(current.size() == nums.length) { result.add(new ArrayList<>(current)); return; }
+        for(int i = 0; i < nums.length; i++) {
+            if(visited[i]) continue;
             visited[i] = true;
             current.add(nums[i]);
             permuteVisitedHelper(nums, visited, current, result);
@@ -133,10 +133,10 @@ public class SubsetsAndPermutations {
 
     private static void permuteUniqueHelper(int[] nums, boolean[] visited,
                                              List<Integer> current, List<List<Integer>> result) {
-        if (current.size() == nums.length) { result.add(new ArrayList<>(current)); return; }
-        for (int i = 0; i < nums.length; i++) {
-            if (visited[i]) continue;
-            if (i > 0 && nums[i] == nums[i-1] && !visited[i-1]) continue;
+        if(current.size() == nums.length) { result.add(new ArrayList<>(current)); return; }
+        for(int i = 0; i < nums.length; i++) {
+            if(visited[i]) continue;
+            if(i > 0 && nums[i] == nums[i-1] && !visited[i-1]) continue;
             visited[i] = true;
             current.add(nums[i]);
             permuteUniqueHelper(nums, visited, current, result);
@@ -158,9 +158,9 @@ public class SubsetsAndPermutations {
 
     private static void combHelper(int[] cands, int remain, int start,
                                     List<Integer> current, List<List<Integer>> result) {
-        if (remain == 0) { result.add(new ArrayList<>(current)); return; }
-        for (int i = start; i < cands.length; i++) {
-            if (cands[i] > remain) break;
+        if(remain == 0) { result.add(new ArrayList<>(current)); return; }
+        for(int i = start; i < cands.length; i++) {
+            if(cands[i] > remain) break;
             current.add(cands[i]);
             combHelper(cands, remain - cands[i], i, current, result);  // i not i+1 (reuse)
             current.remove(current.size() - 1);
@@ -180,10 +180,10 @@ public class SubsetsAndPermutations {
 
     private static void combHelper2(int[] cands, int remain, int start,
                                      List<Integer> current, List<List<Integer>> result) {
-        if (remain == 0) { result.add(new ArrayList<>(current)); return; }
-        for (int i = start; i < cands.length; i++) {
-            if (cands[i] > remain) break;
-            if (i > start && cands[i] == cands[i-1]) continue;  // skip dup
+        if(remain == 0) { result.add(new ArrayList<>(current)); return; }
+        for(int i = start; i < cands.length; i++) {
+            if(cands[i] > remain) break;
+            if(i > start && cands[i] == cands[i-1]) continue;  // skip dup
             current.add(cands[i]);
             combHelper2(cands, remain - cands[i], i + 1, current, result);
             current.remove(current.size() - 1);
@@ -202,9 +202,9 @@ public class SubsetsAndPermutations {
 
     private static void combHelper3(int k, int remain, int start,
                                      List<Integer> current, List<List<Integer>> result) {
-        if (k == 0 && remain == 0) { result.add(new ArrayList<>(current)); return; }
-        if (k == 0 || remain <= 0) return;
-        for (int i = start; i <= 9; i++) {
+        if(k == 0 && remain == 0) { result.add(new ArrayList<>(current)); return; }
+        if(k == 0 || remain <= 0) return;
+        for(int i = start; i <= 9; i++) {
             current.add(i);
             combHelper3(k - 1, remain - i, i + 1, current, result);
             current.remove(current.size() - 1);

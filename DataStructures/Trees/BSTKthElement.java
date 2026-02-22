@@ -31,9 +31,9 @@ public class BSTKthElement {
     // 1️⃣ BST INSERT - RECURSIVE
     // =====================================================
     public static TreeNode insertBSTRecursive(TreeNode root, int val) {
-        if (root == null) return new TreeNode(val);
-        if (val < root.val) root.left = insertBSTRecursive(root.left, val);
-        else if (val > root.val) root.right = insertBSTRecursive(root.right, val);
+        if(root == null) return new TreeNode(val);
+        if(val < root.val) root.left = insertBSTRecursive(root.left, val);
+        else if(val > root.val) root.right = insertBSTRecursive(root.right, val);
         return root;
     }
 
@@ -42,17 +42,17 @@ public class BSTKthElement {
     // =====================================================
     public static TreeNode insertBSTIterative(TreeNode root, int val) {
         TreeNode newNode = new TreeNode(val);
-        if (root == null) return newNode;
+        if(root == null) return newNode;
 
         TreeNode current = root, parent = null;
-        while (current != null) {
+        while(current != null) {
             parent = current;
-            if (val < current.val) current = current.left;
-            else if (val > current.val) current = current.right;
+            if(val < current.val) current = current.left;
+            else if(val > current.val) current = current.right;
             else return root; // ignore duplicates
         }
 
-        if (val < parent.val) parent.left = newNode;
+        if(val < parent.val) parent.left = newNode;
         else parent.right = newNode;
 
         return root;
@@ -62,7 +62,7 @@ public class BSTKthElement {
     // 3️⃣ INORDER TRAVERSAL
     // =====================================================
     public static void inorder(TreeNode root) {
-        if (root == null) return;
+        if(root == null) return;
         inorder(root.left);
         System.out.print(root.val + " ");
         inorder(root.right);
@@ -76,15 +76,15 @@ public class BSTKthElement {
         TreeNode current = root;
         int count = 0;
 
-        while (!stack.isEmpty() || current != null) {
-            while (current != null) {
+        while(!stack.isEmpty() || current != null) {
+            while(current != null) {
                 stack.push(current);
                 current = current.left;
             }
 
             current = stack.pop();
             count++;
-            if (count == k) return current.val;
+            if(count == k) return current.val;
             current = current.right;
         }
 
@@ -99,15 +99,15 @@ public class BSTKthElement {
         TreeNode current = root;
         int count = 0;
 
-        while (!stack.isEmpty() || current != null) {
-            while (current != null) {
+        while(!stack.isEmpty() || current != null) {
+            while(current != null) {
                 stack.push(current);
                 current = current.right;
             }
 
             current = stack.pop();
             count++;
-            if (count == k) return current.val;
+            if(count == k) return current.val;
             current = current.left;
         }
 
@@ -121,7 +121,7 @@ public class BSTKthElement {
         int[] values = {20, 10, 30, 5, 15, 25, 35};
         TreeNode bst = null;
 
-        for (int val : values) bst = insertBSTRecursive(bst, val);
+        for(int val : values) bst = insertBSTRecursive(bst, val);
 
         System.out.println("BST Inorder Traversal:");
         inorder(bst);

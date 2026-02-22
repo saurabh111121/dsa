@@ -22,9 +22,9 @@ public class ShortestPaths {
         int[] dist = new int[n]; Arrays.fill(dist, -1);
         dist[src] = 0;
         Queue<Integer> q = new LinkedList<>(); q.add(src);
-        while (!q.isEmpty()) {
+        while(!q.isEmpty()) {
             int u = q.poll();
-            for (int v : adj.get(u)) if (dist[v] == -1) { dist[v] = dist[u] + 1; q.add(v); }
+            for(int v : adj.get(u)) if(dist[v] == -1) { dist[v] = dist[u] + 1; q.add(v); }
         }
         return dist;
     }
@@ -38,12 +38,12 @@ public class ShortestPaths {
         dist[src] = 0;
         PriorityQueue<int[]> pq = new PriorityQueue<>(Comparator.comparingInt(a -> a[0]));
         pq.offer(new int[]{0, src});
-        while (!pq.isEmpty()) {
+        while(!pq.isEmpty()) {
             int[] cur = pq.poll(); int d = cur[0], u = cur[1];
-            if (d > dist[u]) continue;
-            for (int[] edge : adj.get(u)) {
+            if(d > dist[u]) continue;
+            for(int[] edge : adj.get(u)) {
                 int v = edge[0], w = edge[1];
-                if (dist[u] + w < dist[v]) { dist[v] = dist[u] + w; pq.offer(new int[]{dist[v], v}); }
+                if(dist[u] + w < dist[v]) { dist[v] = dist[u] + w; pq.offer(new int[]{dist[v], v}); }
             }
         }
         return dist;
@@ -56,19 +56,19 @@ public class ShortestPaths {
     public static int[] bellmanFord(int n, int[][] edges, int src) {
         int[] dist = new int[n]; Arrays.fill(dist, Integer.MAX_VALUE);
         dist[src] = 0;
-        for (int i = 0; i < n - 1; i++) {
+        for(int i = 0; i < n - 1; i++) {
             boolean updated = false;
-            for (int[] e : edges) {
+            for(int[] e : edges) {
                 int u = e[0], v = e[1], w = e[2];
-                if (dist[u] != Integer.MAX_VALUE && dist[u] + w < dist[v]) {
+                if(dist[u] != Integer.MAX_VALUE && dist[u] + w < dist[v]) {
                     dist[v] = dist[u] + w; updated = true;
                 }
             }
-            if (!updated) break; // early exit
+            if(!updated) break; // early exit
         }
         // Check for negative cycle
-        for (int[] e : edges)
-            if (dist[e[0]] != Integer.MAX_VALUE && dist[e[0]] + e[2] < dist[e[1]])
+        for(int[] e : edges)
+            if(dist[e[0]] != Integer.MAX_VALUE && dist[e[0]] + e[2] < dist[e[1]])
                 return null; // negative cycle detected
         return dist;
     }
@@ -79,11 +79,11 @@ public class ShortestPaths {
     public static int[][] floydWarshall(int[][] dist) {
         int n = dist.length;
         int[][] d = new int[n][n];
-        for (int i = 0; i < n; i++) d[i] = dist[i].clone();
-        for (int k = 0; k < n; k++)
-            for (int i = 0; i < n; i++)
-                for (int j = 0; j < n; j++)
-                    if (d[i][k] != Integer.MAX_VALUE / 2 && d[k][j] != Integer.MAX_VALUE / 2)
+        for(int i = 0; i < n; i++) d[i] = dist[i].clone();
+        for(int k = 0; k < n; k++)
+            for(int i = 0; i < n; i++)
+                for(int j = 0; j < n; j++)
+                    if(d[i][k] != Integer.MAX_VALUE / 2 && d[k][j] != Integer.MAX_VALUE / 2)
                         d[i][j] = Math.min(d[i][j], d[i][k] + d[k][j]);
         return d;
     }
@@ -96,13 +96,13 @@ public class ShortestPaths {
         int[] dist = new int[n]; Arrays.fill(dist, Integer.MAX_VALUE);
         dist[src] = 0;
         Deque<Integer> dq = new ArrayDeque<>(); dq.addFirst(src);
-        while (!dq.isEmpty()) {
+        while(!dq.isEmpty()) {
             int u = dq.pollFirst();
-            for (int[] edge : adj.get(u)) {
+            for(int[] edge : adj.get(u)) {
                 int v = edge[0], w = edge[1];
-                if (dist[u] + w < dist[v]) {
+                if(dist[u] + w < dist[v]) {
                     dist[v] = dist[u] + w;
-                    if (w == 0) dq.addFirst(v); else dq.addLast(v);
+                    if(w == 0) dq.addFirst(v); else dq.addLast(v);
                 }
             }
         }
@@ -114,18 +114,18 @@ public class ShortestPaths {
     // ─────────────────────────────────────────────────────────────
     public static int ladderLength(String beginWord, String endWord, List<String> wordList) {
         Set<String> wordSet = new HashSet<>(wordList);
-        if (!wordSet.contains(endWord)) return 0;
+        if(!wordSet.contains(endWord)) return 0;
         Queue<String> q = new LinkedList<>();
         q.add(beginWord); int steps = 1;
-        while (!q.isEmpty()) {
-            for (int sz = q.size(); sz > 0; sz--) {
+        while(!q.isEmpty()) {
+            for(int sz = q.size(); sz > 0; sz--) {
                 char[] cur = q.poll().toCharArray();
-                for (int i = 0; i < cur.length; i++) {
+                for(int i = 0; i < cur.length; i++) {
                     char orig = cur[i];
-                    for (char c = 'a'; c <= 'z'; c++) {
+                    for(char c = 'a'; c <= 'z'; c++) {
                         cur[i] = c; String next = new String(cur);
-                        if (next.equals(endWord)) return steps + 1;
-                        if (wordSet.remove(next)) q.add(next);
+                        if(next.equals(endWord)) return steps + 1;
+                        if(wordSet.remove(next)) q.add(next);
                     }
                     cur[i] = orig;
                 }
@@ -142,7 +142,7 @@ public class ShortestPaths {
         // BFS Shortest path
         int n = 5;
         List<List<Integer>> uAdj = new ArrayList<>();
-        for (int i = 0; i < n; i++) uAdj.add(new ArrayList<>());
+        for(int i = 0; i < n; i++) uAdj.add(new ArrayList<>());
         uAdj.get(0).add(1); uAdj.get(1).add(0);
         uAdj.get(0).add(2); uAdj.get(2).add(0);
         uAdj.get(1).add(3); uAdj.get(3).add(1);
@@ -151,7 +151,7 @@ public class ShortestPaths {
 
         // Dijkstra
         List<List<int[]>> wAdj = new ArrayList<>();
-        for (int i = 0; i < 5; i++) wAdj.add(new ArrayList<>());
+        for(int i = 0; i < 5; i++) wAdj.add(new ArrayList<>());
         wAdj.get(0).add(new int[]{1,4}); wAdj.get(0).add(new int[]{2,1});
         wAdj.get(2).add(new int[]{1,2}); wAdj.get(1).add(new int[]{3,1});
         wAdj.get(2).add(new int[]{3,5}); wAdj.get(3).add(new int[]{4,3});

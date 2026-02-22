@@ -35,7 +35,7 @@ public class BinaryTreeHeightDepth {
     // 1️⃣ HEIGHT OF TREE - RECURSIVE
     // =====================================================
     public static int heightRecursive(TreeNode root) {
-        if (root == null) return 0;
+        if(root == null) return 0;
         int leftHeight = heightRecursive(root.left);
         int rightHeight = heightRecursive(root.right);
         return Math.max(leftHeight, rightHeight) + 1;
@@ -45,19 +45,19 @@ public class BinaryTreeHeightDepth {
     // 2️⃣ HEIGHT OF TREE - ITERATIVE (LEVEL ORDER)
     // =====================================================
     public static int heightIterative(TreeNode root) {
-        if (root == null) return 0;
+        if(root == null) return 0;
         Queue<TreeNode> queue = new LinkedList<>();
         queue.offer(root);
         int height = 0;
 
-        while (!queue.isEmpty()) {
+        while(!queue.isEmpty()) {
             int levelSize = queue.size();
             height++;
 
-            for (int i = 0; i < levelSize; i++) {
+            for(int i = 0; i < levelSize; i++) {
                 TreeNode node = queue.poll();
-                if (node.left != null) queue.offer(node.left);
-                if (node.right != null) queue.offer(node.right);
+                if(node.left != null) queue.offer(node.left);
+                if(node.right != null) queue.offer(node.right);
             }
         }
         return height;
@@ -67,11 +67,11 @@ public class BinaryTreeHeightDepth {
     // 3️⃣ NODE DEPTH (DISTANCE FROM ROOT)
     // =====================================================
     public static int nodeDepth(TreeNode root, int val, int depth) {
-        if (root == null) return -1;
-        if (root.val == val) return depth;
+        if(root == null) return -1;
+        if(root.val == val) return depth;
 
         int left = nodeDepth(root.left, val, depth + 1);
-        if (left != -1) return left;
+        if(left != -1) return left;
 
         return nodeDepth(root.right, val, depth + 1);
     }
@@ -84,9 +84,9 @@ public class BinaryTreeHeightDepth {
     }
 
     public static int minDepth(TreeNode root) {
-        if (root == null) return 0;
-        if (root.left == null) return minDepth(root.right) + 1;
-        if (root.right == null) return minDepth(root.left) + 1;
+        if(root == null) return 0;
+        if(root.left == null) return minDepth(root.right) + 1;
+        if(root.right == null) return minDepth(root.left) + 1;
         return Math.min(minDepth(root.left), minDepth(root.right)) + 1;
     }
 
@@ -94,7 +94,7 @@ public class BinaryTreeHeightDepth {
     // INORDER (for testing)
     // =====================================================
     public static void inorder(TreeNode root) {
-        if (root == null) return;
+        if(root == null) return;
         inorder(root.left);
         System.out.print(root.val + " ");
         inorder(root.right);

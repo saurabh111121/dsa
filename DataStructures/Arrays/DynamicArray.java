@@ -27,7 +27,7 @@ public class DynamicArray {
 
     // Add element at the end
     public void add(int value) {
-        if (size == arr.length) {
+        if(size == arr.length) {
             resize();
         }
         arr[size++] = value;
@@ -35,7 +35,7 @@ public class DynamicArray {
 
     // Get element at index
     public int get(int index) {
-        if (index >= 0 && index < size) {
+        if(index >= 0 && index < size) {
             return arr[index];
         }
         throw new IndexOutOfBoundsException("Index " + index + " out of bounds");
@@ -43,8 +43,8 @@ public class DynamicArray {
 
     // Remove element at index
     public void remove(int index) {
-        if (index >= 0 && index < size) {
-            for (int i = index; i < size - 1; i++) {
+        if(index >= 0 && index < size) {
+            for(int i = index; i < size - 1; i++) {
                 arr[i] = arr[i + 1];
             }
             size--;
@@ -55,7 +55,7 @@ public class DynamicArray {
 
     // Display elements
     public void display() {
-        for (int i = 0; i < size; i++) {
+        for(int i = 0; i < size; i++) {
             System.out.print(arr[i] + " ");
         }
         System.out.println();

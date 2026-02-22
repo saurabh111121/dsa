@@ -47,7 +47,7 @@ public class SetOperations {
 
         // iterate
         System.out.print("Iterate: ");
-        for (int x : set) System.out.print(x + " ");
+        for(int x : set) System.out.print(x + " ");
         System.out.println();
     }
 
@@ -125,12 +125,12 @@ public class SetOperations {
     // APPLICATION: CHECK ANAGRAM
     // =====================================================
     public static boolean isAnagram(String s, String t) {
-        if (s.length() != t.length()) return false;
+        if(s.length() != t.length()) return false;
         Map<Character, Integer> freq = new HashMap<>();
-        for (char c : s.toCharArray()) freq.merge(c, 1, Integer::sum);
-        for (char c : t.toCharArray()) {
+        for(char c : s.toCharArray()) freq.merge(c, 1, Integer::sum);
+        for(char c : t.toCharArray()) {
             freq.merge(c, -1, Integer::sum);
-            if (freq.get(c) < 0) return false;
+            if(freq.get(c) < 0) return false;
         }
         return true;
     }
@@ -140,9 +140,9 @@ public class SetOperations {
     // =====================================================
     public static int firstUniqueChar(String s) {
         Map<Character, Integer> freq = new LinkedHashMap<>();
-        for (char c : s.toCharArray()) freq.merge(c, 1, Integer::sum);
-        for (int i = 0; i < s.length(); i++) {
-            if (freq.get(s.charAt(i)) == 1) return i;
+        for(char c : s.toCharArray()) freq.merge(c, 1, Integer::sum);
+        for(int i = 0; i < s.length(); i++) {
+            if(freq.get(s.charAt(i)) == 1) return i;
         }
         return -1;
     }
@@ -155,14 +155,14 @@ public class SetOperations {
         int[] result = new int[n - k + 1];
         Map<Integer, Integer> windowFreq = new HashMap<>();
 
-        for (int i = 0; i < n; i++) {
+        for(int i = 0; i < n; i++) {
             windowFreq.merge(arr[i], 1, Integer::sum);
-            if (i >= k) {
+            if(i >= k) {
                 int old = arr[i - k];
-                if (windowFreq.get(old) == 1) windowFreq.remove(old);
+                if(windowFreq.get(old) == 1) windowFreq.remove(old);
                 else windowFreq.merge(old, -1, Integer::sum);
             }
-            if (i >= k - 1) result[i - k + 1] = windowFreq.size();
+            if(i >= k - 1) result[i - k + 1] = windowFreq.size();
         }
         return result;
     }
@@ -199,7 +199,7 @@ public class SetOperations {
         System.out.println("firstUniqueChar('leetcode'): " + firstUniqueChar("leetcode"));
         int[] arr = {1,2,1,3,4,2,3};
         System.out.print("Distinct in window k=4: ");
-        for (int v : distinctInWindow(arr, 4)) System.out.print(v + " ");
+        for(int v : distinctInWindow(arr, 4)) System.out.print(v + " ");
         System.out.println();
     }
 }

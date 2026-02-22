@@ -39,7 +39,7 @@ public class StackUsingArray {
         // 1️⃣ PUSH
         // =====================================================
         public void push(int val) {
-            if (isFull()) throw new RuntimeException("Stack overflow");
+            if(isFull()) throw new RuntimeException("Stack overflow");
             data[++top] = val;
         }
 
@@ -47,7 +47,7 @@ public class StackUsingArray {
         // 2️⃣ POP
         // =====================================================
         public int pop() {
-            if (isEmpty()) throw new RuntimeException("Stack underflow");
+            if(isEmpty()) throw new RuntimeException("Stack underflow");
             return data[top--];
         }
 
@@ -55,7 +55,7 @@ public class StackUsingArray {
         // 3️⃣ PEEK
         // =====================================================
         public int peek() {
-            if (isEmpty()) throw new RuntimeException("Stack is empty");
+            if(isEmpty()) throw new RuntimeException("Stack is empty");
             return data[top];
         }
 
@@ -84,15 +84,15 @@ public class StackUsingArray {
         // 7️⃣ SEARCH (returns 1-indexed position from top)
         // =====================================================
         public int search(int val) {
-            for (int i = top; i >= 0; i--) {
-                if (data[i] == val) return top - i + 1;
+            for(int i = top; i >= 0; i--) {
+                if(data[i] == val) return top - i + 1;
             }
             return -1;
         }
 
         public void print() {
             System.out.print("Stack (top -> bottom): ");
-            for (int i = top; i >= 0; i--) {
+            for(int i = top; i >= 0; i--) {
                 System.out.print(data[i] + (i > 0 ? " " : ""));
             }
             System.out.println();
@@ -124,17 +124,17 @@ public class StackUsingArray {
         }
 
         public void push(int val) {
-            if (top == capacity - 1) resize();
+            if(top == capacity - 1) resize();
             data[++top] = val;
         }
 
         public int pop() {
-            if (isEmpty()) throw new RuntimeException("Stack underflow");
+            if(isEmpty()) throw new RuntimeException("Stack underflow");
             return data[top--];
         }
 
         public int peek() {
-            if (isEmpty()) throw new RuntimeException("Stack is empty");
+            if(isEmpty()) throw new RuntimeException("Stack is empty");
             return data[top];
         }
 
@@ -144,7 +144,7 @@ public class StackUsingArray {
 
         public void print() {
             System.out.print("DynamicStack (top -> bottom): ");
-            for (int i = top; i >= 0; i--) {
+            for(int i = top; i >= 0; i--) {
                 System.out.print(data[i] + (i > 0 ? " " : ""));
             }
             System.out.println();
@@ -176,7 +176,7 @@ public class StackUsingArray {
 
         System.out.println("\n=== Dynamic Stack ===");
         DynamicStack dStack = new DynamicStack();
-        for (int i = 1; i <= 10; i++) dStack.push(i * 10);
+        for(int i = 1; i <= 10; i++) dStack.push(i * 10);
         dStack.print();
 
         System.out.println("Pop: " + dStack.pop());

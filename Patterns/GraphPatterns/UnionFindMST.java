@@ -25,20 +25,20 @@ public class UnionFindMST {
 
         DSU(int n) {
             parent = new int[n]; rank = new int[n]; components = n;
-            for (int i = 0; i < n; i++) parent[i] = i;
+            for(int i = 0; i < n; i++) parent[i] = i;
         }
 
         public int find(int x) {
-            if (parent[x] != x) parent[x] = find(parent[x]); // path compression
+            if(parent[x] != x) parent[x] = find(parent[x]); // path compression
             return parent[x];
         }
 
         public boolean union(int a, int b) {
             int ra = find(a), rb = find(b);
-            if (ra == rb) return false; // already connected → cycle
-            if (rank[ra] < rank[rb]) { int tmp = ra; ra = rb; rb = tmp; }
+            if(ra == rb) return false; // already connected → cycle
+            if(rank[ra] < rank[rb]) { int tmp = ra; ra = rb; rb = tmp; }
             parent[rb] = ra;
-            if (rank[ra] == rank[rb]) rank[ra]++;
+            if(rank[ra] == rank[rb]) rank[ra]++;
             components--;
             return true;
         }
@@ -54,10 +54,10 @@ public class UnionFindMST {
         Arrays.sort(edges, Comparator.comparingInt(e -> e[2]));
         DSU dsu = new DSU(n);
         int totalWeight = 0, edgesUsed = 0;
-        for (int[] e : edges) {
-            if (dsu.union(e[0], e[1])) {
+        for(int[] e : edges) {
+            if(dsu.union(e[0], e[1])) {
                 totalWeight += e[2];
-                if (++edgesUsed == n - 1) break;
+                if(++edgesUsed == n - 1) break;
             }
         }
         return edgesUsed == n - 1 ? totalWeight : -1; // -1 if not connected
@@ -72,12 +72,12 @@ public class UnionFindMST {
         PriorityQueue<int[]> pq = new PriorityQueue<>(Comparator.comparingInt(a -> a[0]));
         pq.offer(new int[]{0, 0}); // {weight, node}
         int totalWeight = 0, edgesUsed = 0;
-        while (!pq.isEmpty() && edgesUsed < n) {
+        while(!pq.isEmpty() && edgesUsed < n) {
             int[] cur = pq.poll(); int w = cur[0], u = cur[1];
-            if (inMST[u]) continue;
+            if(inMST[u]) continue;
             inMST[u] = true; totalWeight += w; edgesUsed++;
-            for (int[] edge : adj.get(u))
-                if (!inMST[edge[0]]) pq.offer(new int[]{edge[1], edge[0]});
+            for(int[] edge : adj.get(u))
+                if(!inMST[edge[0]]) pq.offer(new int[]{edge[1], edge[0]});
         }
         return edgesUsed == n ? totalWeight : -1;
     }
@@ -88,9 +88,9 @@ public class UnionFindMST {
     public static int findCircleNum(int[][] isConnected) {
         int n = isConnected.length;
         DSU dsu = new DSU(n);
-        for (int i = 0; i < n; i++)
-            for (int j = i + 1; j < n; j++)
-                if (isConnected[i][j] == 1) dsu.union(i, j);
+        for(int i = 0; i < n; i++)
+            for(int j = i + 1; j < n; j++)
+                if(isConnected[i][j] == 1) dsu.union(i, j);
         return dsu.components;
     }
 
@@ -100,8 +100,8 @@ public class UnionFindMST {
     public static int[] findRedundantConnection(int[][] edges) {
         int n = edges.length;
         DSU dsu = new DSU(n + 1);
-        for (int[] e : edges)
-            if (!dsu.union(e[0], e[1])) return e;
+        for(int[] e : edges)
+            if(!dsu.union(e[0], e[1])) return e;
         return new int[]{};
     }
 
@@ -112,25 +112,25 @@ public class UnionFindMST {
         Map<String, Integer> emailToId = new HashMap<>();
         Map<String, String> emailToName = new HashMap<>();
         int id = 0;
-        for (List<String> acc : accounts) {
+        for(List<String> acc : accounts) {
             String name = acc.get(0);
-            for (int i = 1; i < acc.size(); i++) {
+            for(int i = 1; i < acc.size(); i++) {
                 String email = acc.get(i);
                 emailToId.putIfAbsent(email, id++);
                 emailToName.put(email, name);
             }
         }
         DSU dsu = new DSU(id);
-        for (List<String> acc : accounts)
-            for (int i = 2; i < acc.size(); i++)
+        for(List<String> acc : accounts)
+            for(int i = 2; i < acc.size(); i++)
                 dsu.union(emailToId.get(acc.get(1)), emailToId.get(acc.get(i)));
         Map<Integer, List<String>> groups = new HashMap<>();
-        for (String email : emailToId.keySet()) {
+        for(String email : emailToId.keySet()) {
             int root = dsu.find(emailToId.get(email));
             groups.computeIfAbsent(root, k -> new ArrayList<>()).add(email);
         }
         List<List<String>> result = new ArrayList<>();
-        for (List<String> emails : groups.values()) {
+        for(List<String> emails : groups.values()) {
             Collections.sort(emails);
             List<String> merged = new ArrayList<>();
             merged.add(emailToName.get(emails.get(0)));
@@ -146,19 +146,19 @@ public class UnionFindMST {
     public static int swimInWater(int[][] grid) {
         int n = grid.length;
         int[] pos = new int[n * n]; // pos[elevation] = cell index
-        for (int i = 0; i < n; i++)
-            for (int j = 0; j < n; j++)
+        for(int i = 0; i < n; i++)
+            for(int j = 0; j < n; j++)
                 pos[grid[i][j]] = i * n + j;
         int[][] dirs = {{0,1},{0,-1},{1,0},{-1,0}};
         DSU dsu = new DSU(n * n);
-        for (int t = 0; t < n * n; t++) {
+        for(int t = 0; t < n * n; t++) {
             int r = pos[t] / n, c = pos[t] % n;
-            for (int[] d : dirs) {
+            for(int[] d : dirs) {
                 int nr = r + d[0], nc = c + d[1];
-                if (nr >= 0 && nr < n && nc >= 0 && nc < n && grid[nr][nc] <= t)
+                if(nr >= 0 && nr < n && nc >= 0 && nc < n && grid[nr][nc] <= t)
                     dsu.union(pos[t], nr * n + nc);
             }
-            if (dsu.connected(0, n * n - 1)) return t;
+            if(dsu.connected(0, n * n - 1)) return t;
         }
         return n * n - 1;
     }
@@ -173,9 +173,9 @@ public class UnionFindMST {
 
         // Prim
         List<List<int[]>> adj = new ArrayList<>();
-        for (int i = 0; i < 5; i++) adj.add(new ArrayList<>());
+        for(int i = 0; i < 5; i++) adj.add(new ArrayList<>());
         int[][] edgesP = {{0,1,4},{0,2,3},{1,2,1},{1,3,2},{2,3,4},{3,4,2},{2,4,5}};
-        for (int[] e : edgesP) {
+        for(int[] e : edgesP) {
             adj.get(e[0]).add(new int[]{e[1], e[2]});
             adj.get(e[1]).add(new int[]{e[0], e[2]});
         }

@@ -57,10 +57,10 @@ public class LinkedListAdvancedOperations {
     // 1️⃣ MERGE TWO SORTED LISTS - RECURSIVE
     // =====================================================
     public static Node mergeSortedRecursive(Node l1, Node l2) {
-        if (l1 == null) return l2;
-        if (l2 == null) return l1;
+        if(l1 == null) return l2;
+        if(l2 == null) return l1;
 
-        if (l1.val <= l2.val) {
+        if(l1.val <= l2.val) {
             l1.next = mergeSortedRecursive(l1.next, l2);
             return l1;
         } else {
@@ -76,8 +76,8 @@ public class LinkedListAdvancedOperations {
         Node dummy = new Node(0);
         Node current = dummy;
 
-        while (l1 != null && l2 != null) {
-            if (l1.val <= l2.val) {
+        while(l1 != null && l2 != null) {
+            if(l1.val <= l2.val) {
                 current.next = l1;
                 l1 = l1.next;
             } else {
@@ -97,8 +97,8 @@ public class LinkedListAdvancedOperations {
     public static Node removeDuplicatesSorted(Node head) {
         Node current = head;
 
-        while (current != null && current.next != null) {
-            if (current.val == current.next.val) {
+        while(current != null && current.next != null) {
+            if(current.val == current.next.val) {
                 current.next = current.next.next;
             } else {
                 current = current.next;
@@ -116,8 +116,8 @@ public class LinkedListAdvancedOperations {
         Node current = head;
         Node prev = null;
 
-        while (current != null) {
-            if (seen.contains(current.val)) {
+        while(current != null) {
+            if(seen.contains(current.val)) {
                 prev.next = current.next;
             } else {
                 seen.add(current.val);
@@ -139,8 +139,8 @@ public class LinkedListAdvancedOperations {
         Node greater = greaterHead;
 
         Node current = head;
-        while (current != null) {
-            if (current.val < x) {
+        while(current != null) {
+            if(current.val < x) {
                 less.next = current;
                 less = less.next;
             } else {
@@ -159,22 +159,22 @@ public class LinkedListAdvancedOperations {
     // 6️⃣ ROTATE LIST BY K POSITIONS (RIGHT)
     // =====================================================
     public static Node rotateRight(Node head, int k) {
-        if (head == null || head.next == null || k == 0) return head;
+        if(head == null || head.next == null || k == 0) return head;
 
         // Find length
         int length = 1;
         Node tail = head;
-        while (tail.next != null) {
+        while(tail.next != null) {
             tail = tail.next;
             length++;
         }
 
         k = k % length;
-        if (k == 0) return head;
+        if(k == 0) return head;
 
         // Find new tail: (length - k - 1) steps from head
         Node newTail = head;
-        for (int i = 0; i < length - k - 1; i++) {
+        for(int i = 0; i < length - k - 1; i++) {
             newTail = newTail.next;
         }
 
@@ -188,12 +188,12 @@ public class LinkedListAdvancedOperations {
     // 7️⃣ CHECK IF PALINDROME
     // =====================================================
     public static boolean isPalindrome(Node head) {
-        if (head == null || head.next == null) return true;
+        if(head == null || head.next == null) return true;
 
         // Find middle
         Node slow = head;
         Node fast = head;
-        while (fast != null && fast.next != null) {
+        while(fast != null && fast.next != null) {
             slow = slow.next;
             fast = fast.next.next;
         }
@@ -204,8 +204,8 @@ public class LinkedListAdvancedOperations {
 
         // Compare
         Node temp = secondHalf;
-        while (temp != null) {
-            if (firstHalf.val != temp.val) return false;
+        while(temp != null) {
+            if(firstHalf.val != temp.val) return false;
             firstHalf = firstHalf.next;
             temp = temp.next;
         }
@@ -216,7 +216,7 @@ public class LinkedListAdvancedOperations {
     private static Node reverseList(Node head) {
         Node prev = null;
         Node current = head;
-        while (current != null) {
+        while(current != null) {
             Node next = current.next;
             current.next = prev;
             prev = current;
@@ -232,16 +232,16 @@ public class LinkedListAdvancedOperations {
         int lenA = 0, lenB = 0;
         Node a = headA, b = headB;
 
-        while (a != null) { lenA++; a = a.next; }
-        while (b != null) { lenB++; b = b.next; }
+        while(a != null) { lenA++; a = a.next; }
+        while(b != null) { lenB++; b = b.next; }
 
         a = headA;
         b = headB;
 
-        while (lenA > lenB) { a = a.next; lenA--; }
-        while (lenB > lenA) { b = b.next; lenB--; }
+        while(lenA > lenB) { a = a.next; lenA--; }
+        while(lenB > lenA) { b = b.next; lenB--; }
 
-        while (a != b) {
+        while(a != b) {
             a = a.next;
             b = b.next;
         }
@@ -256,14 +256,14 @@ public class LinkedListAdvancedOperations {
         HashSet<Node> visited = new HashSet<>();
 
         Node current = headA;
-        while (current != null) {
+        while(current != null) {
             visited.add(current);
             current = current.next;
         }
 
         current = headB;
-        while (current != null) {
-            if (visited.contains(current)) return current;
+        while(current != null) {
+            if(visited.contains(current)) return current;
             current = current.next;
         }
 
@@ -278,10 +278,10 @@ public class LinkedListAdvancedOperations {
         Node current = dummy;
         int carry = 0;
 
-        while (l1 != null || l2 != null || carry != 0) {
+        while(l1 != null || l2 != null || carry != 0) {
             int sum = carry;
-            if (l1 != null) { sum += l1.val; l1 = l1.next; }
-            if (l2 != null) { sum += l2.val; l2 = l2.next; }
+            if(l1 != null) { sum += l1.val; l1 = l1.next; }
+            if(l2 != null) { sum += l2.val; l2 = l2.next; }
 
             carry = sum / 10;
             current.next = new Node(sum % 10);
@@ -295,13 +295,13 @@ public class LinkedListAdvancedOperations {
     // 1️⃣1️⃣ SWAP NODES IN PAIRS
     // =====================================================
     public static Node swapPairs(Node head) {
-        if (head == null || head.next == null) return head;
+        if(head == null || head.next == null) return head;
 
         Node dummy = new Node(0);
         dummy.next = head;
         Node prev = dummy;
 
-        while (prev.next != null && prev.next.next != null) {
+        while(prev.next != null && prev.next.next != null) {
             Node first = prev.next;
             Node second = prev.next.next;
 
@@ -319,7 +319,7 @@ public class LinkedListAdvancedOperations {
     // 1️⃣2️⃣ SORT LINKED LIST - MERGE SORT
     // =====================================================
     public static Node mergeSort(Node head) {
-        if (head == null || head.next == null) return head;
+        if(head == null || head.next == null) return head;
 
         Node mid = getMid(head);
         Node second = mid.next;
@@ -334,7 +334,7 @@ public class LinkedListAdvancedOperations {
     private static Node getMid(Node head) {
         Node slow = head;
         Node fast = head.next;
-        while (fast != null && fast.next != null) {
+        while(fast != null && fast.next != null) {
             slow = slow.next;
             fast = fast.next.next;
         }
@@ -346,9 +346,9 @@ public class LinkedListAdvancedOperations {
     // =====================================================
     public static void print(Node head) {
         Node current = head;
-        while (current != null) {
+        while(current != null) {
             System.out.print(current.val);
-            if (current.next != null) System.out.print(" -> ");
+            if(current.next != null) System.out.print(" -> ");
             current = current.next;
         }
         System.out.println();
@@ -357,7 +357,7 @@ public class LinkedListAdvancedOperations {
     public static Node build(int... vals) {
         Node dummy = new Node(0);
         Node current = dummy;
-        for (int v : vals) {
+        for(int v : vals) {
             current.next = new Node(v);
             current = current.next;
         }

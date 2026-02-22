@@ -55,9 +55,9 @@ public class TrieBasic {
         // =====================================================
         public void insert(String word) {
             TrieNode current = root;
-            for (char c : word.toCharArray()) {
+            for(char c : word.toCharArray()) {
                 int idx = c - 'a';
-                if (current.children[idx] == null) {
+                if(current.children[idx] == null) {
                     current.children[idx] = new TrieNode();
                 }
                 current = current.children[idx];
@@ -86,9 +86,9 @@ public class TrieBasic {
         // =====================================================
         private TrieNode getNode(String key) {
             TrieNode current = root;
-            for (char c : key.toCharArray()) {
+            for(char c : key.toCharArray()) {
                 int idx = c - 'a';
-                if (current.children[idx] == null) return null;
+                if(current.children[idx] == null) return null;
                 current = current.children[idx];
             }
             return current;
@@ -102,10 +102,10 @@ public class TrieBasic {
         }
 
         private boolean deleteHelper(TrieNode node, String word, int depth) {
-            if (node == null) return false;
+            if(node == null) return false;
 
-            if (depth == word.length()) {
-                if (!node.isEndOfWord) return false;
+            if(depth == word.length()) {
+                if(!node.isEndOfWord) return false;
                 node.isEndOfWord = false;
                 return isEmpty(node);
             }
@@ -113,7 +113,7 @@ public class TrieBasic {
             int idx = word.charAt(depth) - 'a';
             boolean shouldDeleteChild = deleteHelper(node.children[idx], word, depth + 1);
 
-            if (shouldDeleteChild) {
+            if(shouldDeleteChild) {
                 node.children[idx] = null;
                 return !node.isEndOfWord && isEmpty(node);
             }
@@ -121,8 +121,8 @@ public class TrieBasic {
         }
 
         private boolean isEmpty(TrieNode node) {
-            for (TrieNode child : node.children) {
-                if (child != null) return false;
+            for(TrieNode child : node.children) {
+                if(child != null) return false;
             }
             return true;
         }
@@ -131,11 +131,11 @@ public class TrieBasic {
         // 5️⃣ DELETE - ITERATIVE - O(m)
         // =====================================================
         public void deleteIterative(String word) {
-            if (!search(word)) return;
+            if(!search(word)) return;
 
             TrieNode current = root;
             // Find the node and clear isEndOfWord
-            for (char c : word.toCharArray()) {
+            for(char c : word.toCharArray()) {
                 current = current.children[c - 'a'];
                 current.wordCount--;
             }
@@ -160,9 +160,9 @@ public class TrieBasic {
         }
 
         private void dfsWords(TrieNode node, StringBuilder current) {
-            if (node.isEndOfWord) System.out.print("[" + current + "] ");
-            for (int i = 0; i < 26; i++) {
-                if (node.children[i] != null) {
+            if(node.isEndOfWord) System.out.print("[" + current + "] ");
+            for(int i = 0; i < 26; i++) {
+                if(node.children[i] != null) {
                     current.append((char)('a' + i));
                     dfsWords(node.children[i], current);
                     current.deleteCharAt(current.length() - 1);
@@ -177,16 +177,16 @@ public class TrieBasic {
             StringBuilder lcp = new StringBuilder();
             TrieNode current = root;
 
-            while (true) {
+            while(true) {
                 int childCount = 0;
                 int nextIdx = -1;
-                for (int i = 0; i < 26; i++) {
-                    if (current.children[i] != null) {
+                for(int i = 0; i < 26; i++) {
+                    if(current.children[i] != null) {
                         childCount++;
                         nextIdx = i;
                     }
                 }
-                if (childCount != 1 || current.isEndOfWord) break;
+                if(childCount != 1 || current.isEndOfWord) break;
                 lcp.append((char)('a' + nextIdx));
                 current = current.children[nextIdx];
             }
@@ -202,7 +202,7 @@ public class TrieBasic {
 
         // Insert
         String[] words = {"apple", "app", "application", "apply", "banana", "band", "bandana"};
-        for (String w : words) trie.insert(w);
+        for(String w : words) trie.insert(w);
 
         System.out.println("=== Trie Basic Operations ===");
         trie.printAllWords();
@@ -236,7 +236,7 @@ public class TrieBasic {
         // Longest common prefix
         Trie trie2 = new Trie();
         String[] lcpWords = {"flower", "flow", "flight"};
-        for (String w : lcpWords) trie2.insert(w);
+        for(String w : lcpWords) trie2.insert(w);
         System.out.println("\nLongest common prefix of flower/flow/flight: '" + trie2.longestCommonPrefix() + "'");
     }
 }

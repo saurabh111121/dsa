@@ -64,10 +64,10 @@ public class SinglyLinkedList {
     // =====================================================
     public static Node insertAtTail(Node head, int val) {
         Node newNode = new Node(val);
-        if (head == null) return newNode;
+        if(head == null) return newNode;
 
         Node current = head;
-        while (current.next != null) current = current.next;
+        while(current.next != null) current = current.next;
         current.next = newNode;
         return head;
     }
@@ -76,16 +76,16 @@ public class SinglyLinkedList {
     // 3️⃣ INSERTION - AT INDEX
     // =====================================================
     public static Node insertAtIndex(Node head, int index, int val) {
-        if (index == 0) return insertAtHead(head, val);
+        if(index == 0) return insertAtHead(head, val);
 
         Node newNode = new Node(val);
         Node current = head;
 
-        for (int i = 0; i < index - 1 && current != null; i++) {
+        for(int i = 0; i < index - 1 && current != null; i++) {
             current = current.next;
         }
 
-        if (current == null) return head; // index out of bounds
+        if(current == null) return head; // index out of bounds
         newNode.next = current.next;
         current.next = newNode;
         return head;
@@ -95,7 +95,7 @@ public class SinglyLinkedList {
     // 4️⃣ DELETION - AT HEAD
     // =====================================================
     public static Node deleteAtHead(Node head) {
-        if (head == null) return null;
+        if(head == null) return null;
         return head.next;
     }
 
@@ -103,10 +103,10 @@ public class SinglyLinkedList {
     // 5️⃣ DELETION - AT TAIL
     // =====================================================
     public static Node deleteAtTail(Node head) {
-        if (head == null || head.next == null) return null;
+        if(head == null || head.next == null) return null;
 
         Node current = head;
-        while (current.next.next != null) current = current.next;
+        while(current.next.next != null) current = current.next;
         current.next = null;
         return head;
     }
@@ -115,15 +115,15 @@ public class SinglyLinkedList {
     // 6️⃣ DELETION - BY VALUE
     // =====================================================
     public static Node deleteByValue(Node head, int val) {
-        if (head == null) return null;
-        if (head.val == val) return head.next;
+        if(head == null) return null;
+        if(head.val == val) return head.next;
 
         Node current = head;
-        while (current.next != null && current.next.val != val) {
+        while(current.next != null && current.next.val != val) {
             current = current.next;
         }
 
-        if (current.next != null) current.next = current.next.next;
+        if(current.next != null) current.next = current.next.next;
         return head;
     }
 
@@ -131,15 +131,15 @@ public class SinglyLinkedList {
     // 7️⃣ DELETION - AT INDEX
     // =====================================================
     public static Node deleteAtIndex(Node head, int index) {
-        if (head == null) return null;
-        if (index == 0) return head.next;
+        if(head == null) return null;
+        if(index == 0) return head.next;
 
         Node current = head;
-        for (int i = 0; i < index - 1 && current.next != null; i++) {
+        for(int i = 0; i < index - 1 && current.next != null; i++) {
             current = current.next;
         }
 
-        if (current.next != null) current.next = current.next.next;
+        if(current.next != null) current.next = current.next.next;
         return head;
     }
 
@@ -150,8 +150,8 @@ public class SinglyLinkedList {
         Node current = head;
         int index = 0;
 
-        while (current != null) {
-            if (current.val == val) return index;
+        while(current != null) {
+            if(current.val == val) return index;
             current = current.next;
             index++;
         }
@@ -163,8 +163,8 @@ public class SinglyLinkedList {
     // 9️⃣ SEARCH - RECURSIVE
     // =====================================================
     public static int searchRecursive(Node current, int val, int index) {
-        if (current == null) return -1;
-        if (current.val == val) return index;
+        if(current == null) return -1;
+        if(current.val == val) return index;
         return searchRecursive(current.next, val, index + 1);
     }
 
@@ -172,12 +172,12 @@ public class SinglyLinkedList {
     // 🔟 FIND MIDDLE NODE (Slow-Fast Pointer)
     // =====================================================
     public static Node findMiddle(Node head) {
-        if (head == null) return null;
+        if(head == null) return null;
 
         Node slow = head;
         Node fast = head;
 
-        while (fast != null && fast.next != null) {
+        while(fast != null && fast.next != null) {
             slow = slow.next;
             fast = fast.next.next;
         }
@@ -192,12 +192,12 @@ public class SinglyLinkedList {
         Node first = head;
         Node second = head;
 
-        for (int i = 0; i < n; i++) {
-            if (first == null) return null; // n > length
+        for(int i = 0; i < n; i++) {
+            if(first == null) return null; // n > length
             first = first.next;
         }
 
-        while (first != null) {
+        while(first != null) {
             first = first.next;
             second = second.next;
         }
@@ -210,9 +210,9 @@ public class SinglyLinkedList {
     // =====================================================
     public static void printList(Node head) {
         Node current = head;
-        while (current != null) {
+        while(current != null) {
             System.out.print(current.val);
-            if (current.next != null) System.out.print(" -> ");
+            if(current.next != null) System.out.print(" -> ");
             current = current.next;
         }
         System.out.println();
@@ -222,7 +222,7 @@ public class SinglyLinkedList {
     // 1️⃣3️⃣ TRAVERSAL - RECURSIVE
     // =====================================================
     public static void printListRecursive(Node current) {
-        if (current == null) {
+        if(current == null) {
             System.out.println();
             return;
         }
@@ -237,7 +237,7 @@ public class SinglyLinkedList {
         Node prev = null;
         Node current = head;
 
-        while (current != null) {
+        while(current != null) {
             Node next = current.next;
             current.next = prev;
             prev = current;
@@ -251,7 +251,7 @@ public class SinglyLinkedList {
     // 1️⃣5️⃣ REVERSAL - RECURSIVE
     // =====================================================
     public static Node reverseRecursive(Node head) {
-        if (head == null || head.next == null) return head;
+        if(head == null || head.next == null) return head;
 
         Node newHead = reverseRecursive(head.next);
         head.next.next = head;
@@ -264,7 +264,7 @@ public class SinglyLinkedList {
     // =====================================================
     public static int getLength(Node head) {
         int count = 0;
-        while (head != null) {
+        while(head != null) {
             count++;
             head = head.next;
         }

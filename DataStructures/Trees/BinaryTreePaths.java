@@ -38,11 +38,11 @@ public class BinaryTreePaths {
     }
 
     private static void printPathsHelper(TreeNode node, List<Integer> path) {
-        if (node == null) return;
+        if(node == null) return;
 
         path.add(node.val);
 
-        if (node.left == null && node.right == null) {
+        if(node.left == null && node.right == null) {
             System.out.println(path);
         } else {
             printPathsHelper(node.left, path);
@@ -56,9 +56,9 @@ public class BinaryTreePaths {
     // 2️⃣ CHECK IF PATH SUM EXISTS (ROOT TO LEAF)
     // =====================================================
     public static boolean hasPathSum(TreeNode root, int sum) {
-        if (root == null) return false;
+        if(root == null) return false;
 
-        if (root.left == null && root.right == null) return root.val == sum;
+        if(root.left == null && root.right == null) return root.val == sum;
 
         return hasPathSum(root.left, sum - root.val) || hasPathSum(root.right, sum - root.val);
     }
@@ -73,11 +73,11 @@ public class BinaryTreePaths {
     }
 
     private static void allPathsHelper(TreeNode node, List<Integer> path, List<List<Integer>> result) {
-        if (node == null) return;
+        if(node == null) return;
 
         path.add(node.val);
 
-        if (node.left == null && node.right == null) {
+        if(node.left == null && node.right == null) {
             result.add(new ArrayList<>(path));
         } else {
             allPathsHelper(node.left, path, result);
@@ -102,7 +102,7 @@ public class BinaryTreePaths {
     }
 
     private static int maxPathSumHelper(TreeNode node, MaxSum maxSum) {
-        if (node == null) return 0;
+        if(node == null) return 0;
 
         int left = Math.max(0, maxPathSumHelper(node.left, maxSum));
         int right = Math.max(0, maxPathSumHelper(node.right, maxSum));
@@ -116,7 +116,7 @@ public class BinaryTreePaths {
     // INORDER (for testing tree structure)
     // =====================================================
     public static void inorder(TreeNode root) {
-        if (root == null) return;
+        if(root == null) return;
         inorder(root.left);
         System.out.print(root.val + " ");
         inorder(root.right);
@@ -148,7 +148,7 @@ public class BinaryTreePaths {
 
         System.out.println("All Root-to-Leaf Paths as List:");
         List<List<Integer>> paths = allRootToLeafPaths(root);
-        for (List<Integer> p : paths) {
+        for(List<Integer> p : paths) {
             System.out.println(p);
         }
 

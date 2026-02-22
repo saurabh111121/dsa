@@ -34,19 +34,19 @@ public class BinaryTreeFileSerialization {
     // =====================================================
     public static TreeNode insertLevelOrder(TreeNode root, int val) {
         TreeNode newNode = new TreeNode(val);
-        if (root == null) return newNode;
+        if(root == null) return newNode;
 
         Queue<TreeNode> queue = new LinkedList<>();
         queue.offer(root);
 
-        while (!queue.isEmpty()) {
+        while(!queue.isEmpty()) {
             TreeNode temp = queue.poll();
-            if (temp.left == null) {
+            if(temp.left == null) {
                 temp.left = newNode;
                 return root;
             } else queue.offer(temp.left);
 
-            if (temp.right == null) {
+            if(temp.right == null) {
                 temp.right = newNode;
                 return root;
             } else queue.offer(temp.right);
@@ -64,7 +64,7 @@ public class BinaryTreeFileSerialization {
     }
 
     private static void serializeHelper(TreeNode node, BufferedWriter writer) throws IOException {
-        if (node == null) {
+        if(node == null) {
             writer.write("# ");
             return;
         }
@@ -81,7 +81,7 @@ public class BinaryTreeFileSerialization {
         String data = reader.readLine();
         reader.close();
 
-        if (data == null || data.isEmpty()) return null;
+        if(data == null || data.isEmpty()) return null;
 
         String[] nodes = data.split("\\s+");
         Queue<String> queue = new LinkedList<>(Arrays.asList(nodes));
@@ -90,10 +90,10 @@ public class BinaryTreeFileSerialization {
     }
 
     private static TreeNode deserializeHelper(Queue<String> queue) {
-        if (queue.isEmpty()) return null;
+        if(queue.isEmpty()) return null;
 
         String val = queue.poll();
-        if (val.equals("#")) return null;
+        if(val.equals("#")) return null;
 
         TreeNode node = new TreeNode(Integer.parseInt(val));
         node.left = deserializeHelper(queue);
@@ -106,7 +106,7 @@ public class BinaryTreeFileSerialization {
     // Inorder Traversal (for verification)
     // =====================================================
     public static void inorder(TreeNode root) {
-        if (root == null) return;
+        if(root == null) return;
         inorder(root.left);
         System.out.print(root.val + " ");
         inorder(root.right);
@@ -120,7 +120,7 @@ public class BinaryTreeFileSerialization {
             TreeNode root = null;
             int[] values = {1, 2, 3, 4, 5, 6, 7};
 
-            for (int val : values) root = insertLevelOrder(root, val);
+            for(int val : values) root = insertLevelOrder(root, val);
 
             System.out.println("Original Tree (Inorder):");
             inorder(root);

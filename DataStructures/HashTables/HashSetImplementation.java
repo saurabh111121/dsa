@@ -60,7 +60,7 @@ public class HashSetImplementation {
         // =====================================================
         private int probe(T val) {
             int index = hash(val);
-            while (buckets[index] != null && buckets[index] != DELETED && !buckets[index].equals(val)) {
+            while(buckets[index] != null && buckets[index] != DELETED && !buckets[index].equals(val)) {
                 index = (index + 1) % capacity;
             }
             return index;
@@ -70,8 +70,8 @@ public class HashSetImplementation {
         // 1️⃣ ADD - O(1) average
         // =====================================================
         public boolean add(T val) {
-            if ((double) size / capacity >= LOAD_FACTOR) resize();
-            if (contains(val)) return false; // already exists
+            if((double) size / capacity >= LOAD_FACTOR) resize();
+            if(contains(val)) return false; // already exists
 
             int index = probe(val);
             buckets[index] = val;
@@ -87,10 +87,10 @@ public class HashSetImplementation {
             int index = hash(val);
             int start = index;
 
-            while (buckets[index] != null) {
-                if (buckets[index] != DELETED && buckets[index].equals(val)) return true;
+            while(buckets[index] != null) {
+                if(buckets[index] != DELETED && buckets[index].equals(val)) return true;
                 index = (index + 1) % capacity;
-                if (index == start) break;
+                if(index == start) break;
             }
 
             return false;
@@ -104,14 +104,14 @@ public class HashSetImplementation {
             int index = hash(val);
             int start = index;
 
-            while (buckets[index] != null) {
-                if (buckets[index] != DELETED && buckets[index].equals(val)) {
+            while(buckets[index] != null) {
+                if(buckets[index] != DELETED && buckets[index].equals(val)) {
                     buckets[index] = DELETED;
                     size--;
                     return true;
                 }
                 index = (index + 1) % capacity;
-                if (index == start) break;
+                if(index == start) break;
             }
 
             return false;
@@ -130,8 +130,8 @@ public class HashSetImplementation {
         @SuppressWarnings("unchecked")
         public List<T> toList() {
             List<T> result = new ArrayList<>();
-            for (Object bucket : buckets) {
-                if (bucket != null && bucket != DELETED) {
+            for(Object bucket : buckets) {
+                if(bucket != null && bucket != DELETED) {
                     result.add((T) bucket);
                 }
             }
@@ -149,8 +149,8 @@ public class HashSetImplementation {
             buckets = new Object[capacity];
             size = 0;
 
-            for (Object item : oldBuckets) {
-                if (item != null && item != DELETED) {
+            for(Object item : oldBuckets) {
+                if(item != null && item != DELETED) {
                     add((T) item);
                 }
             }
@@ -168,8 +168,8 @@ public class HashSetImplementation {
     public static int[] removeDuplicates(int[] arr) {
         java.util.HashSet<Integer> seen = new java.util.HashSet<>();
         List<Integer> result = new ArrayList<>();
-        for (int num : arr) {
-            if (seen.add(num)) result.add(num);
+        for(int num : arr) {
+            if(seen.add(num)) result.add(num);
         }
         return result.stream().mapToInt(Integer::intValue).toArray();
     }
@@ -179,9 +179,9 @@ public class HashSetImplementation {
     // =====================================================
     public static int[] twoSum(int[] nums, int target) {
         java.util.HashMap<Integer, Integer> map = new java.util.HashMap<>();
-        for (int i = 0; i < nums.length; i++) {
+        for(int i = 0; i < nums.length; i++) {
             int complement = target - nums[i];
-            if (map.containsKey(complement)) {
+            if(map.containsKey(complement)) {
                 return new int[]{map.get(complement), i};
             }
             map.put(nums[i], i);
@@ -195,8 +195,8 @@ public class HashSetImplementation {
     public static List<Integer> findDuplicates(int[] arr) {
         java.util.HashSet<Integer> seen = new java.util.HashSet<>();
         List<Integer> duplicates = new ArrayList<>();
-        for (int num : arr) {
-            if (!seen.add(num)) duplicates.add(num);
+        for(int num : arr) {
+            if(!seen.add(num)) duplicates.add(num);
         }
         return duplicates;
     }
@@ -206,12 +206,12 @@ public class HashSetImplementation {
     // =====================================================
     public static int[] intersection(int[] a, int[] b) {
         java.util.HashSet<Integer> setA = new java.util.HashSet<>();
-        for (int x : a) setA.add(x);
+        for(int x : a) setA.add(x);
 
         List<Integer> result = new ArrayList<>();
         java.util.HashSet<Integer> seen = new java.util.HashSet<>();
-        for (int x : b) {
-            if (setA.contains(x) && seen.add(x)) result.add(x);
+        for(int x : b) {
+            if(setA.contains(x) && seen.add(x)) result.add(x);
         }
         return result.stream().mapToInt(Integer::intValue).toArray();
     }
@@ -221,15 +221,15 @@ public class HashSetImplementation {
     // =====================================================
     public static int longestConsecutive(int[] nums) {
         java.util.HashSet<Integer> set = new java.util.HashSet<>();
-        for (int num : nums) set.add(num);
+        for(int num : nums) set.add(num);
 
         int maxLen = 0;
-        for (int num : set) {
+        for(int num : set) {
             // Only start counting from sequence start
-            if (!set.contains(num - 1)) {
+            if(!set.contains(num - 1)) {
                 int current = num;
                 int len = 1;
-                while (set.contains(current + 1)) {
+                while(set.contains(current + 1)) {
                     current++;
                     len++;
                 }
@@ -261,7 +261,7 @@ public class HashSetImplementation {
         int[] arr = {1, 2, 3, 2, 1, 4, 5};
         int[] noDups = removeDuplicates(arr);
         System.out.print("Result: ");
-        for (int v : noDups) System.out.print(v + " ");
+        for(int v : noDups) System.out.print(v + " ");
         System.out.println();
 
         System.out.println("\n=== Two Sum ===");
@@ -278,7 +278,7 @@ public class HashSetImplementation {
         int[] b = {2, 2};
         int[] inter = intersection(a, b);
         System.out.print("Intersection: ");
-        for (int v : inter) System.out.print(v + " ");
+        for(int v : inter) System.out.print(v + " ");
         System.out.println();
 
         System.out.println("\n=== Longest Consecutive Sequence ===");

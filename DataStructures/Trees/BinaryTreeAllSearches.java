@@ -43,10 +43,10 @@ public class BinaryTreeAllSearches {
     // 1️⃣ BST SEARCH - RECURSIVE
     // =====================================================
     public static boolean searchBSTRecursive(TreeNode root, int val) {
-        if (root == null) return false;
+        if(root == null) return false;
 
-        if (val == root.val) return true;
-        else if (val < root.val) return searchBSTRecursive(root.left, val);
+        if(val == root.val) return true;
+        else if(val < root.val) return searchBSTRecursive(root.left, val);
         else return searchBSTRecursive(root.right, val);
     }
 
@@ -56,9 +56,9 @@ public class BinaryTreeAllSearches {
     public static boolean searchBSTIterative(TreeNode root, int val) {
         TreeNode current = root;
 
-        while (current != null) {
-            if (val == current.val) return true;
-            else if (val < current.val) current = current.left;
+        while(current != null) {
+            if(val == current.val) return true;
+            else if(val < current.val) current = current.left;
             else current = current.right;
         }
 
@@ -69,14 +69,14 @@ public class BinaryTreeAllSearches {
     // 3️⃣ FIND MIN / MAX IN BST
     // =====================================================
     public static int findMinBST(TreeNode root) {
-        if (root == null) throw new IllegalArgumentException("Tree is empty");
-        while (root.left != null) root = root.left;
+        if(root == null) throw new IllegalArgumentException("Tree is empty");
+        while(root.left != null) root = root.left;
         return root.val;
     }
 
     public static int findMaxBST(TreeNode root) {
-        if (root == null) throw new IllegalArgumentException("Tree is empty");
-        while (root.right != null) root = root.right;
+        if(root == null) throw new IllegalArgumentException("Tree is empty");
+        while(root.right != null) root = root.right;
         return root.val;
     }
 
@@ -84,8 +84,8 @@ public class BinaryTreeAllSearches {
     // 4️⃣ NORMAL BINARY TREE SEARCH - DFS (RECURSIVE)
     // =====================================================
     public static boolean searchDFS(TreeNode root, int val) {
-        if (root == null) return false;
-        if (root.val == val) return true;
+        if(root == null) return false;
+        if(root.val == val) return true;
         return searchDFS(root.left, val) || searchDFS(root.right, val);
     }
 
@@ -93,15 +93,15 @@ public class BinaryTreeAllSearches {
     // 5️⃣ NORMAL BINARY TREE SEARCH - LEVEL ORDER (BFS)
     // =====================================================
     public static boolean searchBFS(TreeNode root, int val) {
-        if (root == null) return false;
+        if(root == null) return false;
         Queue<TreeNode> queue = new LinkedList<>();
         queue.offer(root);
 
-        while (!queue.isEmpty()) {
+        while(!queue.isEmpty()) {
             TreeNode node = queue.poll();
-            if (node.val == val) return true;
-            if (node.left != null) queue.offer(node.left);
-            if (node.right != null) queue.offer(node.right);
+            if(node.val == val) return true;
+            if(node.left != null) queue.offer(node.left);
+            if(node.right != null) queue.offer(node.right);
         }
 
         return false;
@@ -111,13 +111,13 @@ public class BinaryTreeAllSearches {
     // 6️⃣ FIND PARENT OF A NODE
     // =====================================================
     public static TreeNode findParent(TreeNode root, int val) {
-        if (root == null || root.val == val) return null;
+        if(root == null || root.val == val) return null;
 
-        if ((root.left != null && root.left.val == val) ||
+        if((root.left != null && root.left.val == val) ||
             (root.right != null && root.right.val == val)) return root;
 
         TreeNode leftParent = findParent(root.left, val);
-        if (leftParent != null) return leftParent;
+        if(leftParent != null) return leftParent;
 
         return findParent(root.right, val);
     }
@@ -126,11 +126,11 @@ public class BinaryTreeAllSearches {
     // 7️⃣ FIND LEVEL OF NODE
     // =====================================================
     public static int findLevel(TreeNode root, int val, int level) {
-        if (root == null) return -1;
-        if (root.val == val) return level;
+        if(root == null) return -1;
+        if(root.val == val) return level;
 
         int left = findLevel(root.left, val, level + 1);
-        if (left != -1) return left;
+        if(left != -1) return left;
 
         return findLevel(root.right, val, level + 1);
     }
@@ -139,7 +139,7 @@ public class BinaryTreeAllSearches {
     // INORDER (for testing tree structure)
     // =====================================================
     public static void inorder(TreeNode root) {
-        if (root == null) return;
+        if(root == null) return;
         inorder(root.left);
         System.out.print(root.val + " ");
         inorder(root.right);

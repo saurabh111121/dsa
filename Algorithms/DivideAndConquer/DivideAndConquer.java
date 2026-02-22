@@ -25,7 +25,7 @@ public class DivideAndConquer {
     // =========================================================================
 
     public static void mergeSort(int[] arr, int l, int r) {
-        if (l >= r) return;
+        if(l >= r) return;
         int m = l + (r - l) / 2;
         mergeSort(arr, l, m);
         mergeSort(arr, m + 1, r);
@@ -35,10 +35,10 @@ public class DivideAndConquer {
     private static void merge(int[] arr, int l, int m, int r) {
         int[] tmp = Arrays.copyOfRange(arr, l, r + 1);
         int i = 0, j = m - l + 1, k = l;
-        while (i <= m - l && j <= r - l)
+        while(i <= m - l && j <= r - l)
             arr[k++] = tmp[i] <= tmp[j] ? tmp[i++] : tmp[j++];
-        while (i <= m - l) arr[k++] = tmp[i++];
-        while (j <= r - l) arr[k++] = tmp[j++];
+        while(i <= m - l) arr[k++] = tmp[i++];
+        while(j <= r - l) arr[k++] = tmp[j++];
     }
 
     // =========================================================================
@@ -46,7 +46,7 @@ public class DivideAndConquer {
     // =========================================================================
 
     public static long countInversions(int[] arr, int l, int r) {
-        if (l >= r) return 0;
+        if(l >= r) return 0;
         int m = l + (r - l) / 2;
         long inv = countInversions(arr, l, m) + countInversions(arr, m + 1, r);
         inv += mergeCount(arr, l, m, r);
@@ -57,12 +57,12 @@ public class DivideAndConquer {
         int[] tmp = Arrays.copyOfRange(arr, l, r + 1);
         int i = 0, j = m - l + 1, k = l;
         long inv = 0;
-        while (i <= m - l && j <= r - l) {
-            if (tmp[i] <= tmp[j]) arr[k++] = tmp[i++];
+        while(i <= m - l && j <= r - l) {
+            if(tmp[i] <= tmp[j]) arr[k++] = tmp[i++];
             else { arr[k++] = tmp[j++]; inv += (m - l + 1) - i; }
         }
-        while (i <= m - l) arr[k++] = tmp[i++];
-        while (j <= r - l) arr[k++] = tmp[j++];
+        while(i <= m - l) arr[k++] = tmp[i++];
+        while(j <= r - l) arr[k++] = tmp[j++];
         return inv;
     }
 
@@ -71,7 +71,7 @@ public class DivideAndConquer {
     // =========================================================================
 
     public static int maxSubarrayDC(int[] arr, int l, int r) {
-        if (l == r) return arr[l];
+        if(l == r) return arr[l];
         int m = l + (r - l) / 2;
         int leftMax  = maxSubarrayDC(arr, l, m);
         int rightMax = maxSubarrayDC(arr, m + 1, r);
@@ -81,16 +81,16 @@ public class DivideAndConquer {
 
     private static int maxCrossing(int[] arr, int l, int m, int r) {
         int leftSum = Integer.MIN_VALUE, sum = 0;
-        for (int i = m; i >= l; i--) { sum += arr[i]; leftSum = Math.max(leftSum, sum); }
+        for(int i = m; i >= l; i--) { sum += arr[i]; leftSum = Math.max(leftSum, sum); }
         int rightSum = Integer.MIN_VALUE; sum = 0;
-        for (int i = m + 1; i <= r; i++) { sum += arr[i]; rightSum = Math.max(rightSum, sum); }
+        for(int i = m + 1; i <= r; i++) { sum += arr[i]; rightSum = Math.max(rightSum, sum); }
         return leftSum + rightSum;
     }
 
     /** Kadane's O(n) for comparison */
     public static int maxSubarrayKadane(int[] arr) {
         int maxSum = arr[0], cur = arr[0];
-        for (int i = 1; i < arr.length; i++) { cur = Math.max(arr[i], cur + arr[i]); maxSum = Math.max(maxSum, cur); }
+        for(int i = 1; i < arr.length; i++) { cur = Math.max(arr[i], cur + arr[i]); maxSum = Math.max(maxSum, cur); }
         return maxSum;
     }
 
@@ -107,23 +107,23 @@ public class DivideAndConquer {
     }
 
     private static double closestRec(Point[] pts, int l, int r) {
-        if (r - l <= 2) return bruteForce(pts, l, r);
+        if(r - l <= 2) return bruteForce(pts, l, r);
         int m = (l + r) / 2;
         double mid = pts[m].x;
         double d = Math.min(closestRec(pts, l, m), closestRec(pts, m + 1, r));
         // collect strip
         List<Point> strip = new ArrayList<>();
-        for (int i = l; i <= r; i++) if (Math.abs(pts[i].x - mid) < d) strip.add(pts[i]);
+        for(int i = l; i <= r; i++) if(Math.abs(pts[i].x - mid) < d) strip.add(pts[i]);
         strip.sort(Comparator.comparingDouble(p -> p.y));
-        for (int i = 0; i < strip.size(); i++)
-            for (int j = i+1; j < strip.size() && strip.get(j).y - strip.get(i).y < d; j++)
+        for(int i = 0; i < strip.size(); i++)
+            for(int j = i+1; j < strip.size() && strip.get(j).y - strip.get(i).y < d; j++)
                 d = Math.min(d, dist(strip.get(i), strip.get(j)));
         return d;
     }
 
     private static double bruteForce(Point[] pts, int l, int r) {
         double d = Double.MAX_VALUE;
-        for (int i = l; i <= r; i++) for (int j = i+1; j <= r; j++) d = Math.min(d, dist(pts[i], pts[j]));
+        for(int i = l; i <= r; i++) for(int j = i+1; j <= r; j++) d = Math.min(d, dist(pts[i], pts[j]));
         return d;
     }
 
@@ -136,15 +136,15 @@ public class DivideAndConquer {
     // =========================================================================
 
     public static int majorityElementDC(int[] nums, int l, int r) {
-        if (l == r) return nums[l];
+        if(l == r) return nums[l];
         int m = l + (r - l) / 2;
         int left  = majorityElementDC(nums, l, m);
         int right = majorityElementDC(nums, m + 1, r);
-        if (left == right) return left;
+        if(left == right) return left;
         int lCount = 0, rCount = 0;
-        for (int i = l; i <= r; i++) {
-            if (nums[i] == left)  lCount++;
-            if (nums[i] == right) rCount++;
+        for(int i = l; i <= r; i++) {
+            if(nums[i] == left)  lCount++;
+            if(nums[i] == right) rCount++;
         }
         return lCount > rCount ? left : right;
     }
@@ -152,8 +152,8 @@ public class DivideAndConquer {
     /** Boyer-Moore Voting O(n) O(1) */
     public static int majorityElementBM(int[] nums) {
         int candidate = nums[0], count = 1;
-        for (int i = 1; i < nums.length; i++) {
-            if (count == 0) { candidate = nums[i]; count = 1; }
+        for(int i = 1; i < nums.length; i++) {
+            if(count == 0) { candidate = nums[i]; count = 1; }
             else count += (nums[i] == candidate) ? 1 : -1;
         }
         return candidate;

@@ -34,13 +34,13 @@ public class HeapApplications {
         public void addNum(int num) {
             maxHeap.offer(num);
             minHeap.offer(maxHeap.poll());
-            if (maxHeap.size() < minHeap.size()) {
+            if(maxHeap.size() < minHeap.size()) {
                 maxHeap.offer(minHeap.poll());
             }
         }
 
         public double findMedian() {
-            if (maxHeap.size() > minHeap.size()) return maxHeap.peek();
+            if(maxHeap.size() > minHeap.size()) return maxHeap.peek();
             return (maxHeap.peek() + minHeap.peek()) / 2.0;
         }
     }
@@ -54,9 +54,9 @@ public class HeapApplications {
             (a, b) -> (b[0]*b[0] + b[1]*b[1]) - (a[0]*a[0] + a[1]*a[1])
         );
 
-        for (int[] point : points) {
+        for(int[] point : points) {
             maxHeap.offer(point);
-            if (maxHeap.size() > k) maxHeap.poll();
+            if(maxHeap.size() > k) maxHeap.poll();
         }
 
         return maxHeap.toArray(new int[k][]);
@@ -68,25 +68,25 @@ public class HeapApplications {
     // =====================================================
     public static String reorganizeString(String s) {
         int[] freq = new int[26];
-        for (char c : s.toCharArray()) freq[c - 'a']++;
+        for(char c : s.toCharArray()) freq[c - 'a']++;
 
         PriorityQueue<int[]> maxHeap = new PriorityQueue<>((a, b) -> b[1] - a[1]);
-        for (int i = 0; i < 26; i++) {
-            if (freq[i] > 0) maxHeap.offer(new int[]{i, freq[i]});
+        for(int i = 0; i < 26; i++) {
+            if(freq[i] > 0) maxHeap.offer(new int[]{i, freq[i]});
         }
 
         StringBuilder sb = new StringBuilder();
-        while (maxHeap.size() >= 2) {
+        while(maxHeap.size() >= 2) {
             int[] first  = maxHeap.poll();
             int[] second = maxHeap.poll();
             sb.append((char)('a' + first[0]));
             sb.append((char)('a' + second[0]));
-            if (--first[1]  > 0) maxHeap.offer(first);
-            if (--second[1] > 0) maxHeap.offer(second);
+            if(--first[1]  > 0) maxHeap.offer(first);
+            if(--second[1] > 0) maxHeap.offer(second);
         }
-        if (!maxHeap.isEmpty()) {
+        if(!maxHeap.isEmpty()) {
             int[] last = maxHeap.poll();
-            if (last[1] > 1) return ""; // impossible
+            if(last[1] > 1) return ""; // impossible
             sb.append((char)('a' + last[0]));
         }
         return sb.toString();
@@ -98,18 +98,18 @@ public class HeapApplications {
     // =====================================================
     public static int leastInterval(char[] tasks, int n) {
         int[] freq = new int[26];
-        for (char t : tasks) freq[t - 'A']++;
+        for(char t : tasks) freq[t - 'A']++;
 
         PriorityQueue<Integer> maxHeap = new PriorityQueue<>(Collections.reverseOrder());
-        for (int f : freq) if (f > 0) maxHeap.offer(f);
+        for(int f : freq) if(f > 0) maxHeap.offer(f);
 
         int time = 0;
-        while (!maxHeap.isEmpty()) {
+        while(!maxHeap.isEmpty()) {
             List<Integer> temp = new ArrayList<>();
-            for (int i = 0; i <= n; i++) {
-                if (!maxHeap.isEmpty()) temp.add(maxHeap.poll() - 1);
+            for(int i = 0; i <= n; i++) {
+                if(!maxHeap.isEmpty()) temp.add(maxHeap.poll() - 1);
             }
-            for (int f : temp) if (f > 0) maxHeap.offer(f);
+            for(int f : temp) if(f > 0) maxHeap.offer(f);
             time += maxHeap.isEmpty() ? temp.size() : n + 1;
         }
         return time;
@@ -121,20 +121,20 @@ public class HeapApplications {
     // =====================================================
     public static List<List<Integer>> kSmallestPairs(int[] nums1, int[] nums2, int k) {
         List<List<Integer>> result = new ArrayList<>();
-        if (nums1.length == 0 || nums2.length == 0) return result;
+        if(nums1.length == 0 || nums2.length == 0) return result;
 
         // [sum, i, j]
         PriorityQueue<int[]> minHeap = new PriorityQueue<>((a, b) -> a[0] - b[0]);
 
-        for (int i = 0; i < Math.min(nums1.length, k); i++) {
+        for(int i = 0; i < Math.min(nums1.length, k); i++) {
             minHeap.offer(new int[]{nums1[i] + nums2[0], i, 0});
         }
 
-        while (!minHeap.isEmpty() && result.size() < k) {
+        while(!minHeap.isEmpty() && result.size() < k) {
             int[] curr = minHeap.poll();
             int i = curr[1], j = curr[2];
             result.add(Arrays.asList(nums1[i], nums2[j]));
-            if (j + 1 < nums2.length) {
+            if(j + 1 < nums2.length) {
                 minHeap.offer(new int[]{nums1[i] + nums2[j+1], i, j+1});
             }
         }
@@ -159,7 +159,7 @@ public class HeapApplications {
         int[][] points = {{1,3},{-2,2},{5,8},{0,1}};
         int[][] closest = kClosest(points, 2);
         System.out.println("2 closest to origin:");
-        for (int[] p : closest) System.out.println("  [" + p[0] + "," + p[1] + "]");
+        for(int[] p : closest) System.out.println("  [" + p[0] + "," + p[1] + "]");
 
         // Reorganize String
         System.out.println("\n=== Reorganize String ===");

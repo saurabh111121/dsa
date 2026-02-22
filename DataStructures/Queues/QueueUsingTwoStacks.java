@@ -40,23 +40,23 @@ public class QueueUsingTwoStacks {
 
         // DEQUEUE - transfer inbox to outbox only when outbox empty
         public int dequeue() {
-            if (outbox.isEmpty()) {
-                while (!inbox.isEmpty()) {
+            if(outbox.isEmpty()) {
+                while(!inbox.isEmpty()) {
                     outbox.push(inbox.pop());
                 }
             }
-            if (outbox.isEmpty()) throw new RuntimeException("Queue is empty");
+            if(outbox.isEmpty()) throw new RuntimeException("Queue is empty");
             return outbox.pop();
         }
 
         // PEEK
         public int peek() {
-            if (outbox.isEmpty()) {
-                while (!inbox.isEmpty()) {
+            if(outbox.isEmpty()) {
+                while(!inbox.isEmpty()) {
                     outbox.push(inbox.pop());
                 }
             }
-            if (outbox.isEmpty()) throw new RuntimeException("Queue is empty");
+            if(outbox.isEmpty()) throw new RuntimeException("Queue is empty");
             return outbox.peek();
         }
 
@@ -84,20 +84,20 @@ public class QueueUsingTwoStacks {
 
         // ENQUEUE - O(n): move all to stack2, push to stack1, move back
         public void enqueue(int val) {
-            while (!stack1.isEmpty()) stack2.push(stack1.pop());
+            while(!stack1.isEmpty()) stack2.push(stack1.pop());
             stack1.push(val);
-            while (!stack2.isEmpty()) stack1.push(stack2.pop());
+            while(!stack2.isEmpty()) stack1.push(stack2.pop());
         }
 
         // DEQUEUE - O(1)
         public int dequeue() {
-            if (stack1.isEmpty()) throw new RuntimeException("Queue is empty");
+            if(stack1.isEmpty()) throw new RuntimeException("Queue is empty");
             return stack1.pop();
         }
 
         // PEEK - O(1)
         public int peek() {
-            if (stack1.isEmpty()) throw new RuntimeException("Queue is empty");
+            if(stack1.isEmpty()) throw new RuntimeException("Queue is empty");
             return stack1.peek();
         }
 
@@ -121,7 +121,7 @@ public class QueueUsingTwoStacks {
         // PUSH - O(n): add to queue2, drain queue1 into queue2, swap
         public void push(int val) {
             queue2.offer(val);
-            while (!queue1.isEmpty()) queue2.offer(queue1.poll());
+            while(!queue1.isEmpty()) queue2.offer(queue1.poll());
             java.util.LinkedList<Integer> temp = queue1;
             queue1 = queue2;
             queue2 = temp;
@@ -129,13 +129,13 @@ public class QueueUsingTwoStacks {
 
         // POP - O(1)
         public int pop() {
-            if (queue1.isEmpty()) throw new RuntimeException("Stack is empty");
+            if(queue1.isEmpty()) throw new RuntimeException("Stack is empty");
             return queue1.poll();
         }
 
         // PEEK - O(1)
         public int peek() {
-            if (queue1.isEmpty()) throw new RuntimeException("Stack is empty");
+            if(queue1.isEmpty()) throw new RuntimeException("Stack is empty");
             return queue1.peek();
         }
 

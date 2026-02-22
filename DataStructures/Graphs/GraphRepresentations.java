@@ -49,15 +49,15 @@ public class GraphRepresentations {
 
         public List<Integer> getNeighbors(int u) {
             List<Integer> neighbors = new ArrayList<>();
-            for (int v = 0; v < vertices; v++) {
-                if (matrix[u][v] != 0) neighbors.add(v);
+            for(int v = 0; v < vertices; v++) {
+                if(matrix[u][v] != 0) neighbors.add(v);
             }
             return neighbors;
         }
 
         public void print() {
             System.out.println("Adjacency Matrix:");
-            for (int[] row : matrix) System.out.println("  " + Arrays.toString(row));
+            for(int[] row : matrix) System.out.println("  " + Arrays.toString(row));
         }
     }
 
@@ -71,7 +71,7 @@ public class GraphRepresentations {
         AdjacencyList(int vertices) {
             this.vertices = vertices;
             adjList = new ArrayList<>();
-            for (int i = 0; i < vertices; i++) adjList.add(new ArrayList<>());
+            for(int i = 0; i < vertices; i++) adjList.add(new ArrayList<>());
         }
 
         public void addEdge(int u, int v) {
@@ -89,7 +89,7 @@ public class GraphRepresentations {
 
         public void print() {
             System.out.println("Adjacency List:");
-            for (int i = 0; i < vertices; i++) {
+            for(int i = 0; i < vertices; i++) {
                 System.out.println("  " + i + " -> " + adjList.get(i));
             }
         }
@@ -105,7 +105,7 @@ public class GraphRepresentations {
         WeightedAdjacencyList(int vertices) {
             this.vertices = vertices;
             adjList = new ArrayList<>();
-            for (int i = 0; i < vertices; i++) adjList.add(new ArrayList<>());
+            for(int i = 0; i < vertices; i++) adjList.add(new ArrayList<>());
         }
 
         public void addEdge(int u, int v, int weight) {
@@ -121,9 +121,9 @@ public class GraphRepresentations {
 
         public void print() {
             System.out.println("Weighted Adjacency List:");
-            for (int i = 0; i < vertices; i++) {
+            for(int i = 0; i < vertices; i++) {
                 System.out.print("  " + i + " -> ");
-                for (int[] edge : adjList.get(i)) {
+                for(int[] edge : adjList.get(i)) {
                     System.out.print("[" + edge[0] + ",w=" + edge[1] + "] ");
                 }
                 System.out.println();
@@ -151,7 +151,7 @@ public class GraphRepresentations {
 
         public void print() {
             System.out.println("Edge List:");
-            for (Edge e : edges) System.out.println("  " + e.u + " --" + e.weight + "--> " + e.v);
+            for(Edge e : edges) System.out.println("  " + e.u + " --" + e.weight + "--> " + e.v);
         }
     }
 

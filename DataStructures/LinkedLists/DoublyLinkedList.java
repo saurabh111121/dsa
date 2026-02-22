@@ -50,7 +50,7 @@ public class DoublyLinkedList {
     // =====================================================
     public static Node insertAtHead(Node head, int val) {
         Node newNode = new Node(val);
-        if (head == null) return newNode;
+        if(head == null) return newNode;
 
         newNode.next = head;
         head.prev = newNode;
@@ -62,10 +62,10 @@ public class DoublyLinkedList {
     // =====================================================
     public static Node insertAtTail(Node head, int val) {
         Node newNode = new Node(val);
-        if (head == null) return newNode;
+        if(head == null) return newNode;
 
         Node current = head;
-        while (current.next != null) current = current.next;
+        while(current.next != null) current = current.next;
 
         current.next = newNode;
         newNode.prev = current;
@@ -76,19 +76,19 @@ public class DoublyLinkedList {
     // 3️⃣ INSERTION - AT INDEX
     // =====================================================
     public static Node insertAtIndex(Node head, int index, int val) {
-        if (index == 0) return insertAtHead(head, val);
+        if(index == 0) return insertAtHead(head, val);
 
         Node current = head;
-        for (int i = 0; i < index - 1 && current != null; i++) {
+        for(int i = 0; i < index - 1 && current != null; i++) {
             current = current.next;
         }
 
-        if (current == null) return head;
+        if(current == null) return head;
 
         Node newNode = new Node(val);
         newNode.next = current.next;
         newNode.prev = current;
-        if (current.next != null) current.next.prev = newNode;
+        if(current.next != null) current.next.prev = newNode;
         current.next = newNode;
         return head;
     }
@@ -97,8 +97,8 @@ public class DoublyLinkedList {
     // 4️⃣ DELETION - AT HEAD
     // =====================================================
     public static Node deleteAtHead(Node head) {
-        if (head == null) return null;
-        if (head.next == null) return null;
+        if(head == null) return null;
+        if(head.next == null) return null;
 
         head = head.next;
         head.prev = null;
@@ -109,10 +109,10 @@ public class DoublyLinkedList {
     // 5️⃣ DELETION - AT TAIL
     // =====================================================
     public static Node deleteAtTail(Node head) {
-        if (head == null || head.next == null) return null;
+        if(head == null || head.next == null) return null;
 
         Node current = head;
-        while (current.next != null) current = current.next;
+        while(current.next != null) current = current.next;
 
         current.prev.next = null;
         return head;
@@ -122,17 +122,17 @@ public class DoublyLinkedList {
     // 6️⃣ DELETION - BY VALUE
     // =====================================================
     public static Node deleteByValue(Node head, int val) {
-        if (head == null) return null;
+        if(head == null) return null;
 
         Node current = head;
-        while (current != null && current.val != val) current = current.next;
+        while(current != null && current.val != val) current = current.next;
 
-        if (current == null) return head; // not found
+        if(current == null) return head; // not found
 
-        if (current.prev != null) current.prev.next = current.next;
+        if(current.prev != null) current.prev.next = current.next;
         else head = current.next; // deleting head
 
-        if (current.next != null) current.next.prev = current.prev;
+        if(current.next != null) current.next.prev = current.prev;
 
         return head;
     }
@@ -144,8 +144,8 @@ public class DoublyLinkedList {
         Node current = head;
         int index = 0;
 
-        while (current != null) {
-            if (current.val == val) return index;
+        while(current != null) {
+            if(current.val == val) return index;
             current = current.next;
             index++;
         }
@@ -160,14 +160,14 @@ public class DoublyLinkedList {
         Node current = head;
         Node temp = null;
 
-        while (current != null) {
+        while(current != null) {
             temp = current.prev;
             current.prev = current.next;
             current.next = temp;
             current = current.prev; // move forward (which is old next)
         }
 
-        if (temp != null) head = temp.prev;
+        if(temp != null) head = temp.prev;
         return head;
     }
 
@@ -177,9 +177,9 @@ public class DoublyLinkedList {
     public static void printForward(Node head) {
         Node current = head;
         System.out.print("Forward: ");
-        while (current != null) {
+        while(current != null) {
             System.out.print(current.val);
-            if (current.next != null) System.out.print(" <-> ");
+            if(current.next != null) System.out.print(" <-> ");
             current = current.next;
         }
         System.out.println();
@@ -189,15 +189,15 @@ public class DoublyLinkedList {
     // 🔟 TRAVERSAL - BACKWARD
     // =====================================================
     public static void printBackward(Node head) {
-        if (head == null) return;
+        if(head == null) return;
 
         Node current = head;
-        while (current.next != null) current = current.next;
+        while(current.next != null) current = current.next;
 
         System.out.print("Backward: ");
-        while (current != null) {
+        while(current != null) {
             System.out.print(current.val);
-            if (current.prev != null) System.out.print(" <-> ");
+            if(current.prev != null) System.out.print(" <-> ");
             current = current.prev;
         }
         System.out.println();

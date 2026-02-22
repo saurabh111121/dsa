@@ -30,7 +30,7 @@ public class ArrayUpdateOperations {
 
     // Method to update element at specific index
     public static void updateAtIndex(int[] arr, int index, int value) {
-        if (index >= 0 && index < arr.length) {
+        if(index >= 0 && index < arr.length) {
             arr[index] = value;
         } else {
             System.out.println("Index " + index + " out of bounds.");

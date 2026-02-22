@@ -21,7 +21,7 @@ public class PrefixSum {
     public static int[] buildPrefix(int[] arr) {
         int n = arr.length;
         int[] prefix = new int[n + 1];
-        for (int i = 0; i < n; i++) prefix[i + 1] = prefix[i] + arr[i];
+        for(int i = 0; i < n; i++) prefix[i + 1] = prefix[i] + arr[i];
         return prefix;
     }
 
@@ -36,8 +36,8 @@ public class PrefixSum {
     public static int[][] build2DPrefix(int[][] mat) {
         int m = mat.length, n = mat[0].length;
         int[][] p = new int[m + 1][n + 1];
-        for (int i = 1; i <= m; i++)
-            for (int j = 1; j <= n; j++)
+        for(int i = 1; i <= m; i++)
+            for(int j = 1; j <= n; j++)
                 p[i][j] = mat[i-1][j-1] + p[i-1][j] + p[i][j-1] - p[i-1][j-1];
         return p;
     }
@@ -55,7 +55,7 @@ public class PrefixSum {
         java.util.Map<Integer, Integer> map = new java.util.HashMap<>();
         map.put(0, 1);
         int sum = 0, count = 0;
-        for (int x : arr) {
+        for(int x : arr) {
             sum += x;
             count += map.getOrDefault(sum - k, 0);
             map.merge(sum, 1, Integer::sum);
@@ -70,7 +70,7 @@ public class PrefixSum {
         int[] count = new int[k];
         count[0] = 1;
         int sum = 0, result = 0;
-        for (int x : arr) {
+        for(int x : arr) {
             sum = ((sum + x) % k + k) % k;  // handle negatives
             result += count[sum];
             count[sum]++;
@@ -84,11 +84,11 @@ public class PrefixSum {
     /** Index where left sum == right sum */
     public static int equilibriumIndex(int[] arr) {
         int total = 0;
-        for (int x : arr) total += x;
+        for(int x : arr) total += x;
         int left = 0;
-        for (int i = 0; i < arr.length; i++) {
+        for(int i = 0; i < arr.length; i++) {
             total -= arr[i];      // right sum
-            if (left == total) return i;
+            if(left == total) return i;
             left += arr[i];
         }
         return -1;
@@ -101,9 +101,9 @@ public class PrefixSum {
         int n = arr.length;
         int[] res = new int[n];
         res[0] = 1;
-        for (int i = 1; i < n; i++) res[i] = res[i - 1] * arr[i - 1];   // prefix products
+        for(int i = 1; i < n; i++) res[i] = res[i - 1] * arr[i - 1];   // prefix products
         int right = 1;
-        for (int i = n - 1; i >= 0; i--) {
+        for(int i = n - 1; i >= 0; i--) {
             res[i] *= right;
             right *= arr[i];
         }
@@ -116,7 +116,7 @@ public class PrefixSum {
     public static int[] buildXorPrefix(int[] arr) {
         int n = arr.length;
         int[] xp = new int[n + 1];
-        for (int i = 0; i < n; i++) xp[i + 1] = xp[i] ^ arr[i];
+        for(int i = 0; i < n; i++) xp[i + 1] = xp[i] ^ arr[i];
         return xp;
     }
 

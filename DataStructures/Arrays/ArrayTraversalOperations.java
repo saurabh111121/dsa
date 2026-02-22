@@ -20,14 +20,14 @@ public class ArrayTraversalOperations {
 
         // 1. Traverse using normal for loop
         System.out.print("Traversal using for loop: ");
-        for (int i = 0; i < arr.length; i++) {
+        for(int i = 0; i < arr.length; i++) {
             System.out.print(arr[i] + " ");
         }
         System.out.println();
 
         // 2. Traverse using enhanced for loop
         System.out.print("Traversal using enhanced for loop: ");
-        for (int val : arr) {
+        for(int val : arr) {
             System.out.print(val + " ");
         }
         System.out.println();

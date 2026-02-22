@@ -26,14 +26,14 @@ public class DPPatterns {
     public static int minCostGrid(int[][] grid) {
         int m = grid.length, n = grid[0].length;
         gridMemo = new int[m][n];
-        for (int[] row : gridMemo) Arrays.fill(row, -1);
+        for(int[] row : gridMemo) Arrays.fill(row, -1);
         return mcHelper(grid, m - 1, n - 1);
     }
 
     private static int mcHelper(int[][] g, int r, int c) {
-        if (r == 0 && c == 0) return g[0][0];
-        if (r < 0 || c < 0) return Integer.MAX_VALUE / 2;
-        if (gridMemo[r][c] != -1) return gridMemo[r][c];
+        if(r == 0 && c == 0) return g[0][0];
+        if(r < 0 || c < 0) return Integer.MAX_VALUE / 2;
+        if(gridMemo[r][c] != -1) return gridMemo[r][c];
         return gridMemo[r][c] = g[r][c] + Math.min(mcHelper(g, r - 1, c), mcHelper(g, r, c - 1));
     }
 
@@ -44,10 +44,10 @@ public class DPPatterns {
         int m = grid.length, n = grid[0].length;
         int[][] dp = new int[m][n];
         dp[0][0] = grid[0][0];
-        for (int j = 1; j < n; j++) dp[0][j] = dp[0][j-1] + grid[0][j];
-        for (int i = 1; i < m; i++) dp[i][0] = dp[i-1][0] + grid[i][0];
-        for (int i = 1; i < m; i++)
-            for (int j = 1; j < n; j++)
+        for(int j = 1; j < n; j++) dp[0][j] = dp[0][j-1] + grid[0][j];
+        for(int i = 1; i < m; i++) dp[i][0] = dp[i-1][0] + grid[i][0];
+        for(int i = 1; i < m; i++)
+            for(int j = 1; j < n; j++)
                 dp[i][j] = grid[i][j] + Math.min(dp[i-1][j], dp[i][j-1]);
         return dp[m-1][n-1];
     }
@@ -59,11 +59,11 @@ public class DPPatterns {
         int m = grid.length, n = grid[0].length;
         int[] prev = new int[n];
         prev[0] = grid[0][0];
-        for (int j = 1; j < n; j++) prev[j] = prev[j-1] + grid[0][j];
-        for (int i = 1; i < m; i++) {
+        for(int j = 1; j < n; j++) prev[j] = prev[j-1] + grid[0][j];
+        for(int i = 1; i < m; i++) {
             int[] curr = new int[n];
             curr[0] = prev[0] + grid[i][0];
-            for (int j = 1; j < n; j++)
+            for(int j = 1; j < n; j++)
                 curr[j] = grid[i][j] + Math.min(prev[j], curr[j-1]);
             prev = curr;
         }
@@ -78,13 +78,13 @@ public class DPPatterns {
         int n = nums.length;
         int[] arr = new int[n + 2];
         arr[0] = arr[n + 1] = 1;
-        for (int i = 0; i < n; i++) arr[i + 1] = nums[i];
+        for(int i = 0; i < n; i++) arr[i + 1] = nums[i];
         int N = n + 2;
         int[][] dp = new int[N][N];
-        for (int len = 2; len < N; len++) {
-            for (int left = 0; left < N - len; left++) {
+        for(int len = 2; len < N; len++) {
+            for(int left = 0; left < N - len; left++) {
                 int right = left + len;
-                for (int k = left + 1; k < right; k++) {
+                for(int k = left + 1; k < right; k++) {
                     dp[left][right] = Math.max(dp[left][right],
                         arr[left] * arr[k] * arr[right] + dp[left][k] + dp[k][right]);
                 }
@@ -104,8 +104,8 @@ public class DPPatterns {
 
     public static int maxIndependentSetTree(int n, int[] vals, int[][] edges) {
         treeAdj = new ArrayList<>();
-        for (int i = 0; i < n; i++) treeAdj.add(new ArrayList<>());
-        for (int[] e : edges) { treeAdj.get(e[0]).add(e[1]); treeAdj.get(e[1]).add(e[0]); }
+        for(int i = 0; i < n; i++) treeAdj.add(new ArrayList<>());
+        for(int[] e : edges) { treeAdj.get(e[0]).add(e[1]); treeAdj.get(e[1]).add(e[0]); }
         treeVals = vals;
         treeDp = new int[n][2];
         dfsTree(0, -1);
@@ -115,8 +115,8 @@ public class DPPatterns {
     private static void dfsTree(int u, int parent) {
         treeDp[u][1] = treeVals[u];  // take u
         treeDp[u][0] = 0;            // skip u
-        for (int v : treeAdj.get(u)) {
-            if (v == parent) continue;
+        for(int v : treeAdj.get(u)) {
+            if(v == parent) continue;
             dfsTree(v, u);
             treeDp[u][0] += Math.max(treeDp[v][0], treeDp[v][1]); // skip u → children free
             treeDp[u][1] += treeDp[v][0];                          // take u → children skipped
@@ -131,20 +131,20 @@ public class DPPatterns {
         int n = dist.length;
         int FULL = (1 << n) - 1;
         int[][] dp = new int[1 << n][n];
-        for (int[] row : dp) Arrays.fill(row, Integer.MAX_VALUE / 2);
+        for(int[] row : dp) Arrays.fill(row, Integer.MAX_VALUE / 2);
         dp[1][0] = 0;  // start at city 0
-        for (int mask = 1; mask <= FULL; mask++) {
-            for (int u = 0; u < n; u++) {
-                if ((mask & (1 << u)) == 0 || dp[mask][u] == Integer.MAX_VALUE / 2) continue;
-                for (int v = 0; v < n; v++) {
-                    if ((mask & (1 << v)) != 0) continue;
+        for(int mask = 1; mask <= FULL; mask++) {
+            for(int u = 0; u < n; u++) {
+                if((mask & (1 << u)) == 0 || dp[mask][u] == Integer.MAX_VALUE / 2) continue;
+                for(int v = 0; v < n; v++) {
+                    if((mask & (1 << v)) != 0) continue;
                     int nMask = mask | (1 << v);
                     dp[nMask][v] = Math.min(dp[nMask][v], dp[mask][u] + dist[u][v]);
                 }
             }
         }
         int ans = Integer.MAX_VALUE;
-        for (int u = 1; u < n; u++)
+        for(int u = 1; u < n; u++)
             ans = Math.min(ans, dp[FULL][u] + dist[u][0]);
         return ans;
     }
@@ -161,17 +161,17 @@ public class DPPatterns {
         digitStr = Integer.toString(N).toCharArray();
         int len = digitStr.length;
         digitMemo = new int[len][k][2];
-        for (int[][] a : digitMemo) for (int[] b : a) Arrays.fill(b, -1);
+        for(int[][] a : digitMemo) for(int[] b : a) Arrays.fill(b, -1);
         return digitDp(0, 0, 1) - 1; // subtract 0 itself
     }
 
     // pos, currentMod, tight
     private static int digitDp(int pos, int mod, int tight) {
-        if (pos == digitStr.length) return mod == 0 ? 1 : 0;
-        if (digitMemo[pos][mod][tight] != -1) return digitMemo[pos][mod][tight];
+        if(pos == digitStr.length) return mod == 0 ? 1 : 0;
+        if(digitMemo[pos][mod][tight] != -1) return digitMemo[pos][mod][tight];
         int limit = tight == 1 ? digitStr[pos] - '0' : 9;
         int res = 0;
-        for (int d = 0; d <= limit; d++) {
+        for(int d = 0; d <= limit; d++) {
             res += digitDp(pos + 1, (mod + d) % digitK, tight == 1 && d == limit ? 1 : 0);
         }
         return digitMemo[pos][mod][tight] = res;
@@ -188,12 +188,12 @@ public class DPPatterns {
         dp[0] = nums[0];
         Deque<Integer> dq = new ArrayDeque<>();
         dq.addLast(0);
-        for (int i = 1; i < n; i++) {
+        for(int i = 1; i < n; i++) {
             // remove indices outside window
-            while (!dq.isEmpty() && dq.peekFirst() < i - k) dq.pollFirst();
+            while(!dq.isEmpty() && dq.peekFirst() < i - k) dq.pollFirst();
             dp[i] = dp[dq.peekFirst()] + nums[i];
             // maintain decreasing deque
-            while (!dq.isEmpty() && dp[dq.peekLast()] <= dp[i]) dq.pollLast();
+            while(!dq.isEmpty() && dp[dq.peekLast()] <= dp[i]) dq.pollLast();
             dq.addLast(i);
         }
         return dp[n - 1];

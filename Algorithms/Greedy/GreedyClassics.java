@@ -29,8 +29,8 @@ public class GreedyClassics {
     public static double fractionalKnapsack(Item[] items, int capacity) {
         Arrays.sort(items, (a, b) -> Double.compare((double)b.value/b.weight, (double)a.value/a.weight));
         double maxValue = 0;
-        for (Item it : items) {
-            if (capacity >= it.weight) { maxValue += it.value; capacity -= it.weight; }
+        for(Item it : items) {
+            if(capacity >= it.weight) { maxValue += it.value; capacity -= it.weight; }
             else { maxValue += (double) it.value / it.weight * capacity; break; }
         }
         return maxValue;
@@ -49,8 +49,8 @@ public class GreedyClassics {
 
     public static HuffNode buildHuffman(char[] chars, int[] freqs) {
         PriorityQueue<HuffNode> pq = new PriorityQueue<>();
-        for (int i = 0; i < chars.length; i++) pq.add(new HuffNode(chars[i], freqs[i]));
-        while (pq.size() > 1) {
+        for(int i = 0; i < chars.length; i++) pq.add(new HuffNode(chars[i], freqs[i]));
+        while(pq.size() > 1) {
             HuffNode l = pq.poll(), r = pq.poll();
             pq.add(new HuffNode(l.freq + r.freq, l, r));
         }
@@ -58,8 +58,8 @@ public class GreedyClassics {
     }
 
     public static void printCodes(HuffNode root, String code) {
-        if (root == null) return;
-        if (root.left == null && root.right == null) { System.out.println(root.ch + ": " + code); return; }
+        if(root == null) return;
+        if(root.left == null && root.right == null) { System.out.println(root.ch + ": " + code); return; }
         printCodes(root.left,  code + "0");
         printCodes(root.right, code + "1");
     }
@@ -71,7 +71,7 @@ public class GreedyClassics {
     public static int minCoinsGreedy(int[] coins, int amount) {
         Arrays.sort(coins);  // sort ascending
         int count = 0;
-        for (int i = coins.length - 1; i >= 0 && amount > 0; i--) {
+        for(int i = coins.length - 1; i >= 0 && amount > 0; i--) {
             count += amount / coins[i];
             amount %= coins[i];
         }
@@ -84,11 +84,11 @@ public class GreedyClassics {
 
     public static int leastInterval(char[] tasks, int n) {
         int[] freq = new int[26];
-        for (char t : tasks) freq[t - 'A']++;
+        for(char t : tasks) freq[t - 'A']++;
         Arrays.sort(freq);
         int maxFreq = freq[25];
         int idleSlots = (maxFreq - 1) * n;
-        for (int i = 24; i >= 0 && freq[i] > 0; i--)
+        for(int i = 24; i >= 0 && freq[i] > 0; i--)
             idleSlots -= Math.min(freq[i], maxFreq - 1);
         return tasks.length + Math.max(0, idleSlots);
     }
@@ -100,8 +100,8 @@ public class GreedyClassics {
     public static int findContentChildren(int[] greed, int[] size) {
         Arrays.sort(greed); Arrays.sort(size);
         int child = 0, cookie = 0;
-        while (child < greed.length && cookie < size.length) {
-            if (size[cookie] >= greed[child]) child++;
+        while(child < greed.length && cookie < size.length) {
+            if(size[cookie] >= greed[child]) child++;
             cookie++;
         }
         return child;
@@ -112,15 +112,15 @@ public class GreedyClassics {
     // =========================================================================
 
     public static boolean isNStraightHand(int[] hand, int groupSize) {
-        if (hand.length % groupSize != 0) return false;
+        if(hand.length % groupSize != 0) return false;
         TreeMap<Integer, Integer> count = new TreeMap<>();
-        for (int h : hand) count.merge(h, 1, Integer::sum);
-        while (!count.isEmpty()) {
+        for(int h : hand) count.merge(h, 1, Integer::sum);
+        while(!count.isEmpty()) {
             int first = count.firstKey();
-            for (int i = 0; i < groupSize; i++) {
-                if (!count.containsKey(first + i)) return false;
+            for(int i = 0; i < groupSize; i++) {
+                if(!count.containsKey(first + i)) return false;
                 count.merge(first + i, -1, Integer::sum);
-                if (count.get(first + i) == 0) count.remove(first + i);
+                if(count.get(first + i) == 0) count.remove(first + i);
             }
         }
         return true;
@@ -132,12 +132,12 @@ public class GreedyClassics {
 
     public static List<Integer> partitionLabels(String s) {
         int[] last = new int[26];
-        for (int i = 0; i < s.length(); i++) last[s.charAt(i) - 'a'] = i;
+        for(int i = 0; i < s.length(); i++) last[s.charAt(i) - 'a'] = i;
         List<Integer> result = new ArrayList<>();
         int start = 0, end = 0;
-        for (int i = 0; i < s.length(); i++) {
+        for(int i = 0; i < s.length(); i++) {
             end = Math.max(end, last[s.charAt(i) - 'a']);
-            if (i == end) { result.add(end - start + 1); start = i + 1; }
+            if(i == end) { result.add(end - start + 1); start = i + 1; }
         }
         return result;
     }
@@ -151,13 +151,13 @@ public class GreedyClassics {
         int[] candies = new int[n];
         Arrays.fill(candies, 1);
         // left to right
-        for (int i = 1; i < n; i++)
-            if (ratings[i] > ratings[i-1]) candies[i] = candies[i-1] + 1;
+        for(int i = 1; i < n; i++)
+            if(ratings[i] > ratings[i-1]) candies[i] = candies[i-1] + 1;
         // right to left
-        for (int i = n - 2; i >= 0; i--)
-            if (ratings[i] > ratings[i+1]) candies[i] = Math.max(candies[i], candies[i+1] + 1);
+        for(int i = n - 2; i >= 0; i--)
+            if(ratings[i] > ratings[i+1]) candies[i] = Math.max(candies[i], candies[i+1] + 1);
         int total = 0;
-        for (int c : candies) total += c;
+        for(int c : candies) total += c;
         return total;
     }
 

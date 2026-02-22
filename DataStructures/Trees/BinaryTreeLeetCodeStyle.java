@@ -32,23 +32,23 @@ public class BinaryTreeLeetCodeStyle {
     // 1️⃣ BUILD TREE FROM LEETCODE-STYLE LIST (LEVEL ORDER)
     // =====================================================
     public static TreeNode buildTreeFromList(List<Integer> list) {
-        if (list == null || list.isEmpty() || list.get(0) == null) return null;
+        if(list == null || list.isEmpty() || list.get(0) == null) return null;
 
         TreeNode root = new TreeNode(list.get(0));
         Queue<TreeNode> queue = new LinkedList<>();
         queue.offer(root);
 
         int i = 1;
-        while (i < list.size()) {
+        while(i < list.size()) {
             TreeNode current = queue.poll();
 
-            if (i < list.size() && list.get(i) != null) {
+            if(i < list.size() && list.get(i) != null) {
                 current.left = new TreeNode(list.get(i));
                 queue.offer(current.left);
             }
             i++;
 
-            if (i < list.size() && list.get(i) != null) {
+            if(i < list.size() && list.get(i) != null) {
                 current.right = new TreeNode(list.get(i));
                 queue.offer(current.right);
             }
@@ -63,14 +63,14 @@ public class BinaryTreeLeetCodeStyle {
     // =====================================================
     public static List<Integer> serializeToList(TreeNode root) {
         List<Integer> result = new ArrayList<>();
-        if (root == null) return result;
+        if(root == null) return result;
 
         Queue<TreeNode> queue = new LinkedList<>();
         queue.offer(root);
 
-        while (!queue.isEmpty()) {
+        while(!queue.isEmpty()) {
             TreeNode node = queue.poll();
-            if (node == null) {
+            if(node == null) {
                 result.add(null);
             } else {
                 result.add(node.val);
@@ -81,7 +81,7 @@ public class BinaryTreeLeetCodeStyle {
 
         // Remove trailing nulls for clean representation
         int lastIndex = result.size() - 1;
-        while (lastIndex >= 0 && result.get(lastIndex) == null) {
+        while(lastIndex >= 0 && result.get(lastIndex) == null) {
             result.remove(lastIndex);
             lastIndex--;
         }
@@ -93,7 +93,7 @@ public class BinaryTreeLeetCodeStyle {
     // INORDER TRAVERSAL FOR VERIFICATION
     // =====================================================
     public static void inorder(TreeNode root) {
-        if (root == null) return;
+        if(root == null) return;
         inorder(root.left);
         System.out.print(root.val + " ");
         inorder(root.right);
