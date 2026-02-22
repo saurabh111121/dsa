@@ -19,7 +19,7 @@ Sample Input -
 
 
 
-package com.interview.Samsung;
+package ProblemSolving.Interviews.Samsung;
 
 import java.util.*;
 

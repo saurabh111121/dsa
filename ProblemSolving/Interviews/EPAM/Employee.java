@@ -1,3 +1,4 @@
+package ProblemSolving.Interviews.EPAM;
 import java.util.*;
 import java.util.stream.Collectors;
 

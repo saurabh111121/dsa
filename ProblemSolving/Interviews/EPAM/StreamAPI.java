@@ -1,4 +1,4 @@
-package com.interview.EPAM;
+package ProblemSolving.Interviews.EPAM;
 
 import java.util.Arrays;
 
