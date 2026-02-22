@@ -1,7 +1,5 @@
 package DataStructures.Trees;
 
-import java.util.*;
-
 /*
 ===========================================================
 Threaded BST / Morris Traversal - Space-Optimized Inorder Traversal
