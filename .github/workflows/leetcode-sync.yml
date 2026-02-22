@@ -43,7 +43,7 @@ jobs:
 
       # ── 2. Sync ────────────────────────────────────────────
       - name: Sync LeetCode solutions to GitHub
-        uses: joshcai/leetcode-sync@v1.21
+        uses: joshcai/leetcode-sync@v1.7
         with:
           github-token:      ${{ github.token }}
           leetcode-session:  ${{ secrets.LEETCODE_SESSION }}
